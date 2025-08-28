@@ -497,6 +497,11 @@ _minted*
 *.sagetex.py
 *.sagetex.scmd
 
+# IDE Settings
+/.idea
+/.agent-os
+/.claude
+
 # scrwfile
 *.wrt
 
@@ -603,7 +608,3 @@ TSWLatexianTemp*
 # option is specified. Footnotes are the stored in a file with suffix Notes.bib.
 # Uncomment the next line to have this generated file ignored.
 #*Notes.bib
-
-# IDE Settings
-/.idea
-
