@@ -1,0 +1,13 @@
+project:
+  name: "BRAT Annotation Guide"
+  version: "1.0"
+  
+build:
+  engine: "xelatex"
+  main_file: "templates/main.tex"
+  output_dir: "output"
+  
+settings:
+  font_family: "Times New Roman"
+  paper_size: "a4paper"
+  font_size: "11pt"
