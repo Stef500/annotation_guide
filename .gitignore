@@ -501,6 +501,8 @@ _minted*
 /.idea
 /.agent-os
 /.claude
+/.serena
+CLAUDE.md
 
 # scrwfile
 *.wrt
