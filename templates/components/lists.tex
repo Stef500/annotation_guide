@@ -49,20 +49,21 @@
     \end{itemize}
 }
 
-% Two-column list for comparisons
-\newenvironment{comparisonlist}[2]
-{%
+% Two-column comparison commands (simplified approach)
+\newcommand{\startcomparison}[2]{%
+    \noindent
     \begin{minipage}{0.48\textwidth}
     \textbf{#1:}
     \begin{itemize}[label=\textcolor{primarycolor}{\textbullet}]
-}{%
+}
+\newcommand{\middlecomparison}[1]{%
     \end{itemize}
-    \end{minipage}
-    \hfill
+    \end{minipage}\hfill
     \begin{minipage}{0.48\textwidth}
-    \textbf{#2:}
+    \textbf{#1:}
     \begin{itemize}[label=\textcolor{secondarycolor}{\textbullet}]
-}{%
+}
+\newcommand{\endcomparison}{%
     \end{itemize}
     \end{minipage}
 }
