@@ -48,15 +48,16 @@
 % Note: Table color aliases moved to post-table-loading section
 
 % Bibliography optimization for large documents
-\ExecuteBibliographyOptions{
-    maxbibnames=10,
-    maxcitenames=3,
-    backend=biber,
-    style=authoryear-comp,
-    sorting=nyt,
-    uniquename=false,
-    uniquelist=false
-}
+% ExecuteBibliographyOptions commented out - options should be set in packages.tex
+% \ExecuteBibliographyOptions{
+%     maxbibnames=10,
+%     maxcitenames=3,
+%     backend=biber,
+%     style=authoryear-comp,
+%     sorting=nyt,
+%     uniquename=false,
+%     uniquelist=false
+% }
 
 % Memory allocation optimizations
 \expandafter\let\csname ver@fixltx2e.sty\endcsname\relax % Prevent double loading
