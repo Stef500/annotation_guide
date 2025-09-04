@@ -31,11 +31,15 @@ jobs:
     - name: Setup script permissions
       run: chmod +x scripts/*.sh
     
-    # Install bibliography engine required by biblatex (backend=biber)
-    - name: Install biber (for biblatex)
+    # Install biber matching biblatex version used by Tectonic packages
+    - name: Install biber (compatible)
       run: |
-        sudo apt-get update
-        sudo apt-get install -y --no-install-recommends biber
+        echo "⬇️ Installing biber 2.20 (compatible with recent biblatex)..."
+        curl -L -o /tmp/biber.tar.gz \
+          https://sourceforge.net/projects/biblatex-biber/files/biblatex-biber/2.20/binaries/Linux/biber-linux_x86_64.tar.gz/download
+        tar -xzf /tmp/biber.tar.gz -C /tmp
+        sudo mv /tmp/biber /usr/local/bin/biber
+        sudo chmod +x /usr/local/bin/biber
         biber --version
     
     # Install Tectonic LaTeX engine
