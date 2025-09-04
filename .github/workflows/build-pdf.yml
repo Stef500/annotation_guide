@@ -64,16 +64,16 @@ jobs:
         cd "$INSTALL_DIR"
         
         # Ensure target directory exists before installation
-        mkdir -p ~/texlive
+        mkdir -p $HOME/texlive
         
         # Install minimal TeX Live with XeLaTeX packages to user directory
         cat > texlive.profile <<PROFILE
         selected_scheme scheme-basic
-        TEXDIR ~/texlive
-        TEXMFCONFIG ~/texlive/texmf-config
-        TEXMFVAR ~/texlive/texmf-var
-        TEXMFHOME ~/texlive/texmf-home
-        TEXMFLOCAL ~/texlive/texmf-local
+        TEXDIR $HOME/texlive
+        TEXMFCONFIG $HOME/texlive/texmf-config
+        TEXMFVAR $HOME/texlive/texmf-var
+        TEXMFHOME $HOME/texlive/texmf-home
+        TEXMFLOCAL $HOME/texlive/texmf-local
         PROFILE
         ./install-tl --scheme=basic --no-interaction --profile=texlive.profile
         # Detect installed TeX Live year with better error handling
