@@ -22,7 +22,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: texlive/texlive:latest-small
+      image: texlive/texlive:latest
     env:
       BUILD_TYPE: ${{ github.event.inputs.build_type || (github.event_name == 'release' && 'final' || 'draft') }}
     
