@@ -32,11 +32,11 @@ jobs:
       run: chmod +x scripts/*.sh
     
     # Install biber matching biblatex version used by Tectonic packages
-    - name: Install biber (compatible)
+    - name: Install biber 2.17 (compatible)
       run: |
-        echo "⬇️ Installing biber 2.20 (compatible with recent biblatex)..."
+        echo "⬇️ Installing biber 2.17 (compatible with biblatex 3.17)..."
         curl -L -o /tmp/biber.tar.gz \
-          https://sourceforge.net/projects/biblatex-biber/files/biblatex-biber/2.20/binaries/Linux/biber-linux_x86_64.tar.gz/download
+          https://sourceforge.net/projects/biblatex-biber/files/biblatex-biber/2.17/binaries/Linux/biber-linux_x86_64.tar.gz/download
         tar -xzf /tmp/biber.tar.gz -C /tmp
         sudo mv /tmp/biber /usr/local/bin/biber
         sudo chmod +x /usr/local/bin/biber
