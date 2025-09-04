@@ -4,39 +4,38 @@
 \definecolor{primarycolor}{RGB}{52, 73, 94}
 \definecolor{secondarycolor}{RGB}{149, 165, 166}
 
-% XeLaTeX Font Configuration with fallback support
-% Main fonts (with system font fallbacks)
+% XeLaTeX Font Configuration with Linux-compatible fonts
+% Using Liberation fonts for cross-platform compatibility
 \setmainfont[
     Ligatures=TeX,
     Numbers=OldStyle,
-    BoldFont={* Bold},
-    ItalicFont={* Italic},
-    BoldItalicFont={* Bold Italic}
-]{Times New Roman}
+    BoldFont={Liberation Serif Bold},
+    ItalicFont={Liberation Serif Italic},
+    BoldItalicFont={Liberation Serif Bold Italic}
+]{Liberation Serif}
 
-% Alternative font if Times New Roman unavailable
+% Alternative serif font family
 \newfontfamily\timesroman[
     Ligatures=TeX,
     Scale=1.0
-]{Times New Roman}[
-    Extension=.ttf,
-    UprightFont=*,
+]{Liberation Serif}[
+    UprightFont=*-Regular,
     BoldFont=*-Bold,
     ItalicFont=*-Italic,
     BoldItalicFont=*-BoldItalic
 ]
 
-% Sans-serif font
+% Sans-serif font using Liberation Sans
 \setsansfont[
     Ligatures=TeX,
     Scale=0.9
-]{Arial}
+]{Liberation Sans}
 
-% Monospace font for code
+% Monospace font using Liberation Mono
 \setmonofont[
     Scale=0.85,
     FakeStretch=0.9
-]{Courier New}
+]{Liberation Mono}
 
 % Hyperlink setup
 \hypersetup{

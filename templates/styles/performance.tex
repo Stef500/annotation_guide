@@ -6,28 +6,29 @@
 \defaultfontfeatures{Scale=MatchLowercase}
 
 % Preload frequently used fonts to reduce compilation time
-\newfontfamily\preloadtimes{Times New Roman}[
-    UprightFont=*,
-    BoldFont=* Bold,
-    ItalicFont=* Italic,
-    BoldItalicFont=* Bold Italic
+% Using Liberation fonts for cross-platform compatibility
+\newfontfamily\preloadtimes{Liberation Serif}[
+    UprightFont=*-Regular,
+    BoldFont=*-Bold,
+    ItalicFont=*-Italic,
+    BoldItalicFont=*-BoldItalic
 ]
 
-\newfontfamily\preloadarial{Arial}[
-    UprightFont=*,
-    BoldFont=* Bold,
-    ItalicFont=* Italic,
-    BoldItalicFont=* Bold Italic
+\newfontfamily\preloadarial{Liberation Sans}[
+    UprightFont=*-Regular,
+    BoldFont=*-Bold,
+    ItalicFont=*-Italic,
+    BoldItalicFont=*-BoldItalic
 ]
 
-% Microtype optimization for XeLaTeX
-\microtypesetup{
-    protrusion=true,
-    expansion=false,  % Disable expansion for XeLaTeX performance
-    spacing=true,
-    kerning=true,
-    tracking=true
-}
+% Note: Microtype disabled for XeLaTeX compatibility with Tectonic
+% \microtypesetup{
+%     protrusion=true,
+%     expansion=false,  % Disable expansion for XeLaTeX performance
+%     spacing=true,
+%     kerning=true,
+%     tracking=true
+% }
 
 % Hyperref optimization for faster PDF generation
 \hypersetup{
@@ -97,7 +98,7 @@
     % Draft mode optimizations
     \usepackage[draft]{graphicx} % Placeholder boxes instead of images
     \hypersetup{draft} % Disable hyperlink processing
-    \microtypesetup{activate=false} % Disable microtype in draft
+    % \microtypesetup{activate=false} % Microtype disabled for Tectonic compatibility
 \else
     % Production mode optimizations
     \usepackage{graphicx}
