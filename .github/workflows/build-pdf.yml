@@ -67,13 +67,21 @@ jobs:
         mkdir -p $HOME/texlive
         
         # Install minimal TeX Live with XeLaTeX packages to user directory
-        # Create profile with expanded paths
-        echo "selected_scheme scheme-basic" > texlive.profile
-        echo "TEXDIR ${HOME}/texlive" >> texlive.profile
-        echo "TEXMFCONFIG ${HOME}/texlive/texmf-config" >> texlive.profile
-        echo "TEXMFVAR ${HOME}/texlive/texmf-var" >> texlive.profile
-        echo "TEXMFHOME ${HOME}/texlive/texmf-home" >> texlive.profile
-        echo "TEXMFLOCAL ${HOME}/texlive/texmf-local" >> texlive.profile
+        # Create profile with placeholder (no variable expansion)
+        cat > texlive.profile << 'EOF'
+        selected_scheme scheme-basic
+        TEXDIR __HOME__/texlive
+        TEXMFLOCAL __HOME__/texlive/texmf-local
+        TEXMFSYSVAR __HOME__/texlive/texmf-var
+        TEXMFSYSCONFIG __HOME__/texlive/texmf-config
+        TEXMFVAR __HOME__/texlive/texmf-var
+        TEXMFCONFIG __HOME__/texlive/texmf-config
+        TEXMFHOME __HOME__/texlive/texmf-home
+        option_doc 0
+        option_src 0
+        EOF
+        # Replace placeholder with actual $HOME path
+        sed -i "s#__HOME__#${HOME}#g" texlive.profile
         ./install-tl --scheme=basic --no-interaction --profile=texlive.profile
         # Detect installed TeX Live year with better error handling
         TEXLIVE_YEAR=$(ls -1 ~/texlive/ | grep "^20" | head -1)
