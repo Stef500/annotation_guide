@@ -35,12 +35,12 @@ jobs:
       id: cache-texlive
       with:
         path: |
-          /usr/local/texlive
+          ~/texlive
           /tmp/texlive-installer
-        key: texlive-${{ runner.os }}-2025-basic-xelatex-v3
+        key: texlive-${{ runner.os }}-2025-basic-xelatex-v4-userdir
         restore-keys: |
-          texlive-${{ runner.os }}-2025-basic-xelatex-
-          texlive-${{ runner.os }}-2025-
+          texlive-${{ runner.os }}-2025-basic-xelatex-v4-
+          texlive-${{ runner.os }}-2025-userdir-
     
     # Cache APT packages
     - name: Cache APT packages
@@ -64,18 +64,25 @@ jobs:
         cd "$INSTALL_DIR"
         
         # Ensure target directory exists before installation
-        sudo mkdir -p /usr/local/texlive
+        mkdir -p ~/texlive
         
-        # Install minimal TeX Live with XeLaTeX packages
-        sudo ./install-tl --scheme=basic --no-interaction
+        # Install minimal TeX Live with XeLaTeX packages to user directory
+        ./install-tl --scheme=basic --no-interaction --profile=/dev/stdin <<EOF
+selected_scheme scheme-basic
+TEXDIR ~/texlive
+TEXMFCONF ~/texlive/texmf-config
+TEXMFVAR ~/texlive/texmf-var
+TEXMFHOME ~/texlive/texmf-home
+TEXMFLOCAL ~/texlive/texmf-local
+EOF
         # Detect installed TeX Live year with better error handling
-        TEXLIVE_YEAR=$(ls -1 /usr/local/texlive/ | grep "^20" | head -1)
+        TEXLIVE_YEAR=$(ls -1 ~/texlive/ | grep "^20" | head -1)
         if [ -z "$TEXLIVE_YEAR" ]; then
           echo "❌ Error: Could not detect TeX Live installation"
-          ls -la /usr/local/texlive/
+          ls -la ~/texlive/
           exit 1
         fi
-        TEXLIVE_BIN="/usr/local/texlive/${TEXLIVE_YEAR}/bin/x86_64-linux"
+        TEXLIVE_BIN="$HOME/texlive/${TEXLIVE_YEAR}/bin/x86_64-linux"
         echo "Detected TeX Live version: $TEXLIVE_YEAR"
         echo "TeX Live binaries path: $TEXLIVE_BIN"
         
@@ -87,27 +94,27 @@ jobs:
         fi
         
         # Update and install packages in batch for faster installation
-        sudo ${TEXLIVE_BIN}/tlmgr update --self
-        sudo ${TEXLIVE_BIN}/tlmgr install --no-depends xetex fontspec unicode-math polyglossia biber biblatex fancyhdr lastpage geometry amsmath amsfonts
+        ${TEXLIVE_BIN}/tlmgr update --self
+        ${TEXLIVE_BIN}/tlmgr install --no-depends xetex fontspec unicode-math polyglossia biber biblatex fancyhdr lastpage geometry amsmath amsfonts
         echo "✅ TeX Live installation complete"
     
     - name: Setup TeX Live PATH (cached or fresh install)
       run: |
         # Detect installed TeX Live year (consistent with install step)
-        TEXLIVE_YEAR=$(ls -1 /usr/local/texlive/ | grep "^20" | head -1)
+        TEXLIVE_YEAR=$(ls -1 ~/texlive/ | grep "^20" | head -1)
         if [ -z "$TEXLIVE_YEAR" ]; then
           echo "❌ Error: Could not detect TeX Live installation in setup step"
-          ls -la /usr/local/texlive/
+          ls -la ~/texlive/
           exit 1
         fi
-        TEXLIVE_BIN="/usr/local/texlive/${TEXLIVE_YEAR}/bin/x86_64-linux"
+        TEXLIVE_BIN="$HOME/texlive/${TEXLIVE_YEAR}/bin/x86_64-linux"
         echo "Using TeX Live version: $TEXLIVE_YEAR"
         echo "TeX Live binaries path: $TEXLIVE_BIN"
         
         # Verify directory exists
         if [ ! -d "$TEXLIVE_BIN" ]; then
           echo "❌ Error: TeX Live bin directory not found: $TEXLIVE_BIN"
-          ls -la "/usr/local/texlive/${TEXLIVE_YEAR}/" || echo "TeX Live directory does not exist"
+          ls -la "$HOME/texlive/${TEXLIVE_YEAR}/" || echo "TeX Live directory does not exist"
           exit 1
         fi
         
