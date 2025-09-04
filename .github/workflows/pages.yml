@@ -41,7 +41,7 @@ jobs:
         echo "Dashboard prepared with repository: ${{ github.repository }}"
 
     - name: Upload Pages artifact
-      uses: actions/upload-pages-artifact@v2
+      uses: actions/upload-pages-artifact@v3
 
   deploy:
     environment:

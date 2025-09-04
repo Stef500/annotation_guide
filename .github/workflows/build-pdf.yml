@@ -84,7 +84,7 @@ jobs:
         ls -la output/ > output/logs/output-listing.txt || true
     
     - name: Upload build logs (always)
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: build-logs-${{ github.run_number }}
@@ -123,7 +123,7 @@ jobs:
         echo "BRANCH_CLEAN=${BRANCH_CLEAN}" >> $GITHUB_ENV
     
     - name: Upload versioned PDF artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: success() && hashFiles('artifacts/annotation-guide-*.pdf')
       with:
         name: pdf-${{ env.BRANCH_CLEAN }}-${{ env.VERSION_INFO }}
