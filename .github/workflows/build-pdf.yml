@@ -70,7 +70,7 @@ jobs:
         cat > texlive.profile <<PROFILE
         selected_scheme scheme-basic
         TEXDIR ~/texlive
-        TEXMFCONF ~/texlive/texmf-config
+        TEXMFCONFIG ~/texlive/texmf-config
         TEXMFVAR ~/texlive/texmf-var
         TEXMFHOME ~/texlive/texmf-home
         TEXMFLOCAL ~/texlive/texmf-local
