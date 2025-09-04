@@ -1,0 +1,244 @@
+% Complete BRAT Annotation Guide Example
+% Task 4.8: Comprehensive template usage demonstration
+
+\documentclass[11pt,a4paper]{article}
+
+% Load complete template system
+\input{../template-loader}
+
+% Bibliography resource
+\addbibresource{../test-references.bib}
+
+% Document metadata
+\title{Medical Pathogen Annotation Guide}
+\author{Medical NLP Research Team}
+\date{\today}
+
+\begin{document}
+
+% Custom document header
+\documentheader{Medical Pathogen Annotation Guide}{v2.1}{\today}
+
+% Table of contents with enhanced formatting
+\enhancedtoc
+\clearpage
+
+% Quick navigation for annotators
+\navbox{
+\textbf{Quick Reference:}
+\begin{itemize}
+    \item Entities: Page 3
+    \item Relations: Page 5  
+    \item Guidelines: Page 7
+    \item Examples: Page 9
+\end{itemize}
+}
+
+% Section introduction
+\sectionintro{Pathogen Identification Annotation}{
+Comprehensive guidelines for annotating infectious disease entities and relationships in clinical texts
+}
+
+\section{Introduction}
+
+This annotation guide provides systematic instructions for identifying and labeling pathogen-related entities in medical texts. The guidelines follow BRAT annotation standards \cite{bratstandards2024} adapted for clinical infectious disease documentation.
+
+\importantbox{
+All annotators must complete the training module before beginning annotation tasks. Inter-annotator agreement should exceed κ > 0.80 for entity recognition and κ > 0.75 for relation annotation.
+}
+
+\section{Entity Types and Definitions}
+
+\subsection{Primary Entity Categories}
+
+The annotation schema includes five primary entity types for pathogen identification:
+
+\resetrowcolor
+\begin{entitytable}[Primary Medical Entity Types]
+\tablerow{PATHOGEN}{Infectious microorganisms causing disease}{\pathogen{Staphylococcus aureus}}
+\tablerow{SYMPTOM}{Clinical manifestations and symptoms}{\symptom{high fever}}
+\tablerow{MEDICATION}{Therapeutic drugs and treatments}{\medication{Vancomycin}}
+\tablerow{CONDITION}{Medical conditions and diagnoses}{sepsis}
+\tablerow{PROCEDURE}{Medical procedures and interventions}{blood culture}
+\end{entitytable}
+
+\subsection{Entity Annotation Guidelines}
+
+\begin{steplist}
+    \item \textbf{Boundary Selection}: Mark precise start and end positions
+    \item \textbf{Type Assignment}: Select the most specific applicable category
+    \item \textbf{Consistency Check}: Maintain consistent annotation across documents
+    \item \textbf{Quality Control}: Review annotations before submission
+\end{steplist}
+
+\guideline{
+When encountering overlapping entities, prioritize the most specific medical term. For example, in "methicillin-resistant Staphylococcus aureus", annotate the complete phrase as \entitytype{PATHOGEN} rather than separate terms.
+}
+
+\section{Relation Types and Structures}
+
+\subsection{Relation Categories}
+
+Medical relationships connect entities to represent clinical associations:
+
+\resetrowcolor
+\begin{relationtable}[Medical Relation Types]
+\relationrow{CAUSES}{Pathogen causes symptom or condition}{PATHOGEN, SYMPTOM}
+\relationrow{TREATS}{Medication treats condition}{MEDICATION, CONDITION}
+\relationrow{INDICATES}{Symptom indicates possible condition}{SYMPTOM, CONDITION}
+\relationrow{ADMINISTERED\_FOR}{Medication given for specific condition}{MEDICATION, CONDITION}
+\relationrow{CONFIRMS}{Procedure confirms diagnosis}{PROCEDURE, CONDITION}
+\end{relationtable}
+
+\subsection{Relation Annotation Process}
+
+\begin{entitylist}
+    \item Identify valid entity pairs within sentence boundaries
+    \item Determine directional relationship (Arg1 → Arg2)
+    \item Verify semantic validity of the connection
+    \item Document uncertainty with confidence scores when applicable
+\end{entitylist}
+
+\example{
+Text: "Blood culture confirmed \entitytype{PATHOGEN} causing patient's \entitytype{SYMPTOM}."
+
+Relations:
+\begin{itemize}
+    \item \relationtype{CONFIRMS}(\entitytype{PROCEDURE}, \entitytype{PATHOGEN})
+    \item \relationtype{CAUSES}(\entitytype{PATHOGEN}, \entitytype{SYMPTOM})
+\end{itemize}
+}
+
+\section{Annotation Quality Metrics}
+
+\subsection{Statistical Measures}
+
+Annotation quality is assessed using standard NLP evaluation metrics:
+
+\begin{metrics}
+\precision &= \frac{\tp}{\tp + \fp} = \frac{247}{247 + 31} = 0.888 \\
+\recall &= \frac{\tp}{\tp + \fn} = \frac{247}{247 + 28} = 0.898 \\
+\fscore &= \frac{2 \times \precision \times \recall}{\precision + \recall} = 0.893
+\end{metrics}
+
+\subsection{Inter-Annotator Agreement}
+
+Agreement between annotators is calculated using Cohen's kappa:
+
+\annotationequation{
+\kappa = \frac{P_o - P_e}{1 - P_e} = \frac{0.856 - 0.234}{1 - 0.234} = 0.812
+}
+
+\resetrowcolor
+\begin{statstable}[Current Project Statistics]
+\statrow{Total Documents}{156}
+\statrow{Total Entities}{3,247}
+\statrow{Total Relations}{1,892}
+\statrow{Average κ (Entities)}{0.856}
+\statrow{Average κ (Relations)}{0.782}
+\statrow{Annotation Speed}{12.3 entities/min}
+\end{statstable}
+
+\section{Complex Annotation Scenarios}
+
+\subsection{Multilingual Terminology}
+
+The template supports multilingual medical terminology:
+
+\begin{itemize}
+    \item English: \textenglish{antibiotic-resistant infection}
+    \item French: \textfrench{infection résistante aux antibiotiques}  
+    \item Latin: \medicallatin{Staphylococcus epidermidis}
+    \item Scientific: \scientificname{Homo sapiens}
+\end{itemize}
+
+\subsection{Nested and Overlapping Entities}
+
+\warningbox{
+Handle nested entities carefully. When encountering phrases like "severe methicillin-resistant Staphylococcus aureus infection", consider multiple valid annotation strategies and document your decision rationale.
+}
+
+\begin{comparisonlist}{Conservative Approach}{Comprehensive Approach}
+    \item Single broad entity
+    \item Minimal overlap
+    \item Faster annotation
+\nextcolumn
+    \item Multiple nested entities
+    \item Detailed relationships  
+    \item Higher precision
+\end{comparisonlist}
+
+\section{Advanced Features and Tools}
+
+\subsection{Mathematical Notation in Clinical Context}
+
+Dosage calculations and statistical relationships:
+
+\begin{align}
+\text{Dosage} &= \frac{\text{Weight (kg)} \times \text{Dose (mg/kg)}}{\text{Concentration (mg/ml)}} \\
+\text{Survival Rate} &= \prob{\text{Recovery}|\text{Treatment}, \text{Pathogen}}
+\end{align}
+
+\subsection{Annotation Workflow}
+
+\resetrowcolor
+\begin{guidelinetable}[Annotation Workflow Steps]
+\guidelinerow{Document Review}{Read entire document for context}{Medical history review}
+\guidelinerow{Entity Identification}{Mark all relevant entities}{Highlight pathogens first}
+\guidelinerow{Relation Creation}{Connect related entities}{Check semantic validity}  
+\guidelinerow{Quality Check}{Review for consistency}{Use validation checklist}
+\guidelinerow{Final Submission}{Submit completed annotation}{Include confidence notes}
+\end{guidelinetable}
+
+\section{Troubleshooting and FAQ}
+
+\subsection{Common Annotation Challenges}
+
+\begin{termlist}
+    \item[Ambiguous Entities] When entity type is unclear, document rationale and assign most specific applicable category
+    \item[Missing Relations] Not all entity pairs require relations; focus on clinically meaningful connections
+    \item[Abbreviation Handling] Expand abbreviations when context allows: \inlinecode{MRSA} → \pathogen{methicillin-resistant Staphylococcus aureus}
+    \item[Confidence Scoring] Use three-point scale: High (3), Medium (2), Low (1) for uncertain annotations
+\end{termlist}
+
+\subsection{Quality Assurance Checklist}
+
+\begin{checklist}
+    \checklistitem{All entity boundaries precisely marked}
+    \checkeditem{Entity types assigned consistently}  
+    \checklistitem{Relations semantically valid}
+    \checklistitem{Abbreviations expanded when possible}
+    \checklistitem{Uncertain annotations documented}
+    \checklistitem{Cross-reference consistency maintained}
+\end{checklist}
+
+\section{Technical Specifications}
+
+\subsection{File Format Requirements}
+
+\codebox[BRAT Configuration]{
+[entities]
+PATHOGEN	    Arg:T1, T2:PATHOGEN
+SYMPTOM         Arg:T1, T2:SYMPTOM  
+MEDICATION      Arg:T1, T2:MEDICATION
+
+[relations]
+CAUSES          Arg1:PATHOGEN, Arg2:SYMPTOM
+TREATS          Arg1:MEDICATION, Arg2:CONDITION
+}
+
+\subsection{Export and Integration}
+
+The annotated data integrates with standard NLP pipelines using formats compatible with medical text processing tools. Output supports JSON, XML, and CoNLL formats for downstream analysis.
+
+% Footer navigation
+\footernav{← Previous: Setup Guide}{→ Next: Advanced Techniques}
+
+% Bibliography
+\section{References and Further Reading}
+
+For comprehensive information on annotation methodologies and medical NLP standards, consult the following resources:
+
+\printbibliography
+
+\end{document}

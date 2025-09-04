@@ -2,7 +2,7 @@ name: Build PDF
 
 on:
   push:
-    branches: [ main ]
+    branches: [ redaction ]
   pull_request:
     branches: [ main ]
 

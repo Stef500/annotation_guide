@@ -1,0 +1,137 @@
+% Test document for BRAT Annotation Guide Template
+% Task 4.1: Template compilation testing with XeLaTeX and TeX Live 2024
+
+\documentclass[11pt,a4paper]{article}
+
+% Load complete template system
+\input{template-loader}
+
+% Document metadata
+\title{BRAT Annotation Guide Template - Test Document}
+\author{Template Validation System}
+\date{\today}
+
+% Bibliography file (create if needed)
+\addbibresource{test-references.bib}
+
+\begin{document}
+
+% Test header component
+\documentheader{BRAT Annotation Guide Template}{v1.0}{\today}
+
+% Test table of contents
+\tableofcontents
+\newpage
+
+% Test section headers
+\sectionintro{Template Testing}{Comprehensive validation of all template components}
+
+\section{Typography Testing}
+
+\subsection{Font Rendering}
+This document tests the XeLaTeX font rendering with \textbf{Times New Roman}, \textsf{Arial}, and \texttt{Courier New} fonts.
+
+\subsection{BRAT-Specific Commands}
+Testing annotation-specific typography:
+\begin{itemize}
+    \item Entity types: \entitytype{PATHOGEN}, \entitytype{SYMPTOM}, \entitytype{MEDICATION}
+    \item Relation types: \relationtype{CAUSES}, \relationtype{TREATS}
+    \item Attribute types: \attributetype{SEVERITY}, \attributetype{DOSAGE}
+\end{itemize}
+
+\subsection{Medical Terminology}
+Examples of specialized formatting:
+\begin{itemize}
+    \item Pathogen: \pathogen{Escherichia coli}
+    \item Symptom: \symptom{acute abdominal pain}
+    \item Medication: \medication{Amoxicillin} \dosage{500mg twice daily}
+\end{itemize}
+
+\section{Table Formatting Tests}
+
+\subsection{Entity Table}
+\resetrowcolor
+\begin{entitytable}[Medical Entity Types]
+\tablerow{PATHOGEN}{Infectious microorganisms}{E. coli}
+\tablerow{SYMPTOM}{Clinical manifestations}{fever}
+\tablerow{MEDICATION}{Therapeutic substances}{antibiotics}
+\end{entitytable}
+
+\subsection{Relation Table}
+\resetrowcolor
+\begin{relationtable}[Medical Relations]
+\relationrow{CAUSES}{Pathogen causes symptom}{PATHOGEN, SYMPTOM}
+\relationrow{TREATS}{Medication treats condition}{MEDICATION, CONDITION}
+\end{relationtable}
+
+\section{Mathematical Notation Tests}
+
+\subsection{Statistical Measures}
+Testing annotation quality metrics:
+
+\begin{metrics}
+\precision &= \precisionformula = \frac{85}{85 + 12} = 0.876 \\
+\recall &= \recallformula = \frac{85}{85 + 8} = 0.914 \\
+\fscore &= \fscoreformula = \frac{2 \times 0.876 \times 0.914}{0.876 + 0.914} = 0.895
+\end{metrics}
+
+\subsection{Annotation Formulas}
+Using custom mathematical environments:
+
+\annotationequation{
+\agreement{A_1, A_2} = \frac{|\entityset_1 \cap \entityset_2|}{|\entityset_1 \cup \entityset_2|}
+}
+
+\section{Information Box Tests}
+
+\importantbox{
+This is an important information box for critical annotation guidelines.
+}
+
+\notebox{
+This note box provides additional context for annotators.
+}
+
+\examplebox{
+Example annotation: "The patient presented with \entitytype{SYMPTOM} caused by \entitytype{PATHOGEN}."
+}
+
+\warningbox{
+Warning: Ensure proper entity boundaries before creating relations.
+}
+
+\section{List Environment Tests}
+
+\subsection{Annotation Guidelines}
+\begin{steplist}
+    \item Read the text carefully to identify medical entities
+    \item Mark entity boundaries precisely
+    \item Assign appropriate entity types
+    \item Create relations between related entities
+\end{steplist}
+
+\subsection{Entity Types}
+\begin{entitylist}
+    \item \entitytype{PATHOGEN}: Bacteria, viruses, fungi
+    \item \entitytype{SYMPTOM}: Clinical manifestations
+    \item \entitytype{MEDICATION}: Therapeutic substances
+\end{entitylist}
+
+\section{Multilingual Support Test}
+
+\subsection{English}
+\textenglish{Pathogen identification in clinical texts requires careful annotation.}
+
+\subsection{French}
+\textfrench{L'identification des pathogènes dans les textes cliniques nécessite une annotation soigneuse.}
+
+\subsection{Medical Latin}
+Scientific terminology: \medicallatin{Staphylococcus aureus}, \scientificname{Homo sapiens}
+
+\section{Bibliography Test}
+This document references medical annotation standards \cite{bratstandards2024} and XeLaTeX documentation \cite{xelatex2024}.
+
+% Bibliography
+\printbibliography
+
+\end{document}

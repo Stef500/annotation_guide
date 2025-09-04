@@ -1,0 +1,93 @@
+% Citation and Bibliography Syntax Test
+% Task 4.5: Test citation and bibliography generation
+
+\documentclass[11pt,a4paper]{article}
+\input{../template-loader}
+
+% Bibliography resource
+\addbibresource{../test-references.bib}
+
+\begin{document}
+
+\section{Citation and Bibliography Validation}
+
+\subsection{In-text Citation Tests}
+Testing various citation formats supported by biblatex:
+
+\begin{itemize}
+    \item Author-year format: \cite{bratstandards2024}
+    \item Textual citation: \textcite{xelatex2024} provides comprehensive documentation
+    \item Parenthetical citation: Medical NLP techniques \parencite{annotation2023} are advancing rapidly
+    \item Multiple citations: \cite{bratstandards2024,xelatex2024,annotation2023}
+\end{itemize}
+
+\subsection{Specialized Citation Formats}
+Testing specific citation styles for medical literature:
+
+\begin{itemize}
+    \item Full citation: \fullcite{bratstandards2024}
+    \item Author only: \citeauthor{annotation2023}
+    \item Year only: \citeyear{xelatex2024}
+    \item Title citation: \citetitle{bratstandards2024}
+\end{itemize}
+
+\subsection{Citation in Mathematical Context}
+Testing citations within mathematical environments:
+
+The inter-annotator agreement formula \cite{bratstandards2024}:
+\begin{equation}
+\kappa = \frac{P_o - P_e}{1 - P_e}
+\end{equation}
+
+Where $P_o$ is observed agreement and $P_e$ is expected agreement \parencite{annotation2023}.
+
+\subsection{Citation in Table Context}
+Testing citations within table environments:
+
+\begin{simpletable}{L{4cm}L{6cm}}{Citation Validation in Tables}
+\hline
+\textbf{Standard} & \textbf{Reference} \\
+\hline
+BRAT Annotation & \cite{bratstandards2024} \\
+XeLaTeX Documentation & \cite{xelatex2024} \\
+Medical NLP Methods & \cite{annotation2023} \\
+\hline
+\end{simpletable}
+
+\subsection{Bibliography Style Validation}
+Testing biblatex configuration from packages.tex:
+
+\begin{itemize}
+    \item Style: authoryear-comp
+    \item Backend: biber
+    \item Sorting: name-year-title (nyt)
+    \item Max authors in bibliography: 10
+    \item Max authors in citations: 3
+\end{itemize}
+
+\subsection{URL and DOI Testing}
+Testing modern reference formats (would require additional entries in bib file):
+
+Example formats that should be supported:
+\begin{itemize}
+    \item Web resources with URLs
+    \item Journal articles with DOI
+    \item Conference proceedings
+    \item Technical reports
+    \item Software documentation
+\end{itemize}
+
+\section{Bibliography Rendering Test}
+
+The bibliography below should render correctly with:
+\begin{itemize}
+    \item Proper author-year formatting
+    \item Consistent punctuation
+    \item Proper hanging indent
+    \item Correct font styling
+\end{itemize}
+
+% Bibliography section
+\printbibliography[title={References}]
+
+\end{document}

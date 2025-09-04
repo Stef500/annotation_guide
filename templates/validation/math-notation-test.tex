@@ -1,0 +1,77 @@
+% Mathematical Notation Syntax Test
+% Task 4.3: Test mathematical notation rendering compatibility
+
+\documentclass[11pt,a4paper]{article}
+\input{../template-loader}
+
+\begin{document}
+
+\section{Mathematical Notation Compatibility Test}
+
+\subsection{Statistical Measures}
+Testing basic statistical formulas:
+
+\begin{align}
+\precision &= \frac{\tp}{\tp + \fp} \\
+\recall &= \frac{\tp}{\tp + \fn} \\
+\fscore &= \frac{2 \times \precision \times \recall}{\precision + \recall}
+\end{align}
+
+\subsection{Custom Mathematical Commands}
+Testing custom commands:
+
+\begin{equation}
+\kappaformula = \frac{P_o - P_e}{1 - P_e}
+\end{equation}
+
+\subsection{Set Notation}
+Testing annotation set notation:
+
+\begin{align}
+\entityset &= \{e_1, e_2, \ldots, e_n\} \\
+\relationset &= \{r_1, r_2, \ldots, r_m\} \\
+\documentset &= \{d_1, d_2, \ldots, d_k\}
+\end{align}
+
+\subsection{Function Notation}
+Testing NLP operation functions:
+
+\begin{align}
+\text{output} &= \extract{\text{input}} \\
+\text{class} &= \classify{\text{entity}} \\
+\text{tokens} &= \tokenize{\text{document}}
+\end{align}
+
+\subsection{Probability Notation}
+Testing probability and statistical notation:
+
+\begin{align}
+\prob{\text{entity}|\text{context}} &= \frac{P(\text{entity}, \text{context})}{P(\text{context})} \\
+\expectation{X} &= \sum_{i} x_i \cdot \prob{X = x_i} \\
+\variance{X} &= \expectation{(X - \expectation{X})^2}
+\end{align}
+
+\subsection{Annotation Formulas}
+Testing custom annotation equation environment:
+
+\annotationequation{
+\agreement{A_1, A_2} = \frac{|\entityset_1 \cap \entityset_2|}{|\entityset_1 \cup \entityset_2|}
+}
+
+\subsection{Confusion Matrix}
+Testing matrix notation:
+
+\[
+\text{Confusion Matrix} = \confusionmatrix{\tp}{\fp}{\fn}{\tn}
+\]
+
+\subsection{Special Mathematical Symbols}
+Testing custom annotation symbols:
+
+\begin{align}
+\text{Entity}_1 &\annotates \text{Label}_1 \\
+\text{Annotation}_1 &\conflicts \text{Annotation}_2 \\
+\text{Annotator}_1 &\agrees \text{Annotator}_2
+\end{align}
+
+\end{document}
