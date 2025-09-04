@@ -50,21 +50,23 @@
 }
 
 % Two-column comparison commands (simplified approach)
-\newcommand{\startcomparison}[2]{%
+\newcommand{\begincompare}[2]{%
     \noindent
     \begin{minipage}{0.48\textwidth}
     \textbf{#1:}
     \begin{itemize}[label=\textcolor{primarycolor}{\textbullet}]
 }
-\newcommand{\middlecomparison}[1]{%
+\newcommand{\switchcompare}[1]{%
     \end{itemize}
     \end{minipage}\hfill
     \begin{minipage}{0.48\textwidth}
     \textbf{#1:}
     \begin{itemize}[label=\textcolor{secondarycolor}{\textbullet}]
 }
-\newcommand{\endcomparison}{%
+\newcommand{\finishcompare}{%
     \end{itemize}
+    \end{minipage}
+}
     \end{minipage}
 }
 
