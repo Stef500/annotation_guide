@@ -25,6 +25,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
+    # Make scripts executable
+    - name: Setup script permissions
+      run: chmod +x scripts/*.sh
+    
     # Cache TeX Live installation to speed up builds
     - name: Cache TeX Live
       uses: actions/cache@v4
