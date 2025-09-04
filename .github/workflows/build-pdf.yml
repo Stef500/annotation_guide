@@ -31,12 +31,40 @@ jobs:
     - name: Setup script permissions
       run: chmod +x scripts/*.sh
 
+    # Restore APT package cache (for fonts) to speed installs
+    - name: Restore APT cache (fonts)
+      id: apt-cache
+      uses: actions/cache@v4
+      with:
+        path: apt-cache
+        key: apt-${{ runner.os }}-fonts-${{ hashFiles('templates/styles/packages.tex') }}
+
+    - name: Seed APT archives from cache
+      run: |
+        sudo mkdir -p /var/cache/apt/archives
+        if [ -d apt-cache ]; then
+          sudo cp -a apt-cache/*.deb /var/cache/apt/archives/ 2>/dev/null || true
+        fi
+
+    # Cache fontconfig cache to avoid reindexing
+    - name: Cache fontconfig cache
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/fontconfig
+        key: fontconfig-${{ runner.os }}-v1
+
     # Install fonts required by XeLaTeX/fontspec (Latin Modern, Liberation)
     - name: Install system fonts
       run: |
         sudo apt-get update
         sudo apt-get install -y --no-install-recommends fonts-lmodern fonts-liberation fonts-dejavu-core
         fc-cache -f -v
+
+    - name: Save APT cache (fonts)
+      if: always()
+      run: |
+        mkdir -p apt-cache
+        cp -a /var/cache/apt/archives/*.deb apt-cache/ 2>/dev/null || true
 
     # Install biber matching biblatex version used by Tectonic packages
     - name: Install biber 2.17 (compatible)
