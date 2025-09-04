@@ -16,10 +16,8 @@
 % Unicode characters (en dash, em dash, quotes) are handled automatically by XeLaTeX
 
 % Language-specific commands for annotation guides
-\newcommand{\textenglish}[1]{\selectlanguage{english}#1}
-\newcommand{\textfrench}[1]{\selectlanguage{french}#1}
-\newcommand{\textgerman}[1]{\selectlanguage{german}#1}
-\newcommand{\textspanish}[1]{\selectlanguage{spanish}#1}
+% Note: Using polyglossia's built-in language switching commands
+% 	extenglish, 	extfrench, etc. are provided by polyglossia package
 
 % Medical/Scientific terminology support
 \newcommand{\medicallatin}[1]{\textit{#1}} % For Latin medical terms
