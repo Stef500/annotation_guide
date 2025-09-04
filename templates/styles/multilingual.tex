@@ -12,13 +12,8 @@
 \newfontfamily\spanishfont[Ligatures=TeX]{Liberation Serif}
 
 % Unicode character support
-\DeclareUnicodeCharacter{00A0}{\~}
-\DeclareUnicodeCharacter{2013}{--}
-\DeclareUnicodeCharacter{2014}{---}
-\DeclareUnicodeCharacter{2018}{\textquoteleft}
-\DeclareUnicodeCharacter{2019}{\textquoteright}
-\DeclareUnicodeCharacter{201C}{\textquotedblleft}
-\DeclareUnicodeCharacter{201D}{\textquotedblright}
+% Note: XeLaTeX handles Unicode natively, DeclareUnicodeCharacter not needed
+% Unicode characters (en dash, em dash, quotes) are handled automatically by XeLaTeX
 
 % Language-specific commands for annotation guides
 \newcommand{\textenglish}[1]{\selectlanguage{english}#1}
