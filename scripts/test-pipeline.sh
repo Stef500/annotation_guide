@@ -28,8 +28,9 @@ run_test() {
     # Clean previous output
     rm -f "output/$expected_pdf"
     
-    # Try to compile with Tectonic
-    if tectonic --outdir=output --chatter=minimal "$tex_file" >/dev/null 2>&1; then
+    # Try to compile with Tectonic (show logs on CI for debugging)
+    if { [ -n "$CI" ] && tectonic --outdir=output --chatter=minimal "$tex_file"; } || \
+       { [ -z "$CI" ] && tectonic --outdir=output --chatter=minimal "$tex_file" >/dev/null 2>&1; }; then
         if [ -f "output/$expected_pdf" ]; then
             echo -e "${GREEN}✓ PASSED: $test_name${NC}"
             ((TESTS_PASSED++))
