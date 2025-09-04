@@ -68,13 +68,13 @@ jobs:
         
         # Install minimal TeX Live with XeLaTeX packages to user directory
         cat > texlive.profile <<PROFILE
-selected_scheme scheme-basic
-TEXDIR ~/texlive
-TEXMFCONF ~/texlive/texmf-config
-TEXMFVAR ~/texlive/texmf-var
-TEXMFHOME ~/texlive/texmf-home
-TEXMFLOCAL ~/texlive/texmf-local
-PROFILE
+        selected_scheme scheme-basic
+        TEXDIR ~/texlive
+        TEXMFCONF ~/texlive/texmf-config
+        TEXMFVAR ~/texlive/texmf-var
+        TEXMFHOME ~/texlive/texmf-home
+        TEXMFLOCAL ~/texlive/texmf-local
+        PROFILE
         ./install-tl --scheme=basic --no-interaction --profile=texlive.profile
         # Detect installed TeX Live year with better error handling
         TEXLIVE_YEAR=$(ls -1 ~/texlive/ | grep "^20" | head -1)
