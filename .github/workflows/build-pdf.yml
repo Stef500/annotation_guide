@@ -2,9 +2,21 @@ name: Build PDF
 
 on:
   push:
-    branches: [ redaction ]
+    branches: [ redaction, main ]
   pull_request:
     branches: [ main ]
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      build_type:
+        description: 'Build type'
+        required: true
+        default: 'draft'
+        type: choice
+        options:
+        - draft
+        - final
 
 jobs:
   build:
@@ -13,17 +25,151 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
-    - name: Install LaTeX
+    - name: Install TeX Live 2024 with XeLaTeX
       run: |
         sudo apt-get update
-        sudo apt-get install -y texlive-xetex texlive-fonts-recommended texlive-fonts-extra
+        sudo apt-get install -y wget perl-modules
+        # Install TeX Live 2024
+        wget -O install-tl-unx.tar.gz http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
+        tar -xzf install-tl-unx.tar.gz
+        cd install-tl-*
+        # Install minimal TeX Live with XeLaTeX packages
+        sudo ./install-tl --scheme=basic --no-interaction
+        sudo /usr/local/texlive/2024/bin/x86_64-linux/tlmgr update --self
+        sudo /usr/local/texlive/2024/bin/x86_64-linux/tlmgr install xetex fontspec unicode-math polyglossia biber biblatex
+        sudo /usr/local/texlive/2024/bin/x86_64-linux/tlmgr install fancyhdr lastpage geometry amsmath amsfonts
+        # Add TeX Live to PATH
+        echo "/usr/local/texlive/2024/bin/x86_64-linux" >> $GITHUB_PATH
     
-    - name: Build PDF
+    - name: Prepare output directory
       run: |
-        ./scripts/build.sh
+        # Clean and prepare output directory
+        rm -rf output/
+        mkdir -p output/logs
+        echo "Output directory prepared"
     
-    - name: Upload PDF artifact
+    - name: Test Pipeline (draft builds)
+      if: env.BUILD_TYPE == 'draft'
+      run: |
+        # Run pipeline tests for draft builds
+        ./scripts/test-pipeline.sh 2>&1 | tee output/logs/test.log
+        echo "Pipeline test completed"
+
+    - name: Build PDF
+      env:
+        BUILD_TYPE: ${{ github.event.inputs.build_type || (github.event_name == 'release' && 'final' || 'draft') }}
+      run: |
+        # Redirect build logs to output/logs
+        ./scripts/build.sh 2>&1 | tee output/logs/build.log
+    
+    - name: Collect build artifacts and logs
+      if: always()
+      run: |
+        # Create build info file
+        echo "Build Information:" > output/logs/build-info.txt
+        echo "Timestamp: $(date)" >> output/logs/build-info.txt
+        echo "Build Type: ${{ env.BUILD_TYPE || 'draft' }}" >> output/logs/build-info.txt
+        echo "Branch: ${{ github.ref_name }}" >> output/logs/build-info.txt
+        echo "Commit: ${{ github.sha }}" >> output/logs/build-info.txt
+        echo "Event: ${{ github.event_name }}" >> output/logs/build-info.txt
+        
+        # Check LaTeX log for errors
+        if [ -f "output/main.log" ]; then
+          cp output/main.log output/logs/xelatex.log
+          # Extract error summary
+          grep -i "error\|warning" output/main.log > output/logs/error-summary.txt || echo "No errors found" > output/logs/error-summary.txt
+        fi
+        
+        # List all output files
+        ls -la output/ > output/logs/output-listing.txt || true
+    
+    - name: Upload build logs (always)
       uses: actions/upload-artifact@v3
+      if: always()
       with:
-        name: annotation-guide-pdf
-        path: output/main.pdf
+        name: build-logs-${{ github.run_number }}
+        path: output/logs/
+        retention-days: 30
+    
+    - name: Prepare versioned artifacts
+      if: success() && hashFiles('output/main.pdf')
+      run: |
+        # Create versioned directory structure
+        mkdir -p artifacts/
+        
+        # Generate version info
+        VERSION_INFO="build-${{ github.run_number }}-$(date +%Y%m%d-%H%M%S)"
+        BRANCH_CLEAN=$(echo "${{ github.ref_name }}" | sed 's/[^a-zA-Z0-9._-]/-/g')
+        
+        # Copy PDF with versioned name
+        cp output/main.pdf "artifacts/annotation-guide-${BRANCH_CLEAN}-${VERSION_INFO}.pdf"
+        cp output/main.pdf "artifacts/annotation-guide-latest.pdf"
+        
+        # Create version metadata
+        cat > artifacts/version-info.json << EOF
+        {
+          "version": "${VERSION_INFO}",
+          "build_number": ${{ github.run_number }},
+          "branch": "${{ github.ref_name }}",
+          "commit": "${{ github.sha }}",
+          "build_type": "${{ env.BUILD_TYPE || 'draft' }}",
+          "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+          "event": "${{ github.event_name }}",
+          "repository": "${{ github.repository }}"
+        }
+        EOF
+        
+        echo "VERSION_INFO=${VERSION_INFO}" >> $GITHUB_ENV
+        echo "BRANCH_CLEAN=${BRANCH_CLEAN}" >> $GITHUB_ENV
+    
+    - name: Upload versioned PDF artifacts
+      uses: actions/upload-artifact@v3
+      if: success() && hashFiles('artifacts/annotation-guide-*.pdf')
+      with:
+        name: pdf-${{ env.BRANCH_CLEAN }}-${{ env.VERSION_INFO }}
+        path: artifacts/
+        retention-days: ${{ github.event_name == 'release' && 365 || 90 }}
+    
+    - name: Upload to release (on release event)
+      uses: softprops/action-gh-release@v1
+      if: success() && github.event_name == 'release'
+      with:
+        files: |
+          artifacts/annotation-guide-*.pdf
+          artifacts/version-info.json
+        tag_name: ${{ github.ref_name }}
+        name: BRAT Annotation Guide ${{ github.ref_name }}
+        body: |
+          ## 📄 BRAT Annotation Guide Release
+          
+          **Build Information:**
+          - Build Number: ${{ github.run_number }}
+          - Build Type: ${{ env.BUILD_TYPE || 'final' }}
+          - Branch: ${{ github.ref_name }}
+          - Commit: ${{ github.sha }}
+          
+          **Files included:**
+          - `annotation-guide-*.pdf` - Main annotation guide PDF
+          - `version-info.json` - Build metadata
+          
+          Generated automatically by GitHub Actions.
+    
+    - name: Build failure notification
+      if: failure()
+      run: |
+        echo "::error title=PDF Build Failed::The LaTeX compilation failed. Check the build logs for details."
+        echo "::notice::Build logs are available as artifacts for debugging."
+        
+        # Create failure summary
+        echo "## Build Failure Summary" >> $GITHUB_STEP_SUMMARY
+        echo "- **Build Type:** ${{ env.BUILD_TYPE || 'draft' }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Timestamp:** $(date)" >> $GITHUB_STEP_SUMMARY
+        
+        if [ -f "output/logs/error-summary.txt" ]; then
+          echo "### LaTeX Errors:" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat output/logs/error-summary.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+        fi

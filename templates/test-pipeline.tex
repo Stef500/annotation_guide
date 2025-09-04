@@ -1,0 +1,67 @@
+% Simple test document for CI/CD pipeline validation
+\documentclass[11pt,a4paper]{article}
+
+% Basic packages for XeLaTeX compatibility testing
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+
+% Document setup
+\geometry{a4paper, margin=2.5cm}
+\setmainfont{Latin Modern Roman}
+
+% Header and footer
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{BRAT Annotation Guide}
+\fancyhead[R]{CI/CD Pipeline Test}
+\fancyfoot[C]{\thepage}
+
+\title{CI/CD Pipeline Test Document}
+\author{GitHub Actions}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Pipeline Validation}
+
+This document serves as a test for the GitHub Actions CI/CD pipeline. It validates:
+
+\begin{itemize}
+    \item XeLaTeX compilation with TeX Live 2024
+    \item Font handling with fontspec package
+    \item Basic document structure and formatting
+    \item PDF generation and artifact upload
+\end{itemize}
+
+\subsection{Build Information}
+
+If you see this document, the following pipeline components are working correctly:
+
+\begin{enumerate}
+    \item Repository checkout
+    \item TeX Live 2024 installation
+    \item XeLaTeX compilation
+    \item PDF artifact generation
+    \item Build logging and error handling
+\end{enumerate}
+
+\subsection{Template System Integration}
+
+This test validates the basic LaTeX infrastructure required for the BRAT annotation guide template system.
+
+\section{Next Steps}
+
+Upon successful pipeline validation:
+\begin{itemize}
+    \item Main template compilation can proceed
+    \item GitHub Pages dashboard will display build status
+    \item Automated releases can be configured
+    \item Full documentation pipeline is ready
+\end{itemize}
+
+\textbf{Pipeline Test Status:} \textcolor{green}{PASSED} ✓
+
+\end{document}
