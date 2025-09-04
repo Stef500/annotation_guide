@@ -83,15 +83,8 @@ jobs:
         # Replace placeholder with actual $HOME path
         sed -i "s#__HOME__#${HOME}#g" texlive.profile
         ./install-tl --scheme=basic --no-interaction --profile=texlive.profile
-        # Detect installed TeX Live year with better error handling
-        TEXLIVE_YEAR=$(ls -1 ~/texlive/ | grep "^20" | head -1)
-        if [ -z "$TEXLIVE_YEAR" ]; then
-          echo "❌ Error: Could not detect TeX Live installation"
-          ls -la ~/texlive/
-          exit 1
-        fi
-        TEXLIVE_BIN="$HOME/texlive/${TEXLIVE_YEAR}/bin/x86_64-linux"
-        echo "Detected TeX Live version: $TEXLIVE_YEAR"
+        # Use direct path as indicated by installer
+        TEXLIVE_BIN="$HOME/texlive/bin/x86_64-linux"
         echo "TeX Live binaries path: $TEXLIVE_BIN"
         
         # Verify tlmgr exists before using it
@@ -108,21 +101,14 @@ jobs:
     
     - name: Setup TeX Live PATH (cached or fresh install)
       run: |
-        # Detect installed TeX Live year (consistent with install step)
-        TEXLIVE_YEAR=$(ls -1 ~/texlive/ | grep "^20" | head -1)
-        if [ -z "$TEXLIVE_YEAR" ]; then
-          echo "❌ Error: Could not detect TeX Live installation in setup step"
-          ls -la ~/texlive/
-          exit 1
-        fi
-        TEXLIVE_BIN="$HOME/texlive/${TEXLIVE_YEAR}/bin/x86_64-linux"
-        echo "Using TeX Live version: $TEXLIVE_YEAR"
-        echo "TeX Live binaries path: $TEXLIVE_BIN"
+        # Use direct path without year detection
+        TEXLIVE_BIN="$HOME/texlive/bin/x86_64-linux"
+        echo "Using TeX Live binaries path: $TEXLIVE_BIN"
         
         # Verify directory exists
         if [ ! -d "$TEXLIVE_BIN" ]; then
           echo "❌ Error: TeX Live bin directory not found: $TEXLIVE_BIN"
-          ls -la "$HOME/texlive/${TEXLIVE_YEAR}/" || echo "TeX Live directory does not exist"
+          ls -la "$HOME/texlive/bin/" || echo "TeX Live bin directory does not exist"
           exit 1
         fi
         
