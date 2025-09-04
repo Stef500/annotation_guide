@@ -32,7 +32,8 @@ jobs:
         # Install TeX Live 2024
         wget -O install-tl-unx.tar.gz http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
         tar -xzf install-tl-unx.tar.gz
-        cd install-tl-*
+        INSTALL_DIR=$(ls -d install-tl-*/ | head -1)
+        cd "$INSTALL_DIR"
         # Install minimal TeX Live with XeLaTeX packages
         sudo ./install-tl --scheme=basic --no-interaction
         sudo /usr/local/texlive/2024/bin/x86_64-linux/tlmgr update --self
