@@ -31,6 +31,13 @@ jobs:
     - name: Setup script permissions
       run: chmod +x scripts/*.sh
     
+    # Install bibliography engine required by biblatex (backend=biber)
+    - name: Install biber (for biblatex)
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y --no-install-recommends biber
+        biber --version
+    
     # Install Tectonic LaTeX engine
     - name: Install Tectonic
       run: |
