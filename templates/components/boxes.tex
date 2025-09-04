@@ -1,0 +1,124 @@
+% Box components for BRAT Annotation Guide Template
+% Reusable information boxes and callouts
+
+% Colored box packages already loaded in packages.tex
+
+% Important information box
+\newcommand{\importantbox}[1]{%
+    \begin{tcolorbox}[
+        colback=red!5,
+        colframe=red!75!black,
+        title=Important,
+        titlefont=\bfseries\sffamily,
+        coltitle=white,
+        colbacktitle=red!75!black,
+        sharp corners
+    ]
+    #1
+    \end{tcolorbox}
+}
+
+% Note box
+\newcommand{\notebox}[1]{%
+    \begin{tcolorbox}[
+        colback=blue!5,
+        colframe=blue!75!black,
+        title=Note,
+        titlefont=\bfseries\sffamily,
+        coltitle=white,
+        colbacktitle=blue!75!black,
+        sharp corners
+    ]
+    #1
+    \end{tcolorbox}
+}
+
+% Example box
+\newcommand{\examplebox}[1]{%
+    \begin{tcolorbox}[
+        colback=green!5,
+        colframe=green!75!black,
+        title=Example,
+        titlefont=\bfseries\sffamily,
+        coltitle=white,
+        colbacktitle=green!75!black,
+        sharp corners
+    ]
+    #1
+    \end{tcolorbox}
+}
+
+% Warning box
+\newcommand{\warningbox}[1]{%
+    \begin{tcolorbox}[
+        colback=orange!5,
+        colframe=orange!75!black,
+        title=Warning,
+        titlefont=\bfseries\sffamily,
+        coltitle=white,
+        colbacktitle=orange!75!black,
+        sharp corners
+    ]
+    #1
+    \end{tcolorbox}
+}
+
+% Custom annotation guideline box
+\newcommand{\guidelinebox}[2]{%
+    % #1: Guideline title
+    % #2: Content
+    \begin{tcolorbox}[
+        colback=primarycolor!5,
+        colframe=primarycolor,
+        title=#1,
+        titlefont=\bfseries\sffamily,
+        coltitle=white,
+        colbacktitle=primarycolor,
+        sharp corners
+    ]
+    #2
+    \end{tcolorbox}
+}
+
+% Code example box
+\newcommand{\codebox}[2][Code Example]{%
+    % #1: Title (optional, defaults to "Code Example")
+    % #2: Code content
+    \begin{tcolorbox}[
+        colback=black!5,
+        colframe=black!75,
+        title=#1,
+        titlefont=\bfseries\sffamily\ttfamily,
+        coltitle=white,
+        colbacktitle=black!75,
+        sharp corners,
+        listing only,
+        listing options={
+            basicstyle=\ttfamily\small,
+            breaklines=true,
+            frame=none
+        }
+    ]
+    #2
+    \end{tcolorbox}
+}
+
+% Annotation example with highlighting
+\newcommand{\annotationbox}[3]{%
+    % #1: Text with annotations
+    % #2: Entity explanations  
+    % #3: Relation explanations
+    \begin{tcolorbox}[
+        colback=gray!10,
+        colframe=gray!50,
+        title=Annotation Example,
+        titlefont=\bfseries\sffamily,
+        coltitle=black,
+        colbacktitle=gray!20,
+        sharp corners
+    ]
+    \textbf{Text:} #1 \\[0.3cm]
+    \textbf{Entities:} #2 \\[0.3cm]
+    \textbf{Relations:} #3
+    \end{tcolorbox}
+}

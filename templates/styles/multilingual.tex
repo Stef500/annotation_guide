@@ -1,0 +1,38 @@
+% Multilingual and Unicode support for XeLaTeX
+% BRAT Annotation Guide Template - Language Configuration
+
+% Polyglossia language settings (already loaded in packages.tex)
+% Main language: English
+% Secondary languages: French, German, Spanish
+
+% Language-specific typography adjustments
+\newfontfamily\englishfont[Ligatures=TeX]{Times New Roman}
+\newfontfamily\frenchfont[Ligatures=TeX]{Times New Roman}
+\newfontfamily\germanfont[Ligatures=TeX]{Times New Roman}
+\newfontfamily\spanishfont[Ligatures=TeX]{Times New Roman}
+
+% Unicode character support
+\DeclareUnicodeCharacter{00A0}{\nobreakspace}
+\DeclareUnicodeCharacter{2013}{--}
+\DeclareUnicodeCharacter{2014}{---}
+\DeclareUnicodeCharacter{2018}{\textquoteleft}
+\DeclareUnicodeCharacter{2019}{\textquoteright}
+\DeclareUnicodeCharacter{201C}{\textquotedblleft}
+\DeclareUnicodeCharacter{201D}{\textquotedblright}
+
+% Language-specific commands for annotation guides
+\newcommand{\textenglish}[1]{\selectlanguage{english}#1}
+\newcommand{\textfrench}[1]{\selectlanguage{french}#1}
+\newcommand{\textgerman}[1]{\selectlanguage{german}#1}
+\newcommand{\textspanish}[1]{\selectlanguage{spanish}#1}
+
+% Medical/Scientific terminology support
+\newcommand{\medicallatin}[1]{\textit{#1}} % For Latin medical terms
+\newcommand{\scientificname}[1]{\textit{#1}} % For scientific species names
+
+% Annotation-specific language markers
+\newcommand{\entitylabel}[1]{\texttt{\small #1}} % For BRAT entity labels
+\newcommand{\relationlabel}[1]{\texttt{\small #1}} % For BRAT relation labels
+
+% International phonetic alphabet support (if needed)
+\usepackage{tipa}

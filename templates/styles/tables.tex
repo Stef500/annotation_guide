@@ -1,0 +1,157 @@
+% Table formatting macros for BRAT Annotation Guide Template
+% Enhanced table environments optimized for XeLaTeX
+
+% Color definitions for tables
+\definecolor{tableheader}{RGB}{52, 73, 94}
+\definecolor{tablerow1}{RGB}{249, 249, 249}
+\definecolor{tablerow2}{RGB}{255, 255, 255}
+\definecolor{tableborder}{RGB}{200, 200, 200}
+
+% Enhanced table commands
+\newcommand{\tableheaderfont}{\bfseries\sffamily\color{white}}
+\newcommand{\tablecontent}{\small}
+
+% Annotation entity table environment
+\newenvironment{entitytable}[1][Entity Types]
+{%
+    \begin{table}[H]
+    \centering
+    \caption{#1}
+    \begin{tabularx}{\textwidth}{|>{\columncolor{tableheader}\tableheaderfont}l|X|>{\centering\arraybackslash}p{2cm}|}
+    \hline
+    \rowcolor{tableheader}
+    \textcolor{white}{\textbf{Entity}} & \textcolor{white}{\textbf{Description}} & \textcolor{white}{\textbf{Example}} \\
+    \hline
+}{%
+    \end{tabularx}
+    \end{table}
+}
+
+% Annotation relation table environment
+\newenvironment{relationtable}[1][Relation Types]
+{%
+    \begin{table}[H]
+    \centering
+    \caption{#1}
+    \begin{tabularx}{\textwidth}{|>{\columncolor{tableheader}\tableheaderfont}l|X|>{\centering\arraybackslash}p{3cm}|}
+    \hline
+    \rowcolor{tableheader}
+    \textcolor{white}{\textbf{Relation}} & \textcolor{white}{\textbf{Description}} & \textcolor{white}{\textbf{Arguments}} \\
+    \hline
+}{%
+    \end{tabularx}
+    \end{table}
+}
+
+% Annotation statistics table environment
+\newenvironment{statstable}[1][Annotation Statistics]
+{%
+    \begin{table}[H]
+    \centering
+    \caption{#1}
+    \begin{tabularx}{0.8\textwidth}{|>{\raggedright\arraybackslash}X|>{\centering\arraybackslash}p{3cm}|}
+    \hline
+    \rowcolor{tableheader}
+    \textcolor{white}{\textbf{Metric}} & \textcolor{white}{\textbf{Value}} \\
+    \hline
+}{%
+    \end{tabularx}
+    \end{table}
+}
+
+% Custom table row commands with alternating colors
+\newcounter{tablerowcounter}
+\newcommand{\resetrowcolor}{\setcounter{tablerowcounter}{0}}
+\newcommand{\tablerow}[3]{%
+    \stepcounter{tablerowcounter}%
+    \ifodd\value{tablerowcounter}%
+        \rowcolor{tablerow1}%
+    \else%
+        \rowcolor{tablerow2}%
+    \fi%
+    \entitytype{#1} & \tablecontent{#2} & \inlinecode{#3} \\%
+    \hline%
+}
+
+% Relation table row
+\newcommand{\relationrow}[3]{%
+    \stepcounter{tablerowcounter}%
+    \ifodd\value{tablerowcounter}%
+        \rowcolor{tablerow1}%
+    \else%
+        \rowcolor{tablerow2}%
+    \fi%
+    \relationtype{#1} & \tablecontent{#2} & \tablecontent{#3} \\%
+    \hline%
+}
+
+% Statistics table row
+\newcommand{\statrow}[2]{%
+    \stepcounter{tablerowcounter}%
+    \ifodd\value{tablerowcounter}%
+        \rowcolor{tablerow1}%
+    \else%
+        \rowcolor{tablerow2}%
+    \fi%
+    \tablecontent{#1} & \textbf{#2} \\%
+    \hline%
+}
+
+% Long table for extensive annotation guidelines
+\newenvironment{guidelinetable}[1][Annotation Guidelines]
+{%
+    \begin{longtable}{|>{\columncolor{tableheader}\tableheaderfont}p{3cm}|p{8cm}|p{4cm}|}
+    \caption{#1} \\
+    \hline
+    \rowcolor{tableheader}
+    \textcolor{white}{\textbf{Category}} & \textcolor{white}{\textbf{Guideline}} & \textcolor{white}{\textbf{Example}} \\
+    \hline
+    \endfirsthead
+    \multicolumn{3}{|c|}{\textit{...continued from previous page}} \\
+    \hline
+    \rowcolor{tableheader}
+    \textcolor{white}{\textbf{Category}} & \textcolor{white}{\textbf{Guideline}} & \textcolor{white}{\textbf{Example}} \\
+    \hline
+    \endhead
+    \hline
+    \multicolumn{3}{|r|}{\textit{continued on next page...}} \\
+    \endfoot
+    \hline
+    \endlastfoot
+}{%
+    \end{longtable}
+}
+
+% Guideline table row
+\newcommand{\guidelinerow}[3]{%
+    \stepcounter{tablerowcounter}%
+    \ifodd\value{tablerowcounter}%
+        \rowcolor{tablerow1}%
+    \else%
+        \rowcolor{tablerow2}%
+    \fi%
+    \textbf{#1} & \tablecontent{#2} & \tablecontent{#3} \\%
+    \hline%
+}
+
+% Simple bordered table for basic content
+\newenvironment{simpletable}[2][c]
+{%
+    \begin{table}[H]
+    \centering
+    \caption{#2}
+    \begin{tabular}{|#1|}
+    \hline
+}{%
+    \end{tabular}
+    \end{table}
+}
+
+% Custom column types for better formatting
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+
+% Table styling improvements
+\setlength{\tabcolsep}{8pt}
+\renewcommand{\arraystretch}{1.3}

@@ -1,0 +1,114 @@
+% XeLaTeX Performance Optimizations
+% BRAT Annotation Guide Template - Compilation Speed Enhancements
+
+% Font loading optimizations
+\defaultfontfeatures{Ligatures=TeX}
+\defaultfontfeatures{Scale=MatchLowercase}
+
+% Preload frequently used fonts to reduce compilation time
+\newfontfamily\preloadtimes{Times New Roman}[
+    UprightFont=*,
+    BoldFont=* Bold,
+    ItalicFont=* Italic,
+    BoldItalicFont=* Bold Italic
+]
+
+\newfontfamily\preloadarial{Arial}[
+    UprightFont=*,
+    BoldFont=* Bold,
+    ItalicFont=* Italic,
+    BoldItalicFont=* Bold Italic
+]
+
+% Microtype optimization for XeLaTeX
+\microtypesetup{
+    protrusion=true,
+    expansion=false,  % Disable expansion for XeLaTeX performance
+    spacing=true,
+    kerning=true,
+    tracking=true
+}
+
+% Hyperref optimization for faster PDF generation
+\hypersetup{
+    pdftex=false,
+    xetex=true,
+    colorlinks=true,
+    linkcolor=primarycolor,
+    urlcolor=primarycolor,
+    pdfcreator={XeLaTeX with BRAT Annotation Template},
+    pdfproducer={XeLaTeX},
+    bookmarksnumbered=true,
+    bookmarksopen=true,
+    bookmarksopenlevel=2,
+    pdfstartview=FitH,
+    pdfpagemode=UseOutlines
+}
+
+% Table rendering optimizations
+\setlength{\tabcolsep}{6pt} % Reduce table column separation for faster rendering
+\setlength{\arraystretch}{1.2} % Optimize row spacing
+
+% Graphics optimization
+\graphicspath{{images/}{figures/}{assets/}} % Centralized image paths
+\DeclareGraphicsExtensions{.pdf,.png,.jpg,.jpeg} % Preferred formats for XeLaTeX
+
+% Color optimization - predefine all colors to reduce processing
+\colorlet{tableheaderopt}{tableheader}
+\colorlet{tablerow1opt}{tablerow1}  
+\colorlet{tablerow2opt}{tablerow2}
+\colorlet{tableborderopt}{tableborder}
+
+% Bibliography optimization for large documents
+\ExecuteBibliographyOptions{
+    maxbibnames=10,
+    maxcitenames=3,
+    backend=biber,
+    style=authoryear-comp,
+    sorting=nyt,
+    uniquename=false,
+    uniquelist=false
+}
+
+% Memory allocation optimizations
+\expandafter\let\csname ver@fixltx2e.sty\endcsname\relax % Prevent double loading
+\RequirePackage{etex} % Extended TeX memory management
+
+% Reduce overfull boxes and improve compilation speed
+\tolerance=1000
+\hbadness=1000
+\vbadness=1000
+\emergencystretch=3pt
+
+% Optimize float placement for faster processing
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.9}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.8}
+
+% Cache mathematical formulas for repeated compilation
+\usepackage{breqn} % Better equation breaking and caching
+
+% Conditional compilation for development vs. production
+\newif\ifdraftmode
+\draftmodefalse % Set to true for faster draft compilation
+
+\ifdraftmode
+    % Draft mode optimizations
+    \usepackage[draft]{graphicx} % Placeholder boxes instead of images
+    \hypersetup{draft} % Disable hyperlink processing
+    \microtypesetup{activate=false} % Disable microtype in draft
+\else
+    % Production mode optimizations
+    \usepackage{graphicx}
+    % Full hyperref and microtype processing
+\fi
+
+% Compilation time reporting (optional)
+\newcommand{\compilationstats}{%
+    \typeout{=== XeLaTeX Compilation Statistics ===}%
+    \typeout{Template: BRAT Annotation Guide}%
+    \typeout{Engine: XeLaTeX}%
+    \typeout{Optimization Level: Production}%
+    \typeout{=====================================}%
+}

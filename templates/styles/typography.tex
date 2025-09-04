@@ -1,0 +1,80 @@
+% Typography commands for BRAT Annotation Guide Template
+% Based on extracted MERLOT PDF specifications
+
+% Document hierarchy definitions
+\newcommand{\maintitle}[1]{%
+    \begin{center}
+        \Large\bfseries\sffamily
+        \textcolor{primarycolor}{#1}
+    \end{center}
+}
+
+\newcommand{\sectionheader}[1]{%
+    \section*{\textcolor{primarycolor}{\sffamily #1}}
+}
+
+\newcommand{\subsectionheader}[1]{%
+    \subsection*{\textcolor{secondarycolor}{\sffamily #1}}
+}
+
+% BRAT-specific annotation commands
+\newcommand{\entitytype}[1]{\texttt{\textcolor{primarycolor}{\textbf{#1}}}}
+\newcommand{\relationtype}[1]{\texttt{\textcolor{secondarycolor}{\textbf{#1}}}}
+\newcommand{\attributetype}[1]{\texttt{\textcolor{secondarycolor}{#1}}}
+
+% Annotation examples formatting
+\newcommand{\annotationexample}[1]{%
+    \begin{quote}
+        \itshape\color{black!70}
+        #1
+    \end{quote}
+}
+
+% Code and markup formatting
+\newcommand{\inlinecode}[1]{\texttt{\textcolor{black!80}{#1}}}
+\newcommand{\filename}[1]{\texttt{\textbf{#1}}}
+\newcommand{\directory}[1]{\texttt{\textcolor{primarycolor}{#1/}}}
+
+% Medical and scientific terminology
+\newcommand{\pathogen}[1]{\textit{\textbf{#1}}}
+\newcommand{\symptom}[1]{\textit{#1}}
+\newcommand{\medication}[1]{\textsc{#1}}
+\newcommand{\dosage}[1]{\textrm{#1}}
+
+% Special formatting for annotation guidelines
+\newcommand{\guideline}[1]{%
+    \par\noindent
+    \textcolor{primarycolor}{\textbf{Guideline:}} #1
+    \par\medskip
+}
+
+\newcommand{\example}[1]{%
+    \par\noindent
+    \textcolor{secondarycolor}{\textbf{Example:}} #1
+    \par\medskip
+}
+
+\newcommand{\note}[1]{%
+    \par\noindent
+    \textcolor{orange}{\textbf{Note:}} #1
+    \par\medskip
+}
+
+% Typography spacing adjustments for XeLaTeX
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\parindent}{0pt}
+\linespread{1.2}
+
+% Custom list environments for annotations
+\newlist{annotationlist}{itemize}{3}
+\setlist[annotationlist,1]{label=\textcolor{primarycolor}{$\bullet$}, leftmargin=1em}
+\setlist[annotationlist,2]{label=\textcolor{secondarycolor}{$\circ$}, leftmargin=2em}
+\setlist[annotationlist,3]{label=\textcolor{black!60}{$-$}, leftmargin=3em}
+
+% Headers and footers customization
+\fancyhf{}
+\fancyhead[L]{\small\textcolor{primarycolor}{\textsc{BRAT Annotation Guide}}}
+\fancyhead[R]{\small\thepage}
+\fancyfoot[C]{\small\textcolor{secondarycolor}{Medical NLP Annotation Standards}}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.3pt}

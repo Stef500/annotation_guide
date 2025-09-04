@@ -1,0 +1,59 @@
+% Navigation components for BRAT Annotation Guide Template
+% Table of contents and cross-reference utilities
+
+% Enhanced table of contents
+\renewcommand{\contentsname}{\textcolor{primarycolor}{\Large\bfseries Contents}}
+\renewcommand{\listfigurename}{\textcolor{primarycolor}{\Large\bfseries List of Figures}}
+\renewcommand{\listtablename}{\textcolor{primarycolor}{\Large\bfseries List of Tables}}
+
+% Custom TOC formatting
+\newcommand{\enhancedtoc}{%
+    \begingroup
+    \renewcommand{\cftchapfont}{\bfseries\sffamily\color{primarycolor}}
+    \renewcommand{\cftsecfont}{\sffamily\color{black}}
+    \renewcommand{\cftsubsecfont}{\sffamily\color{black!70}}
+    \tableofcontents
+    \endgroup
+}
+
+% Section reference with page numbers
+\newcommand{\sectionref}[1]{\textcolor{primarycolor}{\nameref{#1}} (page \pageref{#1})}
+
+% Quick navigation box for multi-page documents
+\newcommand{\navbox}[1]{%
+    \begin{tcolorbox}[
+        colback=primarycolor!5,
+        colframe=primarycolor,
+        title=Quick Navigation,
+        titlefont=\bfseries\sffamily,
+        coltitle=white,
+        colbacktitle=primarycolor,
+        sharp corners,
+        width=0.3\textwidth,
+        float=right
+    ]
+    \small #1
+    \end{tcolorbox}
+}
+
+% Cross-reference utilities
+\newcommand{\entityref}[1]{\textcolor{primarycolor}{\textbf{Entity:}} \nameref{#1}}
+\newcommand{\relationref}[1]{\textcolor{secondarycolor}{\textbf{Relation:}} \nameref{#1}}
+\newcommand{\exampleref}[1]{\textcolor{green!75!black}{\textbf{Example:}} \nameref{#1}}
+
+% Page navigation commands
+\newcommand{\nextpage}{\clearpage}
+\newcommand{\nextsection}{\clearpage}
+
+% Bookmark creation for PDF navigation
+\newcommand{\bookmark}[1]{\pdfbookmark[1]{#1}{#1}}
+\newcommand{\subbookmark}[2]{\pdfbookmark[2]{#1}{#2}}
+
+% Footer navigation (previous/next)
+\newcommand{\footernav}[2]{%
+    \begin{center}
+    \begin{tabular}{p{0.3\textwidth}p{0.3\textwidth}p{0.3\textwidth}}
+    \raggedright #1 & \centering Page \thepage & \raggedleft #2
+    \end{tabular}
+    \end{center}
+}

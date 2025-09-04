@@ -4,8 +4,39 @@
 \definecolor{primarycolor}{RGB}{52, 73, 94}
 \definecolor{secondarycolor}{RGB}{149, 165, 166}
 
-% Font settings
-\setmainfont{Times New Roman}
+% XeLaTeX Font Configuration with fallback support
+% Main fonts (with system font fallbacks)
+\setmainfont[
+    Ligatures=TeX,
+    Numbers=OldStyle,
+    BoldFont={* Bold},
+    ItalicFont={* Italic},
+    BoldItalicFont={* Bold Italic}
+]{Times New Roman}
+
+% Alternative font if Times New Roman unavailable
+\newfontfamily\timesroman[
+    Ligatures=TeX,
+    Scale=1.0
+]{Times New Roman}[
+    Extension=.ttf,
+    UprightFont=*,
+    BoldFont=*-Bold,
+    ItalicFont=*-Italic,
+    BoldItalicFont=*-BoldItalic
+]
+
+% Sans-serif font
+\setsansfont[
+    Ligatures=TeX,
+    Scale=0.9
+]{Arial}
+
+% Monospace font for code
+\setmonofont[
+    Scale=0.85,
+    FakeStretch=0.9
+]{Courier New}
 
 % Hyperlink setup
 \hypersetup{

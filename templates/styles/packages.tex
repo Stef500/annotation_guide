@@ -1,12 +1,53 @@
-% Package imports for LaTeX template
+% XeLaTeX-optimized package imports for TeX Live 2024
+% Compiled for BRAT Annotation Guide Template
 
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
+% XeLaTeX font and encoding handling (replaces inputenc/fontenc)
 \usepackage{fontspec}
-\usepackage{geometry}
+\usepackage{xunicode}
+\usepackage{xltxtra}
+% Page layout and typography
+\usepackage[a4paper,margin=2.5cm]{geometry}
 \usepackage{fancyhdr}
 \usepackage{titlesec}
+
+% Code highlighting and colors
 \usepackage{listings}
 \usepackage{xcolor}
+
+% Graphics and figures
 \usepackage{graphicx}
+\usepackage{float}
+
+% Tables and tabular environments
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{tabularx}
+
+% Mathematical notation
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{mathtools}
+
+% Multilingual support
+\usepackage{polyglossia}
+\setdefaultlanguage{english}
+\setotherlanguages{french,german,spanish}
+
+% Enhanced lists and enumerations
+\usepackage{enumitem}
+
+% Bibliography and citations
+\usepackage[style=authoryear,backend=biber]{biblatex}
+
+% Enhanced boxes and styling
+\usepackage{tcolorbox}
+\tcbuselibrary{listings,skins}
+
+% Additional XeLaTeX optimizations  
+\usepackage{microtype} % Enhanced typography
+\usepackage{textcomp}  % Additional symbols
+
+% Hyperlinks (load last)
 \usepackage{hyperref}

@@ -1,0 +1,92 @@
+% List components for BRAT Annotation Guide Template
+% Reusable list environments and formatting
+
+% Checklist environment
+\newlist{checklist}{itemize}{2}
+\setlist[checklist]{label=$\square$}
+
+% Custom checklist command
+\newcommand{\checklistitem}[1]{\item #1}
+\newcommand{\checkeditem}[1]{\item[$\boxtimes$] #1}
+
+% Entity type list
+\newenvironment{entitylist}
+{%
+    \begin{itemize}[label=\textcolor{primarycolor}{\textbf{E}}, leftmargin=1.5em]
+}{%
+    \end{itemize}
+}
+
+% Relation type list  
+\newenvironment{relationlist}
+{%
+    \begin{itemize}[label=\textcolor{secondarycolor}{\textbf{R}}, leftmargin=1.5em]
+}{%
+    \end{itemize}
+}
+
+% Guideline steps list
+\newenvironment{steplist}
+{%
+    \begin{enumerate}[label=\textbf{Step \arabic*:}, leftmargin=2em]
+}{%
+    \end{enumerate}
+}
+
+% Requirements list
+\newenvironment{reqlist}
+{%
+    \begin{itemize}[label=\textcolor{primarycolor}{\textbullet}, leftmargin=1.5em]
+}{%
+    \end{itemize}
+}
+
+% Examples list with special formatting
+\newenvironment{examplelist}
+{%
+    \begin{itemize}[label=\textcolor{green!75!black}{\textbf{Ex:}}, leftmargin=2em]
+}{%
+    \end{itemize}
+}
+
+% Two-column list for comparisons
+\newenvironment{comparisonlist}[2]
+{%
+    \begin{minipage}{0.48\textwidth}
+    \textbf{#1:}
+    \begin{itemize}[label=\textcolor{primarycolor}{\textbullet}]
+}{%
+    \end{itemize}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.48\textwidth}
+    \textbf{#2:}
+    \begin{itemize}[label=\textcolor{secondarycolor}{\textbullet}]
+}{%
+    \end{itemize}
+    \end{minipage}
+}
+
+% Definition list for terminology
+\newenvironment{termlist}
+{%
+    \begin{description}[style=nextline, leftmargin=2em, font=\normalfont\bfseries\color{primarycolor}]
+}{%
+    \end{description}
+}
+
+% Annotation statistics list
+\newenvironment{statslist}
+{%
+    \begin{itemize}[label=\textcolor{primarycolor}{\textbf{\#}}, leftmargin=1.5em]
+}{%
+    \end{itemize}
+}
+
+% Quality metrics list
+\newenvironment{metricslist}
+{%
+    \begin{itemize}[label=\textcolor{blue!75}{\textbf{M}}, leftmargin=1.5em]
+}{%
+    \end{itemize}
+}

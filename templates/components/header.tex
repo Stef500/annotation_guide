@@ -1,0 +1,26 @@
+% Header component for BRAT Annotation Guide Template
+% Reusable header definitions
+
+\newcommand{\documentheader}[3]{%
+    % #1: Document title
+    % #2: Version
+    % #3: Date
+    \thispagestyle{empty}
+    \begin{center}
+        {\Huge\bfseries\sffamily\textcolor{primarycolor}{#1}} \\[0.5cm]
+        {\Large\sffamily Medical NLP Annotation Standards} \\[0.3cm]
+        {\large Version #2 -- #3} \\[1cm]
+        \rule{\textwidth}{2pt}
+    \end{center}
+    \vspace{1cm}
+}
+
+\newcommand{\sectionintro}[2]{%
+    % #1: Section name
+    % #2: Brief description
+    \begin{center}
+        {\Large\bfseries\sffamily\textcolor{primarycolor}{#1}} \\[0.2cm]
+        {\normalsize\itshape #2}
+    \end{center}
+    \vspace{0.5cm}
+}

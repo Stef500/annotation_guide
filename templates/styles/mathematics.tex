@@ -1,0 +1,109 @@
+% Mathematical notation for BRAT Annotation Guide Template
+% Custom mathematical commands for medical NLP annotation
+
+% Mathematical environments for statistics and formulas
+\newcommand{\formula}[1]{\begin{equation}#1\end{equation}}
+\newcommand{\inlinemath}[1]{\ensuremath{#1}}
+
+% Statistical measures commonly used in annotation
+\newcommand{\precision}{\text{Precision}}
+\newcommand{\recall}{\text{Recall}}
+\newcommand{\fscore}{\text{F}_1\text{-score}}
+\newcommand{\accuracy}{\text{Accuracy}}
+\newcommand{\kappa}{\kappa} % Cohen's kappa
+\newcommand{\iaa}{\text{IAA}} % Inter-annotator agreement
+
+% Probability and statistical notation
+\newcommand{\prob}[1]{P(#1)}
+\newcommand{\given}{\mid}
+\newcommand{\expectation}[1]{\mathbb{E}[#1]}
+\newcommand{\variance}[1]{\text{Var}(#1)}
+\newcommand{\stddev}[1]{\sigma_{#1}}
+
+% Set notation for annotation categories
+\newcommand{\entityset}{\mathcal{E}}
+\newcommand{\relationset}{\mathcal{R}}
+\newcommand{\attributeset}{\mathcal{A}}
+\newcommand{\documentset}{\mathcal{D}}
+\newcommand{\annotationset}{\mathcal{S}}
+
+% Function notation for NLP operations
+\newcommand{\extract}[1]{\text{extract}(#1)}
+\newcommand{\classify}[1]{\text{classify}(#1)}
+\newcommand{\tokenize}[1]{\text{tokenize}(#1)}
+\newcommand{\normalize}[1]{\text{normalize}(#1)}
+
+% Mathematical operators for annotation metrics
+\DeclareMathOperator{\argmax}{arg\,max}
+\DeclareMathOperator{\argmin}{arg\,min}
+\DeclareMathOperator{\overlap}{overlap}
+\DeclareMathOperator{\similarity}{sim}
+\DeclareMathOperator{\distance}{dist}
+
+% Confusion matrix notation
+\newcommand{\tp}{\text{TP}} % True Positive
+\newcommand{\fp}{\text{FP}} % False Positive
+\newcommand{\tn}{\text{TN}} % True Negative
+\newcommand{\fn}{\text{FN}} % False Negative
+
+% Annotation quality metrics
+\newcommand{\precisionformula}{\frac{\tp}{\tp + \fp}}
+\newcommand{\recallformula}{\frac{\tp}{\tp + \fn}}
+\newcommand{\fscoreformula}{\frac{2 \times \precision \times \recall}{\precision + \recall}}
+\newcommand{\accuracyformula}{\frac{\tp + \tn}{\tp + \tn + \fp + \fn}}
+
+% Agreement measures
+\newcommand{\agreement}[2]{\text{agreement}(#1, #2)}
+\newcommand{\disagreement}[2]{\text{disagreement}(#1, #2)}
+\newcommand{\kappaformula}{\frac{P_o - P_e}{1 - P_e}}
+
+% Special mathematical text formatting
+\newcommand{\mathterm}[1]{\text{\textit{#1}}}
+\newcommand{\mathabbrev}[1]{\text{\textsc{#1}}}
+
+% Brackets and delimiters for mathematical expressions
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\round}{\lfloor}{\rceil}
+
+% Annotation span notation
+\newcommand{\span}[2]{\langle #1, #2 \rangle}
+\newcommand{\entity}[3]{#1_{#2}^{#3}} % entity_type^span
+\newcommand{\relation}[3]{#1(#2, #3)} % relation(arg1, arg2)
+
+% Performance measurement environments
+\newenvironment{metrics}
+{%
+    \begin{align}
+}{%
+    \end{align}
+}
+
+% Custom equation numbering for annotation examples
+\newcounter{annotationequation}
+\renewcommand{\theannotationequation}{A.\arabic{annotationequation}}
+\newcommand{\annotationequation}[1]{%
+    \refstepcounter{annotationequation}%
+    \begin{equation}
+        \tag{\theannotationequation}
+        #1
+    \end{equation}%
+}
+
+% Special symbols for annotation tasks
+\newcommand{\annotates}{\triangleright} % Symbol for "annotates as"
+\newcommand{\conflicts}{\bowtie} % Symbol for annotation conflicts
+\newcommand{\agrees}{\equiv} % Symbol for annotation agreement
+
+% Matrix notation for confusion matrices
+\newcommand{\confusionmatrix}[4]{%
+    \begin{bmatrix}
+    #1 & #2 \\
+    #3 & #4
+    \end{bmatrix}
+}
+
+% Inline mathematical formatting that respects document style
+\everymath{\displaystyle}

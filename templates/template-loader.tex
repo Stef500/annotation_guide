@@ -1,0 +1,27 @@
+% Template Loader - Modular Component System
+% BRAT Annotation Guide Template - Main Component Loader
+
+% Style components (load in dependency order)
+\input{styles/packages}        % Package imports and basic setup
+\input{styles/performance}     % XeLaTeX performance optimizations
+\input{styles/formatting}      % Colors and basic formatting
+\input{styles/multilingual}    % Language and Unicode support  
+\input{styles/typography}      % Typography commands and spacing
+\input{styles/tables}          % Table environments and formatting
+\input{styles/mathematics}     % Mathematical notation and formulas
+
+% Reusable components
+\input{components/header}       % Document headers and section intros
+\input{components/boxes}        % Information boxes and callouts
+\input{components/lists}        % Specialized list environments
+\input{components/navigation}   % TOC and cross-reference utilities
+
+% Layout setup (load after all style components)
+\input{layouts/page-setup}      % Page geometry and layout
+
+% Component usage documentation
+% To use this template system:
+% 1. Include this loader in your main document: \input{template-loader}
+% 2. Use predefined commands and environments from loaded components
+% 3. Customize colors in styles/formatting.tex
+% 4. Add custom commands to appropriate component files
