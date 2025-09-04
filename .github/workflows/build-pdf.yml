@@ -21,6 +21,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: texlive/texlive:latest-small
+    env:
+      BUILD_TYPE: ${{ github.event.inputs.build_type || (github.event_name == 'release' && 'final' || 'draft') }}
     
     steps:
     - uses: actions/checkout@v4
@@ -29,94 +33,12 @@ jobs:
     - name: Setup script permissions
       run: chmod +x scripts/*.sh
     
-    # Cache TeX Live installation to speed up builds
-    - name: Cache TeX Live
-      uses: actions/cache@v4
-      id: cache-texlive
-      with:
-        path: |
-          ~/texlive
-          /tmp/texlive-installer
-        key: texlive-${{ runner.os }}-2025-basic-xelatex-v4-userdir
-        restore-keys: |
-          texlive-${{ runner.os }}-2025-basic-xelatex-v4-
-          texlive-${{ runner.os }}-2025-userdir-
-    
-    # Cache APT packages
-    - name: Cache APT packages
-      uses: awalsh128/cache-apt-pkgs-action@latest
-      with:
-        packages: wget perl-modules
-        version: 1.0
-    
-    - name: Install TeX Live with XeLaTeX (auto-detect version)
-      if: steps.cache-texlive.outputs.cache-hit != 'true'
+    # Verify XeLaTeX is available in Docker container
+    - name: Verify XeLaTeX installation
       run: |
-        echo "🔧 Installing TeX Live from scratch (no cache hit)"
-        # Create installer cache directory
-        mkdir -p /tmp/texlive-installer
-        cd /tmp/texlive-installer
-        
-        # Install TeX Live
-        wget -O install-tl-unx.tar.gz http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
-        tar -xzf install-tl-unx.tar.gz
-        INSTALL_DIR=$(ls -d install-tl-*/ | head -1)
-        cd "$INSTALL_DIR"
-        
-        # Ensure target directory exists before installation
-        mkdir -p $HOME/texlive
-        
-        # Install minimal TeX Live with XeLaTeX packages to user directory
-        # Create profile with placeholder (no variable expansion)
-        cat > texlive.profile << 'EOF'
-        selected_scheme scheme-basic
-        TEXDIR __HOME__/texlive
-        TEXMFLOCAL __HOME__/texlive/texmf-local
-        TEXMFSYSVAR __HOME__/texlive/texmf-var
-        TEXMFSYSCONFIG __HOME__/texlive/texmf-config
-        TEXMFVAR __HOME__/texlive/texmf-var
-        TEXMFCONFIG __HOME__/texlive/texmf-config
-        TEXMFHOME __HOME__/texlive/texmf-home
-        option_doc 0
-        option_src 0
-        EOF
-        # Replace placeholder with actual $HOME path
-        sed -i "s#__HOME__#${HOME}#g" texlive.profile
-        ./install-tl --scheme=basic --no-interaction --profile=texlive.profile
-        # Use direct path as indicated by installer
-        TEXLIVE_BIN="$HOME/texlive/bin/x86_64-linux"
-        echo "TeX Live binaries path: $TEXLIVE_BIN"
-        
-        # Verify tlmgr exists before using it
-        if [ ! -f "${TEXLIVE_BIN}/tlmgr" ]; then
-          echo "❌ Error: tlmgr not found at ${TEXLIVE_BIN}/tlmgr"
-          ls -la "${TEXLIVE_BIN}/" || echo "Directory does not exist"
-          exit 1
-        fi
-        
-        # Update and install packages in batch for faster installation
-        ${TEXLIVE_BIN}/tlmgr update --self
-        ${TEXLIVE_BIN}/tlmgr install --no-depends xetex fontspec unicode-math polyglossia biber biblatex fancyhdr lastpage geometry amsmath amsfonts
-        echo "✅ TeX Live installation complete"
-    
-    - name: Setup TeX Live PATH (cached or fresh install)
-      run: |
-        # Use direct path without year detection
-        TEXLIVE_BIN="$HOME/texlive/bin/x86_64-linux"
-        echo "Using TeX Live binaries path: $TEXLIVE_BIN"
-        
-        # Verify directory exists
-        if [ ! -d "$TEXLIVE_BIN" ]; then
-          echo "❌ Error: TeX Live bin directory not found: $TEXLIVE_BIN"
-          ls -la "$HOME/texlive/bin/" || echo "TeX Live bin directory does not exist"
-          exit 1
-        fi
-        
-        # Add TeX Live to PATH
-        echo "$TEXLIVE_BIN" >> $GITHUB_PATH
-        # Verify installation
-        echo "🔍 Verifying XeLaTeX installation:"
-        ${TEXLIVE_BIN}/xelatex --version | head -3 || echo "XeLaTeX not found"
+        echo "🔍 Verifying XeLaTeX installation in Docker container:"
+        xelatex --version | head -3
+        echo "✅ XeLaTeX ready to use"
     
     # Cache LaTeX auxiliary files for faster subsequent builds  
     - name: Cache LaTeX auxiliary files
@@ -136,7 +58,6 @@ jobs:
         # Create output directory (keep cached aux files)
         mkdir -p output/logs
         echo "📁 Output directory prepared"
-        echo "📊 Cache status - TeX Live: ${{ steps.cache-texlive.outputs.cache-hit }}"
     
     - name: Test Pipeline (draft builds)
       if: env.BUILD_TYPE == 'draft'
@@ -146,8 +67,6 @@ jobs:
         echo "Pipeline test completed"
 
     - name: Build PDF
-      env:
-        BUILD_TYPE: ${{ github.event.inputs.build_type || (github.event_name == 'release' && 'final' || 'draft') }}
       run: |
         # Redirect build logs to output/logs
         ./scripts/build.sh 2>&1 | tee output/logs/build.log
