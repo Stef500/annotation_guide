@@ -25,7 +25,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
-    - name: Install TeX Live 2024 with XeLaTeX
+    - name: Install TeX Live with XeLaTeX (auto-detect version)
       run: |
         sudo apt-get update
         sudo apt-get install -y wget perl-modules
@@ -36,11 +36,17 @@ jobs:
         cd "$INSTALL_DIR"
         # Install minimal TeX Live with XeLaTeX packages
         sudo ./install-tl --scheme=basic --no-interaction
-        sudo /usr/local/texlive/2024/bin/x86_64-linux/tlmgr update --self
-        sudo /usr/local/texlive/2024/bin/x86_64-linux/tlmgr install xetex fontspec unicode-math polyglossia biber biblatex
-        sudo /usr/local/texlive/2024/bin/x86_64-linux/tlmgr install fancyhdr lastpage geometry amsmath amsfonts
+        # Detect installed TeX Live year
+        TEXLIVE_YEAR=$(ls -d /usr/local/texlive/20*/ | sed 's|.*/||' | sed 's|/||' | head -1)
+        TEXLIVE_BIN="/usr/local/texlive/${TEXLIVE_YEAR}/bin/x86_64-linux"
+        echo "Detected TeX Live version: $TEXLIVE_YEAR"
+        echo "TeX Live binaries path: $TEXLIVE_BIN"
+        # Update and install packages
+        sudo ${TEXLIVE_BIN}/tlmgr update --self
+        sudo ${TEXLIVE_BIN}/tlmgr install xetex fontspec unicode-math polyglossia biber biblatex
+        sudo ${TEXLIVE_BIN}/tlmgr install fancyhdr lastpage geometry amsmath amsfonts
         # Add TeX Live to PATH
-        echo "/usr/local/texlive/2024/bin/x86_64-linux" >> $GITHUB_PATH
+        echo "$TEXLIVE_BIN" >> $GITHUB_PATH
     
     - name: Prepare output directory
       run: |
