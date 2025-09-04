@@ -67,14 +67,15 @@ jobs:
         mkdir -p ~/texlive
         
         # Install minimal TeX Live with XeLaTeX packages to user directory
-        ./install-tl --scheme=basic --no-interaction --profile=/dev/stdin <<EOF
+        cat > texlive.profile <<PROFILE
 selected_scheme scheme-basic
 TEXDIR ~/texlive
 TEXMFCONF ~/texlive/texmf-config
 TEXMFVAR ~/texlive/texmf-var
 TEXMFHOME ~/texlive/texmf-home
 TEXMFLOCAL ~/texlive/texmf-local
-EOF
+PROFILE
+        ./install-tl --scheme=basic --no-interaction --profile=texlive.profile
         # Detect installed TeX Live year with better error handling
         TEXLIVE_YEAR=$(ls -1 ~/texlive/ | grep "^20" | head -1)
         if [ -z "$TEXLIVE_YEAR" ]; then
