@@ -34,8 +34,10 @@ jobs:
       uses: actions/cache@v4
       id: cache-texlive
       with:
-        path: /usr/local/texlive
-        key: texlive-${{ runner.os }}-2025-basic-xelatex-v2
+        path: |
+          /usr/local/texlive
+          /tmp/texlive-installer
+        key: texlive-${{ runner.os }}-2025-basic-xelatex-v3
         restore-keys: |
           texlive-${{ runner.os }}-2025-basic-xelatex-
           texlive-${{ runner.os }}-2025-
@@ -51,11 +53,19 @@ jobs:
       if: steps.cache-texlive.outputs.cache-hit != 'true'
       run: |
         echo "🔧 Installing TeX Live from scratch (no cache hit)"
+        # Create installer cache directory
+        mkdir -p /tmp/texlive-installer
+        cd /tmp/texlive-installer
+        
         # Install TeX Live
         wget -O install-tl-unx.tar.gz http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
         tar -xzf install-tl-unx.tar.gz
         INSTALL_DIR=$(ls -d install-tl-*/ | head -1)
         cd "$INSTALL_DIR"
+        
+        # Ensure target directory exists before installation
+        sudo mkdir -p /usr/local/texlive
+        
         # Install minimal TeX Live with XeLaTeX packages
         sudo ./install-tl --scheme=basic --no-interaction
         # Detect installed TeX Live year with better error handling
