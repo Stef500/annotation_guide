@@ -616,3 +616,7 @@ TSWLatexianTemp*
 
 # PDF Analysis files (temporary, local only)
 docs/analysis/
+
+### Project files to ignore
+/examples/CU6.md
+/examples/Notion.md
