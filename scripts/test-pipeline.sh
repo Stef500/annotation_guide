@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Test script for CI/CD pipeline validation
-# Tests multiple LaTeX documents to ensure pipeline robustness
+# Tests multiple LaTeX documents using Tectonic to ensure pipeline robustness
 
 set -e
 
@@ -28,8 +28,8 @@ run_test() {
     # Clean previous output
     rm -f "output/$expected_pdf"
     
-    # Try to compile
-    if xelatex -output-directory=output -interaction=nonstopmode "$tex_file" >/dev/null 2>&1; then
+    # Try to compile with Tectonic
+    if tectonic --outdir=output --chatter=minimal "$tex_file" >/dev/null 2>&1; then
         if [ -f "output/$expected_pdf" ]; then
             echo -e "${GREEN}✓ PASSED: $test_name${NC}"
             ((TESTS_PASSED++))

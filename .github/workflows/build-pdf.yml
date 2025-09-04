@@ -21,8 +21,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image: texlive/texlive:latest
     env:
       BUILD_TYPE: ${{ github.event.inputs.build_type || (github.event_name == 'release' && 'final' || 'draft') }}
     
@@ -33,25 +31,23 @@ jobs:
     - name: Setup script permissions
       run: chmod +x scripts/*.sh
     
-    # Verify XeLaTeX is available in Docker container
-    - name: Verify XeLaTeX installation
+    # Install Tectonic LaTeX engine
+    - name: Install Tectonic
       run: |
-        echo "🔍 Verifying XeLaTeX installation in Docker container:"
-        xelatex --version | head -3
-        echo "✅ XeLaTeX ready to use"
+        echo "⬇️ Installing Tectonic LaTeX engine..."
+        curl -L https://github.com/tectonic-typesetting/tectonic/releases/latest/download/tectonic-0.15.0-x86_64-unknown-linux-musl.tar.gz | tar -xz
+        sudo mv tectonic /usr/local/bin/
+        echo "✅ Tectonic installed successfully"
+        tectonic --version
     
-    # Cache LaTeX auxiliary files for faster subsequent builds  
-    - name: Cache LaTeX auxiliary files
+    # Cache Tectonic packages for faster subsequent builds  
+    - name: Cache Tectonic packages
       uses: actions/cache@v4
       with:
-        path: |
-          output/*.aux
-          output/*.fdb_latexmk
-          output/*.fls
-          output/*.synctex.gz
-        key: latex-aux-${{ runner.os }}-${{ hashFiles('templates/**/*.tex') }}
+        path: ~/.cache/Tectonic
+        key: tectonic-packages-${{ runner.os }}-${{ hashFiles('templates/**/*.tex') }}
         restore-keys: |
-          latex-aux-${{ runner.os }}-
+          tectonic-packages-${{ runner.os }}-
     
     - name: Prepare output directory
       run: |
@@ -82,9 +78,9 @@ jobs:
         echo "Commit: ${{ github.sha }}" >> output/logs/build-info.txt
         echo "Event: ${{ github.event_name }}" >> output/logs/build-info.txt
         
-        # Check LaTeX log for errors
+        # Check Tectonic log for errors
         if [ -f "output/main.log" ]; then
-          cp output/main.log output/logs/xelatex.log
+          cp output/main.log output/logs/tectonic.log
           # Extract error summary
           grep -i "error\|warning" output/main.log > output/logs/error-summary.txt || echo "No errors found" > output/logs/error-summary.txt
         fi
