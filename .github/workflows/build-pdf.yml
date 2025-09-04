@@ -23,37 +23,105 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
+    
+    # Cache TeX Live installation to speed up builds
+    - name: Cache TeX Live
+      uses: actions/cache@v4
+      id: cache-texlive
+      with:
+        path: /usr/local/texlive
+        key: texlive-${{ runner.os }}-2025-basic-xelatex-v2
+        restore-keys: |
+          texlive-${{ runner.os }}-2025-basic-xelatex-
+          texlive-${{ runner.os }}-2025-
+    
+    # Cache APT packages
+    - name: Cache APT packages
+      uses: awalsh128/cache-apt-pkgs-action@latest
+      with:
+        packages: wget perl-modules
+        version: 1.0
     
     - name: Install TeX Live with XeLaTeX (auto-detect version)
+      if: steps.cache-texlive.outputs.cache-hit != 'true'
       run: |
-        sudo apt-get update
-        sudo apt-get install -y wget perl-modules
-        # Install TeX Live 2024
+        echo "🔧 Installing TeX Live from scratch (no cache hit)"
+        # Install TeX Live
         wget -O install-tl-unx.tar.gz http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
         tar -xzf install-tl-unx.tar.gz
         INSTALL_DIR=$(ls -d install-tl-*/ | head -1)
         cd "$INSTALL_DIR"
         # Install minimal TeX Live with XeLaTeX packages
         sudo ./install-tl --scheme=basic --no-interaction
-        # Detect installed TeX Live year
-        TEXLIVE_YEAR=$(ls -d /usr/local/texlive/20*/ | sed 's|.*/||' | sed 's|/||' | head -1)
+        # Detect installed TeX Live year with better error handling
+        TEXLIVE_YEAR=$(ls -1 /usr/local/texlive/ | grep "^20" | head -1)
+        if [ -z "$TEXLIVE_YEAR" ]; then
+          echo "❌ Error: Could not detect TeX Live installation"
+          ls -la /usr/local/texlive/
+          exit 1
+        fi
         TEXLIVE_BIN="/usr/local/texlive/${TEXLIVE_YEAR}/bin/x86_64-linux"
         echo "Detected TeX Live version: $TEXLIVE_YEAR"
         echo "TeX Live binaries path: $TEXLIVE_BIN"
-        # Update and install packages
+        
+        # Verify tlmgr exists before using it
+        if [ ! -f "${TEXLIVE_BIN}/tlmgr" ]; then
+          echo "❌ Error: tlmgr not found at ${TEXLIVE_BIN}/tlmgr"
+          ls -la "${TEXLIVE_BIN}/" || echo "Directory does not exist"
+          exit 1
+        fi
+        
+        # Update and install packages in batch for faster installation
         sudo ${TEXLIVE_BIN}/tlmgr update --self
-        sudo ${TEXLIVE_BIN}/tlmgr install xetex fontspec unicode-math polyglossia biber biblatex
-        sudo ${TEXLIVE_BIN}/tlmgr install fancyhdr lastpage geometry amsmath amsfonts
+        sudo ${TEXLIVE_BIN}/tlmgr install --no-depends xetex fontspec unicode-math polyglossia biber biblatex fancyhdr lastpage geometry amsmath amsfonts
+        echo "✅ TeX Live installation complete"
+    
+    - name: Setup TeX Live PATH (cached or fresh install)
+      run: |
+        # Detect installed TeX Live year (consistent with install step)
+        TEXLIVE_YEAR=$(ls -1 /usr/local/texlive/ | grep "^20" | head -1)
+        if [ -z "$TEXLIVE_YEAR" ]; then
+          echo "❌ Error: Could not detect TeX Live installation in setup step"
+          ls -la /usr/local/texlive/
+          exit 1
+        fi
+        TEXLIVE_BIN="/usr/local/texlive/${TEXLIVE_YEAR}/bin/x86_64-linux"
+        echo "Using TeX Live version: $TEXLIVE_YEAR"
+        echo "TeX Live binaries path: $TEXLIVE_BIN"
+        
+        # Verify directory exists
+        if [ ! -d "$TEXLIVE_BIN" ]; then
+          echo "❌ Error: TeX Live bin directory not found: $TEXLIVE_BIN"
+          ls -la "/usr/local/texlive/${TEXLIVE_YEAR}/" || echo "TeX Live directory does not exist"
+          exit 1
+        fi
+        
         # Add TeX Live to PATH
         echo "$TEXLIVE_BIN" >> $GITHUB_PATH
+        # Verify installation
+        echo "🔍 Verifying XeLaTeX installation:"
+        ${TEXLIVE_BIN}/xelatex --version | head -3 || echo "XeLaTeX not found"
+    
+    # Cache LaTeX auxiliary files for faster subsequent builds  
+    - name: Cache LaTeX auxiliary files
+      uses: actions/cache@v4
+      with:
+        path: |
+          output/*.aux
+          output/*.fdb_latexmk
+          output/*.fls
+          output/*.synctex.gz
+        key: latex-aux-${{ runner.os }}-${{ hashFiles('templates/**/*.tex') }}
+        restore-keys: |
+          latex-aux-${{ runner.os }}-
     
     - name: Prepare output directory
       run: |
-        # Clean and prepare output directory
-        rm -rf output/
+        # Create output directory (keep cached aux files)
         mkdir -p output/logs
-        echo "Output directory prepared"
+        echo "📁 Output directory prepared"
+        echo "📊 Cache status - TeX Live: ${{ steps.cache-texlive.outputs.cache-hit }}"
     
     - name: Test Pipeline (draft builds)
       if: env.BUILD_TYPE == 'draft'

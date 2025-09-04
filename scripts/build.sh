@@ -8,10 +8,16 @@ set -e
 # Get build type from environment or default to draft
 BUILD_TYPE="${1:-${BUILD_TYPE:-draft}}"
 
-echo "Building BRAT Annotation Guide (mode: $BUILD_TYPE)..."
+echo "🚀 Building BRAT Annotation Guide (mode: $BUILD_TYPE)..."
 
 # Create output directory if it doesn't exist
 mkdir -p output
+
+# Performance: Clear aux files for clean build but keep font cache
+if [ "$BUILD_TYPE" = "final" ]; then
+    echo "🧹 Cleaning auxiliary files for final build..."
+    rm -f output/*.aux output/*.toc output/*.bbl output/*.blg output/*.log
+fi
 
 # Set compilation options based on build type
 case "$BUILD_TYPE" in
