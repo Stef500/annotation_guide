@@ -36,16 +36,16 @@
 % Enhanced lists and enumerations
 \usepackage{enumitem}
 
-% Bibliography and citations
-\usepackage[style=authoryear,backend=biber]{biblatex}
+% Bibliography and citations (with proper backend specification)
+\usepackage[style=authoryear,backend=biber,bibencoding=utf8]{biblatex}
 
 % Enhanced boxes and styling
 \usepackage{tcolorbox}
 \tcbuselibrary{listings,skins}
 
 % Additional XeLaTeX optimizations  
-\usepackage{microtype} % Enhanced typography
+% Note: microtype has limited XeLaTeX support, excluded for compatibility
 \usepackage{textcomp}  % Additional symbols
 
-% Hyperlinks (load last)
-\usepackage{hyperref}
+% Hyperlinks (load last, XeLaTeX-optimized)
+\usepackage[xetex]{hyperref}
