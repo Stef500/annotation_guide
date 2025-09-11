@@ -2,73 +2,346 @@
 
 \section{Méthodologie et bonnes pratiques}
 
-\subsection{Planification d'un projet d'annotation}
+\subsection{Contexte et fondements méthodologiques}
 
-La réussite d'un projet d'annotation nécessite une planification rigoureuse :
+\subsubsection{Objectif du cas d'usage}
+L'objectif principal est d'identifier la provenance des bactériémies dans les comptes rendus hospitaliers (CRH). Les bactériémies correspondent aux infections bactériennes dans le sang, représentant un enjeu majeur de santé publique avec une forte mortalité (>20\% à trois mois).
 
-\subsubsection{Définition des objectifs}
+\subsubsection{Enjeux scientifiques et cliniques}
 \begin{itemize}
-    \item Clarifier les objectifs du projet d'annotation
-    \item Identifier les cas d'usage finaux des données annotées
-    \item Définir les métriques de qualité et de succès
+    \item \textbf{Infections courantes} : Touchent potentiellement tout le monde, en ville et à l'hôpital
+    \item \textbf{Caractérisation cruciale} : Nécessité de déterminer la provenance des bactéries (peau, urines, tube digestif, etc.) pour guider la prise en charge
+    \item \textbf{Limitation des méthodes actuelles} : Codages CIM-10 inconstants, nécessité de retourner aux dossiers médicaux
+    \item \textbf{Innovation méthodologique} : Peu d'algorithmes de TAL dédiés aux maladies infectieuses
 \end{itemize}
 
-\subsubsection{Conception du schéma d'annotation}
+\subsection{Algorithme à base de règles : architecture générale}
+
+L'approche méthodologique s'appuie sur un algorithme à base de règles structuré autour de trois composantes principales :
+
+\subsubsection{Terminologie conceptuelle}
+Une terminologie exhaustive listant pour chaque concept à extraire l'ensemble des termes possibles.
+
+\textbf{Exemple de variabilité terminologique} : Pour \textit{Staphylococcus aureus} : S. aureus, Staphylococcus aureus, Staph aureaus, Staph doré.
+
+\subsubsection{Terminologie de négation}
+Une terminologie spécialisée listant les termes de négation médicale : \textit{absence d'argument en faveur, l'a écarté, a écarté, ne ressemblent pas, ne révèlent pas}.
+
+\subsubsection{Règles d'identification contextuelle}
+Des règles d'identification des concepts basées sur des contraintes syntaxiques et sémantiques.
+
+\textbf{Règle fondamentale} : identifier une infection uniquement s'il y a dans la même phrase une notion de bactériémie ou d'une bactérie, elle-même liée ailleurs dans le CRH à une bactériémie.
+
+\subsection{Taxonomie des concepts annotés}
+
+\subsubsection{Concept "Bactériémie"}
+\textbf{Définition} : Présence de bactéries viables dans le sang circulant
+
+\textbf{Termes d'annotation} : bactériémie, hémoculture, bactériémiant, septicémie
+
+\subsubsection{Concept "Résistance"}
+\textbf{Définition} : Capacité d'un micro-organisme à survivre en présence d'un antibiotique
+
+\textbf{Termes d'annotation} : résistant à la méthicilline, sauvage, BLSE, [Positif]PLP2a
+
+\subsubsection{Concept "Bactérie"}
+\textbf{Définition} : Micro-organisme unicellulaire responsable de l'infection
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|p{4cm}|p{3cm}|p{6cm}|}
+\hline
+\textbf{Genre/Famille} & \textbf{Abréviations} & \textbf{Exemples} \\
+\hline
+Achromobacter, Acineto, Actinomyces & Acineto & Acinetobacter baumannii \\
+\hline
+Aerococcus, Aeromonas & - & A. actinomycetemcomitans \\
+\hline
+Burkholderia, BGN, HACEK & BGN, HACEK & Bacilles Gram Négatifs \\
+\hline
+Campylobacter, Candida & - & C. jejuni \\
+\hline
+Citrobacter, Clostri, Coryne & Clostri & C. difficile \\
+\hline
+Enterobacter, Enterocoque & - & E. faecalis \\
+\hline
+Escherichia, Klebsiella & E. coli & E. coli, K. pneumoniae \\
+\hline
+Pseudomonas, Staphylococcus & P. aeruginosa & S. aureus, S. epidermidis \\
+\hline
+Streptococcus, Pneumococcus & Strepto, Pneumo & S. pyogenes, S. pneumoniae \\
+\hline
+\end{tabular}
+\caption{Taxonomie bactérienne avec abréviations courantes}
+\end{table}
+
+\textbf{Exemples complets} : C. perfringens, ERV (Entérocoque Résistant à la Vancomycine), M. morganii, Staphylocoque coagulase négative, S. maltophilia, Streptocoque dysgalactiae
+
+\subsubsection{Concept "Site"}
+\textbf{Définition} : Localisation anatomique ou organique de l'infection
+
+\paragraph{Site Primaire}
+\textbf{Définition} : Foyer infectieux initial d'où provient la bactériémie
+
+\textbf{Sous-concepts} : Primaire, Urines, Digestif, Poumon, Cathéter, Matériel, Ostéo-artic, Peau, Cardio\_vasc, Genital int, ORL, SNC, Stomato
+
+\textbf{Exemples d'annotation} :
 \begin{itemize}
-    \item Élaborer un schéma d'annotation adapté aux objectifs
-    \item Définir les guidelines précises pour les annotateurs
-    \item Prévoir des tests pilotes pour valider le schéma
+    \item "point de départ la... \textless Infection\textgreater"
+    \item "point de départ biliaire"
+    \item "sur foyer rénal"
+    \item "porte d'entrée probablement digestive"
 \end{itemize}
 
-\subsection{Assurance qualité}
+\paragraph{Site Secondaire}
+\textbf{Définition} : Localisation de complications infectieuses secondaires à la bactériémie
 
-\subsubsection{Accord inter-annotateurs}
-L'accord inter-annotateurs mesure la cohérence des annotations entre différents annotateurs :
-
+\textbf{Exemples d'annotation} :
 \begin{itemize}
-    \item \textbf{Coefficient de Kappa} : Mesure standard de l'accord
-    \item \textbf{F1-score} : Évaluation de la précision et du rappel
-    \item \textbf{Seuils d'acceptabilité} : Définir des seuils minimums d'accord
+    \item "compliquée par... \textless Infection\textgreater"
+    \item "embole septique au niveau pulmonaire"
+    \item "greffe sur cathéter"
 \end{itemize}
 
-\subsubsection{Processus de validation}
-\begin{itemize}
-    \item Sessions de formation des annotateurs
-    \item Annotations de référence (gold standard)
-    \item Révisions périodiques et corrections
-    \item Contrôle qualité en continu
-\end{itemize}
+\subsubsection{Concept "Infection"}
+\textbf{Définition} : Manifestation clinique de l'infection au niveau d'un site anatomique
 
-\subsection{Gestion des annotateurs}
+\textbf{Exemples d'annotation} : "abcès au niveau de la peau", "péritonite", "infection prostatique", "PNA" (Pyélonéphrite Aiguë)
 
-\subsubsection{Formation et accompagnement}
-\begin{itemize}
-    \item Formation initiale sur l'outil et les guidelines
-    \item Sessions de calibration régulières
-    \item Support technique et méthodologique
-\end{itemize}
+\subsection{Règles d'annotation et contraintes méthodologiques}
 
-\subsubsection{Suivi de la performance}
-\begin{itemize}
-    \item Métriques de productivité
-    \item Indicateurs de qualité individuels
-    \item Feedback constructif et amélioration continue
-\end{itemize}
+\subsubsection{Périmètre d'annotation}
+
+\paragraph{Contrainte de phrase}
+\textbf{Hypothèse fondamentale} : L'information sur la bactériémie se trouve dans la même phrase où celle-ci est citée.
+
+\textbf{Application pratique} : L'algorithme s'appuie sur le périmètre de la phrase et sur des contraintes de section.
+
+\paragraph{Seuil d'acceptation}
+\textbf{Paramètre de performance} : Seuil d'acceptation d'erreurs de 0,8
+
+\textbf{Interprétation} : Acceptation d'un taux d'erreur de 20\% pour maximiser le rappel.
+
+\subsubsection{Capacités fonctionnelles}
+L'algorithme peut :
+\begin{enumerate}
+    \item \textbf{Identifier séparément} chaque bactériémie et sa bactérie associée
+    \item \textbf{Identifier le site primaire} lié à chaque bactériémie (et les éventuels sites secondaires)
+    \item \textbf{Ignorer les informations} liées aux infections sans bactériémie
+    \item \textbf{Ignorer les suspicions} d'infections non confirmées ou les explorations négatives
+\end{enumerate}
+
+\subsubsection{Stratégies d'exclusion}
+
+\paragraph{Infections non-bactériémiques}
+\textbf{Règle} : Les infections non liées à une bactériémie ne sont pas annotées
+
+\textbf{Justification} : Focus sur l'objectif spécifique d'identification de la provenance des bactériémies
+
+\paragraph{Négations et incertitudes}
+\textbf{Gestion des négations} : Application de la terminologie de négation pour exclure les mentions négatives
+
+\textbf{Gestion des incertitudes} : Exclusion des suspicions non confirmées et des explorations négatives
 
 \subsection{Bonnes pratiques d'annotation}
 
-\subsubsection{Cohérence}
+\subsubsection{Principe de cohérence terminologique}
+
+\paragraph{Standardisation des termes}
 \begin{itemize}
-    \item Appliquer les guidelines de manière uniforme
-    \item Résoudre les ambiguïtés par consensus
-    \item Documenter les cas particuliers
+    \item \textbf{Maintenir} la cohérence avec la terminologie établie
+    \item \textbf{Respecter} les abréviations médicales courantes
+    \item \textbf{Documenter} les variantes terminologiques rencontrées
 \end{itemize}
 
-\subsubsection{Efficacité}
+\paragraph{Gestion des synonymes}
 \begin{itemize}
-    \item Utiliser les raccourcis clavier
-    \item Optimiser l'organisation du workspace
-    \item Planifier les sessions d'annotation
+    \item \textbf{Identifier} tous les synonymes possibles pour chaque concept
+    \item \textbf{Valider} les synonymes avec l'expertise médicale
+    \item \textbf{Mettre à jour} régulièrement la terminologie
+\end{itemize}
+
+\subsubsection{Principe de contextualisation}
+
+\paragraph{Analyse phrastique}
+\begin{itemize}
+    \item \textbf{Analyser} le contexte immédiat (phrase) avant annotation
+    \item \textbf{Vérifier} la cohérence sémantique dans la phrase
+    \item \textbf{Identifier} les relations syntaxiques entre concepts
+\end{itemize}
+
+\paragraph{Analyse documentaire}
+\begin{itemize}
+    \item \textbf{Considérer} le contexte global du document
+    \item \textbf{Rechercher} les confirmations dans d'autres sections
+    \item \textbf{Valider} la cohérence avec les données microbiologiques
+\end{itemize}
+
+\subsubsection{Principe de hiérarchisation}
+
+\paragraph{Priorités d'annotation}
+\begin{enumerate}
+    \item \textbf{Bactériémie confirmée} > suspicion de bactériémie
+    \item \textbf{Site primaire} > sites secondaires
+    \item \textbf{Information explicite} > information implicite
+    \item \textbf{Données récentes} > données anciennes
+\end{enumerate}
+
+\paragraph{Résolution des conflits}
+\begin{itemize}
+    \item \textbf{Privilégier} les informations les plus récentes
+    \item \textbf{Favoriser} les données microbiologiques sur les données cliniques
+    \item \textbf{Documenter} les cas ambigus pour révision experte
+\end{itemize}
+
+\subsubsection{Principe de traçabilité}
+
+\paragraph{Documentation des décisions}
+\begin{itemize}
+    \item \textbf{Enregistrer} les choix d'annotation complexes
+    \item \textbf{Justifier} les décisions dans les cas limites
+    \item \textbf{Maintenir} un historique des modifications
+\end{itemize}
+
+\paragraph{Validation inter-annotateurs}
+\begin{itemize}
+    \item \textbf{Organiser} des sessions de validation croisée
+    \item \textbf{Calculer} les indices de concordance inter-annotateurs
+    \item \textbf{Résoudre} les divergences par discussion collégiale
+\end{itemize}
+
+\subsection{Schéma d'annotation hiérarchique}
+
+\subsubsection{Structure arborescente}
+Le schéma d'annotation suit une organisation hiérarchique à plusieurs niveaux :
+
+\textbf{Format général} :
+\begin{verbatim}
+Concept_Principal > Sous-concept > Spécification
+\end{verbatim}
+
+\textbf{Exemples d'application} :
+\begin{itemize}
+    \item \texttt{Bactérie > Staph > Staph blanc}
+    \item \texttt{Site > Site primaire > Urines}
+    \item \texttt{Site > Site secondaire > Poumon}
+\end{itemize}
+
+\subsubsection{Règles de formatage}
+
+\paragraph{Séparateurs}
+\begin{itemize}
+    \item \textbf{Utiliser} le symbole ">" pour marquer la hiérarchie
+    \item \textbf{Maintenir} l'espacement pour la lisibilité
+    \item \textbf{Respecter} la casse des termes établis
+\end{itemize}
+
+\paragraph{Indentation logique}
+\begin{itemize}
+    \item \textbf{Niveau 1} : Concept principal
+    \item \textbf{Niveau 2} : Sous-concept
+    \item \textbf{Niveau 3} : Spécification détaillée
+\end{itemize}
+
+\subsection{Stratégies d'évaluation et validation}
+
+\subsubsection{Métriques de performance}
+
+\paragraph{Métriques principales}
+\begin{itemize}
+    \item \textbf{Rappel (Recall)} : Proportion des bactériémies correctement identifiées
+    \item \textbf{Précision (Precision)} : Proportion des identifications correctes
+    \item \textbf{F1 Score} : Moyenne harmonique entre rappel et précision
+\end{itemize}
+
+\paragraph{Résultats de référence (sur 300 épisodes)}
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Tâche} & \textbf{Rappel} & \textbf{Précision} & \textbf{F1 Score} \\
+\hline
+Identification bactériémie-bactérie & 0,92 & 0,88 & 0,90 \\
+\hline
+Identification site primaire & 0,63 & 0,84 & 0,72 \\
+\hline
+\end{tabular}
+\caption{Performances de l'algorithme à base de règles}
+\end{table}
+
+\subsubsection{Stratégies d'évaluation}
+
+\paragraph{Évaluation textuelle pure}
+\textbf{Objectif} : Évaluer la performance quand on utilise le TAL pour identifier dans du texte des bactériémies et leur site primaire.
+
+\textbf{Corpus} : 269 bactériémies citées dans les comptes-rendus et identifiées par lecture experte.
+
+\paragraph{Évaluation rétrospective}
+\textbf{Objectif} : Se placer dans une situation d'étude rétrospective où on utilise les données textuelles pour enrichir une base de données clinico-microbiologique.
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Méthode} & \textbf{Rappel} & \textbf{Précision} & \textbf{F1 Score} \\
+\hline
+TAL & 0,64 & 0,83 & 0,72 \\
+\hline
+CIM-10 & 0,64 & 0,35 & 0,45 \\
+\hline
+\end{tabular}
+\caption{Comparaison TAL vs CIM-10 pour l'identification du site primaire}
+\end{table>
+
+\subsubsection{Critères de qualité}
+
+\paragraph{Complétude informationnelle}
+\textbf{Critère} : N (\%) de comptes-rendus avec un contenu entièrement informatif
+
+\textbf{Résultat de référence} : 216/300 (72\%) des épisodes de bactériémie
+
+\paragraph{Cohérence microbiologique}
+\begin{itemize}
+    \item \textbf{Validation} avec les données de microbiologie
+    \item \textbf{Vérification} de la cohérence bactérie-antibiogramme
+    \item \textbf{Contrôle} des résistances identifiées
+\end{itemize}
+
+\subsection{Considérations méthodologiques avancées}
+
+\subsubsection{Extension du périmètre d'analyse}
+
+\paragraph{Au-delà de la phrase}
+\textbf{Question méthodologique} : Faut-il élargir le périmètre au-delà de la phrase selon la stratégie pour le LLM ?
+
+\textbf{Enjeux} :
+\begin{itemize}
+    \item Amélioration potentielle du rappel
+    \item Risque d'augmentation du bruit
+    \item Complexification des règles d'association
+\end{itemize}
+
+\paragraph{Gestion des références anaphoriques}
+\begin{itemize}
+    \item \textbf{Identifier} les pronoms et références implicites
+    \item \textbf{Résoudre} les références vers les concepts annotés
+    \item \textbf{Maintenir} la cohérence référentielle
+\end{itemize}
+
+\subsubsection{Adaptation aux spécificités textuelles}
+
+\paragraph{Variabilité stylistique}
+\begin{itemize}
+    \item \textbf{Adapter} aux styles rédactionnels variables
+    \item \textbf{Gérer} les abréviations non standardisées
+    \item \textbf{Traiter} les fautes de frappe courantes
+\end{itemize}
+
+\paragraph{Évolution terminologique}
+\begin{itemize}
+    \item \textbf{Surveiller} l'évolution du vocabulaire médical
+    \item \textbf{Intégrer} les nouveaux termes et abréviations
+    \item \textbf{Maintenir} la compatibilité historique
 \end{itemize}
 
 \newpage
