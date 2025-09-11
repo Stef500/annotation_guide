@@ -1,51 +1,248 @@
-% Chapitre 1 : Concepts fondamentaux de l'annotation
+% Chapitre 1 : Entités à annoter et leurs relations
 
-\section{Concepts fondamentaux de l'annotation}
+\section{Entités à annoter et leurs relations}
 
-\subsection{Introduction à l'annotation textuelle}
+\subsection{Vue d'ensemble des catégories d'annotation}
 
-L'annotation textuelle consiste à enrichir un texte avec des informations sémantiques, syntaxiques ou pragmatiques. Cette pratique est essentielle pour :
+Le schéma d'annotation pour l'identification des bactériémies comprend six catégories principales d'entités et quatre types de relations. Chaque entité doit être annotée uniquement lorsqu'elle est directement liée à un épisode de bactériémie confirmé.
 
+\begin{table}[h]
+\centering
+\caption{Synthèse des entités à annoter}
+\begin{tabular}{|l|p{8cm}|l|}
+\hline
+\textbf{Entité} & \textbf{Description} & \textbf{Couleur BRAT} \\
+\hline
+BACTÉRIÉMIE & Mention de l'infection bactérienne dans le sang & Rouge \\
+BACTÉRIE & Agent pathogène responsable & Bleu \\
+SITE\_PRIMAIRE & Porte d'entrée de l'infection & Vert \\
+SITE\_SECONDAIRE & Localisation des complications & Orange \\
+INFECTION & Description du foyer infectieux & Violet \\
+RÉSISTANCE & Profil de résistance antibiotique & Jaune \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Entité BACTÉRIÉMIE}
+
+\subsubsection{Définition}
+L'entité BACTÉRIÉMIE identifie toute mention explicite ou implicite d'une infection bactérienne dans le sang confirmée.
+
+\subsubsection{Termes à annoter}
 \begin{itemize}
-    \item La création de corpus d'entraînement pour l'apprentissage automatique
-    \item L'analyse linguistique et la recherche en sciences du langage
-    \item Le développement d'applications de traitement automatique du langage naturel
+    \item \textbf{Termes directs} : bactériémie, septicémie, sepsis, choc septique
+    \item \textbf{Termes de laboratoire} : hémoculture positive, hémocultures positives, bactériémiant
+    \item \textbf{Formulations cliniques} : "germe dans le sang", "infection du sang", "passage sanguin"
 \end{itemize}
 
-\subsection{Présentation de BRAT}
+\subsubsection{Exemples d'annotation}
+\begin{verbatim}
+✓ "Le patient présente une [bactériémie] à Staphylocoque doré"
+✓ "Les [hémocultures] sont revenues positives à E. coli"
+✓ "Diagnostic de [septicémie] sur cathéter central"
+✗ "Suspicion de bactériémie" (non confirmée)
+✗ "Hémocultures négatives" (absence de bactériémie)
+\end{verbatim}
 
-BRAT (Brat Rapid Annotation Tool) est un outil web collaboratif pour l'annotation de textes. Ses principales caractéristiques sont :
+\subsubsection{Règles spécifiques}
+\begin{enumerate}
+    \item Annoter uniquement les bactériémies confirmées microbiologiquement
+    \item Inclure l'article et les modificateurs dans l'annotation ("une bactériémie", "la septicémie")
+    \item Ne pas annoter les suspicions, hypothèses ou bactériémies écartées
+\end{enumerate}
 
+\subsection{Entité BACTÉRIE}
+
+\subsubsection{Définition}
+L'entité BACTÉRIE identifie l'agent pathogène responsable de la bactériémie, incluant toutes les variantes nomenclaturales.
+
+\subsubsection{Catégories de bactéries à annoter}
+
+\paragraph{Cocci Gram positif}
 \begin{itemize}
-    \item \textbf{Interface web intuitive} : Annotation directe dans le navigateur
-    \item \textbf{Collaboration en temps réel} : Plusieurs annotateurs peuvent travailler simultanément
-    \item \textbf{Flexibilité des schémas} : Support de différents types d'annotations
-    \item \textbf{Visualisation interactive} : Représentation graphique des annotations
+    \item \textbf{Staphylocoques} : Staph, Staph doré, Staph blanc, S. aureus, Staphylococcus aureus, SARM, SASM, Staphylocoque coagulase négative, S. epidermidis, S. hominis, S. haemolyticus
+    \item \textbf{Streptocoques} : Strepto, Streptocoque, S. pneumoniae, Pneumocoque, Streptocoque du groupe A/B/C/D, S. pyogenes, S. agalactiae, S. dysgalactiae, Enterocoque, E. faecalis, E. faecium, ERV
+    \item \textbf{Autres} : Micrococcus, Pediococcus, Aerococcus, Granulicatella
 \end{itemize}
 
-\subsection{Types d'annotations supportées}
-
-BRAT supporte plusieurs types d'annotations :
-
-\subsubsection{Entités nommées}
-Identification et classification d'éléments textuels spécifiques (personnes, lieux, organisations, etc.).
-
-\subsubsection{Relations}
-Liens sémantiques entre les entités identifiées (relations de dépendance, associations thématiques, etc.).
-
-\subsubsection{Événements}
-Structures complexes impliquant des entités et leurs rôles dans des situations spécifiques.
-
-\subsubsection{Attributs}
-Propriétés et caractéristiques des entités et relations annotées.
-
-\subsection{Architecture et fonctionnement}
-
-BRAT fonctionne selon une architecture client-serveur :
+\paragraph{Bacilles Gram négatif}
 \begin{itemize}
-    \item \textbf{Serveur} : Stockage des documents et des annotations
-    \item \textbf{Client web} : Interface d'annotation dans le navigateur
-    \item \textbf{Formats de données} : Standoff annotation format pour la compatibilité
+    \item \textbf{Entérobactéries} : E. coli, Escherichia coli, Klebsiella, K. pneumoniae, Enterobacter, Citrobacter, Proteus, P. mirabilis, Serratia, S. marcescens, Salmonella, Shigella, Morganella, M. morganii, Providencia, Hafnia, Pantoea, Raoultella
+    \item \textbf{Non fermentants} : Pseudomonas, P. aeruginosa, Acinetobacter, A. baumannii, Stenotrophomonas, S. maltophilia, Burkholderia, Achromobacter, Elizabethkingia, Chryseobacterium
+    \item \textbf{Autres BGN} : Haemophilus, H. influenzae, Moraxella, Neisseria, Pasteurella, Aeromonas, Vibrio, Campylobacter, Helicobacter
+\end{itemize}
+
+\paragraph{Anaérobies}
+\begin{itemize}
+    \item Clostridium, C. perfringens, C. difficile
+    \item Bacteroides, B. fragilis
+    \item Fusobacterium, Prevotella, Propionibacterium
+    \item Peptostreptococcus, Anaerococcus, Parvimonas
+\end{itemize}
+
+\paragraph{Autres}
+\begin{itemize}
+    \item \textbf{Groupe HACEK} : Haemophilus, Aggregatibacter, Cardiobacterium, Eikenella, Kingella
+    \item \textbf{Intracellulaires} : Legionella, Brucella, Francisella, Bordetella
+    \item \textbf{Filamenteux} : Nocardia, Actinomyces
+    \item \textbf{Mycobactéries} : M. tuberculosis, mycobactéries atypiques
+    \item \textbf{Levures} : Candida, C. albicans, C. glabrata (bien que techniquement fongémie)
+\end{itemize}
+
+\subsubsection{Exemples d'annotation}
+\begin{verbatim}
+✓ "Bactériémie à [Staphylococcus aureus] résistant à la méthicilline"
+✓ "Présence de [E. coli] BLSE dans les hémocultures"
+✓ "Septicémie à [BGN] non identifié"
+✓ "[Streptocoque du groupe B] isolé sur 3 flacons"
+\end{verbatim}
+
+\subsection{Entité SITE\_PRIMAIRE}
+
+\subsubsection{Définition}
+Le SITE\_PRIMAIRE identifie la porte d'entrée initiale de l'infection bactérienne dans l'organisme.
+
+\subsubsection{Catégories de sites primaires}
+
+\begin{table}[h]
+\centering
+\caption{Sites primaires et termes associés}
+\begin{tabular}{|l|p{10cm}|}
+\hline
+\textbf{Site} & \textbf{Termes et expressions associés} \\
+\hline
+Urinaire & Urines, urinaire, pyélonéphrite, PNA, cystite, prostatite, infection prostatique, sonde urinaire, sonde vésicale, foyer rénal \\
+\hline
+Digestif & Digestif, biliaire, cholangite, cholécystite, péritonite, abcès hépatique, diverticulite, appendicite, colite, entérite, translocation digestive \\
+\hline
+Pulmonaire & Poumon, pulmonaire, pneumonie, pneumopathie, pleuropneumopathie, abcès pulmonaire, empyème \\
+\hline
+Cathéter & Cathéter, KT, voie veineuse centrale, VVC, PAC, chambre implantable, PICC-line, cathéter de dialyse, infection sur cathéter \\
+\hline
+Cutané & Peau, cutané, érysipèle, cellulite, dermohypodermite, escarre, plaie, abcès cutané, fasciite, gangrène \\
+\hline
+Ostéo-articulaire & Ostéo-articulaire, ostéite, ostéomyélite, arthrite, spondylodiscite, infection sur prothèse, infection osseuse \\
+\hline
+Cardio-vasculaire & Endocardite, péricardite, myocardite, infection sur pacemaker, infection sur valve, greffe vasculaire infectée \\
+\hline
+ORL/Stomato & ORL, sinusite, otite, mastoïdite, pharyngite, angine, abcès dentaire, cellulite cervico-faciale \\
+\hline
+Génital & Génital, endométrite, salpingite, abcès tubo-ovarien, orchite, épididymite \\
+\hline
+SNC & Méningite, méningoencéphalite, abcès cérébral, empyème sous-dural \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Expressions types}
+\begin{itemize}
+    \item "point de départ [site]"
+    \item "porte d'entrée [site]"
+    \item "sur foyer [site]"
+    \item "origine [site]"
+    \item "secondaire à une infection [site]"
+    \item "dans un contexte de [infection site]"
+\end{itemize}
+
+\subsection{Entité SITE\_SECONDAIRE}
+
+\subsubsection{Définition}
+Le SITE\_SECONDAIRE identifie les localisations de dissémination ou de complications de la bactériémie.
+
+\subsubsection{Termes spécifiques}
+\begin{itemize}
+    \item \textbf{Termes de dissémination} : embole septique, greffe septique, métastase septique, localisation secondaire
+    \item \textbf{Expressions types} : "compliquée de", "avec atteinte", "extension vers", "dissémination au niveau"
+\end{itemize}
+
+\subsubsection{Exemples d'annotation}
+\begin{verbatim}
+✓ "Bactériémie compliquée d'[emboles septiques pulmonaires]"
+✓ "Avec [greffe septique sur la valve mitrale]"
+✓ "Extension avec [spondylodiscite L4-L5]"
+\end{verbatim}
+
+\subsection{Entité INFECTION}
+
+\subsubsection{Définition}
+L'entité INFECTION décrit le type spécifique d'infection associée à la bactériémie, qu'elle soit primaire ou secondaire.
+
+\subsubsection{Exemples par système}
+\begin{itemize}
+    \item \textbf{Urinaire} : pyélonéphrite aiguë, PNA, abcès rénal, pyonéphrose
+    \item \textbf{Digestif} : péritonite, cholangite, abcès hépatique, appendicite compliquée
+    \item \textbf{Pulmonaire} : pneumonie lobaire, abcès pulmonaire, empyème pleural
+    \item \textbf{Cutané} : érysipèle, fasciite nécrosante, gangrène gazeuse
+    \item \textbf{Ostéo-articulaire} : ostéomyélite aiguë, arthrite septique, spondylodiscite
+\end{itemize}
+
+\subsection{Entité RÉSISTANCE}
+
+\subsubsection{Définition}
+L'entité RÉSISTANCE identifie le profil de résistance ou de sensibilité aux antibiotiques de la bactérie.
+
+\subsubsection{Termes à annoter}
+\begin{itemize}
+    \item \textbf{Résistances spécifiques} : SARM, BLSE, EPC, VRE, résistant à la méthicilline, résistant aux fluoroquinolones
+    \item \textbf{Sensibilités} : sensible, sauvage, SASM, pan-sensible
+    \item \textbf{Marqueurs} : PLP2a positif, carbapénémase, bêta-lactamase
+\end{itemize}
+
+\subsection{Relations entre entités}
+
+\subsubsection{Relation CAUSÉE\_PAR}
+\begin{itemize}
+    \item \textbf{Type} : Bactériémie → Bactérie
+    \item \textbf{Cardinalité} : 1 bactériémie peut être causée par 1 ou plusieurs bactéries
+    \item \textbf{Exemple} : "[Bactériémie] à [E. coli] et [K. pneumoniae]"
+\end{itemize}
+
+\subsubsection{Relation ORIGINE}
+\begin{itemize}
+    \item \textbf{Type} : Bactériémie → Site\_primaire
+    \item \textbf{Cardinalité} : 1 bactériémie a 0 ou 1 site primaire identifié
+    \item \textbf{Exemple} : "[Bactériémie] sur [cathéter central]"
+\end{itemize}
+
+\subsubsection{Relation COMPLICATION}
+\begin{itemize}
+    \item \textbf{Type} : Bactériémie → Site\_secondaire
+    \item \textbf{Cardinalité} : 1 bactériémie peut avoir 0 à N sites secondaires
+    \item \textbf{Exemple} : "[Bactériémie] compliquée d'[endocardite]"
+\end{itemize}
+
+\subsubsection{Relation PROFIL\_RÉSISTANCE}
+\begin{itemize}
+    \item \textbf{Type} : Bactérie → Résistance
+    \item \textbf{Cardinalité} : 1 bactérie a 0 ou 1 profil de résistance documenté
+    \item \textbf{Exemple} : "[S. aureus] [résistant à la méthicilline]"
+\end{itemize}
+
+\subsection{Règles d'annotation spécifiques}
+
+\subsubsection{Périmètre d'annotation}
+\begin{enumerate}
+    \item \textbf{Règle fondamentale} : Annoter UNIQUEMENT les éléments liés à une bactériémie confirmée
+    \item Les infections sans bactériémie associée ne sont PAS annotées
+    \item L'information doit être recherchée prioritairement dans la même phrase que la mention de bactériémie
+    \item Extension possible au paragraphe si nécessaire pour la cohérence
+\end{enumerate}
+
+\subsubsection{Gestion de la négation}
+Ne PAS annoter les éléments précédés de termes de négation :
+\begin{itemize}
+    \item "absence de", "pas de", "sans"
+    \item "a écarté", "écarte", "exclu"
+    \item "ne révèle pas", "ne montre pas"
+    \item "peu probable", "douteux"
+\end{itemize}
+
+\subsubsection{Cas particuliers}
+\begin{itemize}
+    \item \textbf{Bactériémies multiples} : Annoter séparément chaque épisode
+    \item \textbf{Co-infections} : Annoter toutes les bactéries identifiées
+    \item \textbf{Sites multiples} : Distinguer site primaire unique et sites secondaires multiples
+    \item \textbf{Évolution temporelle} : Annoter l'état au moment de la rédaction du CR
 \end{itemize}
 
 \newpage
