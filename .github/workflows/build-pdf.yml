@@ -203,9 +203,9 @@ jobs:
           artifacts/annotation-guide-*.pdf
           artifacts/version-info.json
         tag_name: ${{ github.ref_name }}
-        name: BRAT Annotation Guide ${{ github.ref_name }}
+        name: CU6 Annotation Guide ${{ github.ref_name }}
         body: |
-          ## 📄 BRAT Annotation Guide Release
+          ## 📄 CU6 Annotation Guide Release
           
           **Build Information:**
           - Build Number: ${{ github.run_number }}

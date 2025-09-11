@@ -516,4 +516,207 @@ Résistance & 0,83 & 0,87 & 0,79 \\
     \item \textbf{Richesse des règles} : Impact exponentiel des règles de validation complexes
 \end{itemize}
 
+\subsection{Structure documentaire et segmentation automatique}
+
+L'implémentation de l'algorithme à base de règles nécessite une compréhension fine de la structure des comptes-rendus hospitaliers. Cette section détaille les spécificités organisationnelles des documents et leur traitement automatique.
+
+\subsubsection{Segmentation automatique des comptes-rendus}
+
+\paragraph{Architecture du segmenteur de sections}
+Le système de segmentation automatique (Section Splitter v2) identifie et délimite automatiquement les différentes sections des comptes-rendus hospitaliers français. Cette segmentation est cruciale pour l'application des contraintes contextuelles définies dans l'algorithme.
+
+\paragraph{Taxonomie des sections médicales}
+Le segmenteur reconnaît 14 types de sections standardisées :
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|p{4cm}|p{8cm}|}
+\hline
+\textbf{Section} & \textbf{Contenu typique} \\
+\hline
+head & Informations administratives, identification patient \\
+\hline
+motif & Motif d'hospitalisation, diagnostic d'entrée \\
+\hline
+antecedent & Antécédents médicaux personnels \\
+\hline
+antecedent\_familiaux & Antécédents familiaux \\
+\hline
+mode\_de\_vie & Habitudes de vie, facteurs sociaux \\
+\hline
+traitement\_entree & Thérapeutiques à l'entrée \\
+\hline
+histoire & Histoire de la maladie actuelle \\
+\hline
+examen\_clinique & Données d'examen physique \\
+\hline
+examen\_complementaire & Résultats paracliniques, imagerie \\
+\hline
+evolution & Évolution clinique pendant l'hospitalisation \\
+\hline
+conclusion & Diagnostic final, pronostic \\
+\hline
+traitement\_sortie & Thérapeutiques de sortie \\
+\hline
+traitement & Thérapeutiques générales \\
+\hline
+autre & Sections non classifiées \\
+\hline
+\end{tabular}
+\caption{Typologie des sections des comptes-rendus hospitaliers}
+\end{table}
+
+\paragraph{Intégration avec les contraintes d'annotation}
+La segmentation automatique des sections permet l'application de règles contextuelles spécifiques :
+\begin{itemize}
+    \item \textbf{Pondération par section} : Les mentions de bactériémie dans la section "évolution" ou "examen\_complementaire" ont un poids plus élevé
+    \item \textbf{Exclusion contextuelle} : Les mentions dans "antecedent" peuvent être exclues si non pertinentes pour l'épisode actuel
+    \item \textbf{Validation croisée} : Concordance entre sections "examen\_complementaire" et "evolution" pour valider les identifications
+\end{itemize}
+
+\subsubsection{Préfixage et identification des sections}
+
+\paragraph{Convention de nommage}
+Les sections identifiées sont préfixées par \texttt{SECTION\_} dans le système d'annotation :
+\begin{verbatim}
+SECTION_evolution
+SECTION_examen_complementaire
+SECTION_conclusion
+\end{verbatim}
+
+\paragraph{Mécanisme de fallback}
+Lorsque la segmentation automatique échoue, les documents sont traités selon une stratégie de fallback :
+\begin{itemize}
+    \item Application des règles sur l'ensemble du document
+    \item Pondération uniforme de toutes les mentions
+    \item Marquage spécial pour révision manuelle
+\end{itemize}
+
+\subsection{Corpus de référence et validation clinique}
+
+L'élaboration d'un corpus de référence de qualité est essentielle pour la validation et l'amélioration de l'algorithme d'annotation. Cette section présente la méthodologie développée dans le cadre du projet PARTAGES pour la constitution de corpus fictifs validés cliniquement.
+
+\subsubsection{Méthodologie de création du corpus fictif}
+
+\paragraph{Cahier des charges pour les comptes-rendus fictifs}
+La création du corpus de 200 comptes-rendus fictifs suit un protocole rigoureux :
+
+\textbf{Instructions aux cliniciens rédacteurs} :
+\begin{quote}
+"Ce compte-rendu sera utilisé pour évaluer un cas d'usage du projet. Ainsi, il DOIT inclure une bactériémie. Celle-ci peut, ou pas, être liée au diagnostic principal en fonction du cas clinique et du diagnostic principal. Merci de citer la bactériémie et ses caractéristiques associées (bactérie, etc.) de la même manière dont vous l'auriez fait dans un vrai compte-rendu, et d'inclure une information sur l'origine de la bactériémie (site primaire), de la manière et avec la formulation qui vous semble adéquate et qui colle à votre pratique clinique."
+\end{quote}
+
+\paragraph{Stratégie de diversification clinique}
+L'approche adoptée garantit une représentativité optimale :
+\begin{itemize}
+    \item \textbf{Indépendance du diagnostic principal} : Les bactériémies peuvent être liées ou non au diagnostic principal
+    \item \textbf{Diversité des spécialités} : Comptes-rendus d'infectiologie couvrant différents contextes cliniques
+    \item \textbf{Réalisme clinique} : Formulations authentiques respectant les pratiques rédactionnelles usuelles
+    \item \textbf{Variabilité des sites} : Représentation équilibrée des différents sites primaires d'infection
+\end{itemize}
+
+\subsubsection{Contrôles de qualité et validation}
+
+\paragraph{Protocole de validation clinique}
+\begin{enumerate}
+    \item \textbf{Validation par l'expert rédacteur} : Auto-contrôle de cohérence clinique par le clinicien rédacteur
+    \item \textbf{Révision par pairs} : Relecture par un second infectiologue indépendant
+    \item \textbf{Validation microbiologique} : Vérification de la plausibilité des associations bactérie-site-résistance
+    \item \textbf{Contrôle de format} : Vérification de la conformité aux standards de rédaction médicale
+\end{enumerate}
+
+\paragraph{Mécanisme de contrôles négatifs}
+Pour éviter les biais d'évaluation, une stratégie de contrôles négatifs est implémentée :
+
+\textbf{Option de diversification} : Intégration de comptes-rendus d'infectiologie explicitement conçus sans bactériémie :
+\begin{quote}
+"Ce compte-rendu sera utilisé par un cas d'usage du projet et ne doit donc PAS faire mention d'une bactériémie survenue pendant le séjour du patient."
+\end{quote}
+
+\textbf{Avantages du contrôle négatif} :
+\begin{itemize}
+    \item Évaluation de la spécificité de l'algorithme
+    \item Détection des faux positifs
+    \item Validation de la capacité discriminante
+\end{itemize}
+
+\subsubsection{Stratégies d'évaluation différenciées}
+
+La méthodologie d'évaluation s'adapte aux différents objectifs de validation :
+
+\paragraph{Évaluation de la détection bactériémie-bactérie}
+\textbf{Objectif} : Tester la performance du modèle à détecter non seulement le site primaire mais aussi la bactériémie et la bactérie, et notamment détecter les cas d'hallucinations.
+
+\textbf{Stratégie} :
+\begin{itemize}
+    \item Classification binaire : présence/absence de bactériémie
+    \item Identification de l'espèce bactérienne exacte
+    \item Détection des associations incohérentes
+\end{itemize}
+
+\paragraph{Évaluation de l'identification du site primaire}
+\textbf{Objectif} : Valider la capacité à identifier correctement l'origine anatomique de la bactériémie.
+
+\textbf{Critères de réussite} :
+\begin{itemize}
+    \item Concordance site identifié/site de référence
+    \item Gestion des sites multiples ou indéterminés
+    \item Cohérence avec les données microbiologiques
+\end{itemize}
+
+\subsection{Intégration méthodologique et perspectives d'évolution}
+
+\subsubsection{Synergie entre segmentation et annotation}
+
+L'intégration de la segmentation automatique dans le processus d'annotation crée une synergie méthodologique :
+
+\paragraph{Amélioration de la précision contextuelle}
+\begin{itemize}
+    \item \textbf{Réduction du bruit} : Exclusion des mentions non pertinentes selon le contexte sectionnel
+    \item \textbf{Pondération adaptative} : Ajustement des poids selon la fiabilité de chaque section
+    \item \textbf{Validation croisée} : Confirmation des identifications par concordance inter-sections
+\end{itemize}
+
+\paragraph{Optimisation des performances}
+\begin{itemize}
+    \item \textbf{Réduction des faux positifs} : Filtrage des mentions historiques non pertinentes
+    \item \textbf{Amélioration du rappel} : Recherche ciblée dans les sections à forte probabilité
+    \item \textbf{Cohérence documentaire} : Maintien de la logique narrative du compte-rendu
+\end{itemize}
+
+\subsubsection{Adaptabilité et extensions futures}
+
+\paragraph{Extensibilité à d'autres pathologies}
+La méthodologie développée pour les bactériémies peut être adaptée à d'autres cas d'usage :
+\begin{itemize}
+    \item \textbf{Infections fongiques} : Adaptation des terminologies et règles
+    \item \textbf{Infections virales} : Modification des contraintes contextuelles
+    \item \textbf{Résistances émergentes} : Extension des règles de détection
+\end{itemize}
+
+\paragraph{Évolution vers l'apprentissage hybride}
+\begin{itemize}
+    \item \textbf{Initialisation par règles} : Utilisation de l'approche actuelle pour l'amorçage
+    \item \textbf{Apprentissage incrémental} : Intégration progressive de modèles d'apprentissage automatique
+    \item \textbf{Validation humaine} : Maintien du contrôle expert pour les cas complexes
+\end{itemize}
+
+\subsubsection{Recommandations méthodologiques}
+
+\paragraph{Pour l'implémentation}
+\begin{enumerate}
+    \item \textbf{Prioriser} la qualité de la segmentation de sections comme prérequis
+    \item \textbf{Valider} les corpus fictifs avec une expertise clinique indépendante
+    \item \textbf{Implémenter} des mécanismes de contrôle qualité automatique
+    \item \textbf{Prévoir} des stratégies de fallback pour les documents atypiques
+\end{enumerate}
+
+\paragraph{Pour l'évaluation}
+\begin{enumerate}
+    \item \textbf{Diversifier} les métriques au-delà des mesures classiques (précision, rappel)
+    \item \textbf{Intégrer} des évaluations qualitatives par des experts cliniques
+    \item \textbf{Surveiller} l'évolution des performances avec l'augmentation du corpus
+    \item \textbf{Documenter} systématiquement les cas d'échec pour l'amélioration continue
+\end{enumerate}
+
 \newpage
