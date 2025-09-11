@@ -1,0 +1,55 @@
+% Guide d'annotation BRAT - Document principal
+% Fichier principal pour le guide complet d'annotation
+
+\documentclass[11pt,a4paper]{article}
+
+% Chargement des composants du template (chemin relatif vers templates)
+\input{../templates/template-loader}
+
+% Ressource bibliographique
+\addbibresource{../templates/test-references.bib}
+
+\begin{document}
+
+% Page de titre personnalisée pour le guide
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    
+    {\Huge\bfseries Guide d'annotation BRAT}
+    
+    \vspace{1.5cm}
+    
+    {\Large Guide complet pour l'annotation de données textuelles}
+    
+    \vspace{2cm}
+    
+    {\large Version 1.0}
+    
+    \vfill
+    
+    {\large \today}
+\end{titlepage}
+
+\newpage
+
+% Table des matières
+\tableofcontents
+\newpage
+
+% Inclusion des sections du guide
+\input{introduction}
+
+\input{chapitre1/chapitre_1}
+
+\input{chapitre2/chapitre_2}
+
+\input{chapitre3/chapitre_3}
+
+\input{chapitre4/chapitre_4}
+
+\input{conclusion}
+
+\input{annexes}
+
+\end{document}

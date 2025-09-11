@@ -24,25 +24,25 @@ case "$BUILD_TYPE" in
     "final")
         echo "Building in FINAL mode with full processing..."
         # Tectonic handles everything automatically - bibliography, multiple passes, etc.
-        tectonic --outdir=output templates/main.tex
+        tectonic --outdir=output guide/main_guide.tex
         ;;
     "draft"|*)
         echo "Building in DRAFT mode..."
         # Draft mode - Tectonic is already optimized, but we can use --chatter=minimal
-        tectonic --outdir=output --chatter=minimal templates/main.tex
+        tectonic --outdir=output --chatter=minimal guide/main_guide.tex
         ;;
 esac
 
 # Check if PDF was generated successfully
-if [ -f "output/main.pdf" ]; then
-    echo "✅ Build complete. PDF available in output/main.pdf"
-    ls -la output/main.pdf
+if [ -f "output/main_guide.pdf" ]; then
+    echo "✅ Build complete. PDF available in output/main_guide.pdf"
+    ls -la output/main_guide.pdf
     
     # Show Tectonic statistics
     echo "📊 Build statistics:"
     echo "  Engine: Tectonic (XeTeX-based)"
     echo "  Mode: $BUILD_TYPE"
-    echo "  Output: $(ls -lh output/main.pdf | awk '{print $5}')"
+    echo "  Output: $(ls -lh output/main_guide.pdf | awk '{print $5}')"
 else
     echo "❌ ERROR: PDF generation failed!"
     echo "Check the logs above for details."

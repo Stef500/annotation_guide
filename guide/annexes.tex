@@ -1,0 +1,128 @@
+% Annexes du Guide d'annotation BRAT
+
+\section{Annexes}
+
+\subsection{Glossaire}
+
+\begin{description}
+    \item[Annotation] Processus d'enrichissement d'un texte avec des informations sémantiques, syntaxiques ou pragmatiques.
+    
+    \item[BRAT] Brat Rapid Annotation Tool - Outil web collaboratif pour l'annotation de textes.
+    
+    \item[Entité nommée] Élément textuel spécifique identifié et classifié (personne, lieu, organisation, etc.).
+    
+    \item[Gold Standard] Corpus de référence annoté avec la plus haute qualité possible, utilisé pour l'évaluation.
+    
+    \item[Inter-annotateur (accord)] Mesure de cohérence entre les annotations produites par différents annotateurs.
+    
+    \item[Kappa (coefficient)] Mesure statistique de l'accord inter-annotateurs qui prend en compte l'accord dû au hasard.
+    
+    \item[Relation] Lien sémantique entre deux ou plusieurs entités annotées.
+    
+    \item[Schéma d'annotation] Ensemble de règles et de types définissant comment annoter un corpus spécifique.
+    
+    \item[Standoff annotation] Format d'annotation où les annotations sont stockées séparément du texte original.
+\end{description}
+
+\subsection{Raccourcis clavier BRAT}
+
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Action} & \textbf{Raccourci} \\
+\hline
+Créer une entité & Sélection + double-clic \\
+Supprimer une annotation & Suppr \\
+Éditer une annotation & F2 \\
+Sauvegarder & Ctrl + S \\
+Annuler & Ctrl + Z \\
+Rétablir & Ctrl + Y \\
+Rechercher & Ctrl + F \\
+Mode zoom & Ctrl + molette \\
+\hline
+\end{tabular}
+
+\subsection{Configuration type}
+
+\subsubsection{Fichier annotation.conf basique}
+\begin{verbatim}
+[entities]
+Person
+Organization
+Location
+Date
+Money
+
+[relations]
+Lives_in    Arg1:Person, Arg2:Location
+Works_for   Arg1:Person, Arg2:Organization
+Located_in  Arg1:Organization, Arg2:Location
+
+[events]
+Meeting     Theme:Person, Location:Location, Time:Date
+
+[attributes]
+Gender      Arg:Person, Value:Male|Female
+Certainty   Arg:<ENTITY>, Value:High|Medium|Low
+\end{verbatim}
+
+\subsection{Métriques de qualité}
+
+\subsubsection{Calcul du coefficient Kappa}
+\[
+\kappa = \frac{P(A) - P(E)}{1 - P(E)}
+\]
+où :
+\begin{itemize}
+    \item $P(A)$ : Proportion d'accord observé
+    \item $P(E)$ : Proportion d'accord attendu par le hasard
+\end{itemize}
+
+\subsubsection{Interprétation des valeurs Kappa}
+\begin{itemize}
+    \item $\kappa < 0.20$ : Accord faible
+    \item $0.20 \leq \kappa < 0.40$ : Accord correct
+    \item $0.40 \leq \kappa < 0.60$ : Accord modéré
+    \item $0.60 \leq \kappa < 0.80$ : Accord substantiel
+    \item $\kappa \geq 0.80$ : Accord quasi parfait
+\end{itemize}
+
+\subsection{Ressources et liens utiles}
+
+\subsubsection{Site officiel et documentation}
+\begin{itemize}
+    \item Site officiel BRAT : \texttt{https://brat.nlplab.org/}
+    \item Documentation technique : \texttt{https://brat.nlplab.org/manual.html}
+    \item Tutoriels interactifs : \texttt{https://brat.nlplab.org/tutorials.html}
+\end{itemize}
+
+\subsubsection{Communauté et support}
+\begin{itemize}
+    \item Forum utilisateurs : \texttt{https://groups.google.com/g/brat-users}
+    \item Issues GitHub : \texttt{https://github.com/nlplab/brat/issues}
+    \item Mailing list développeurs : \texttt{brat-dev@googlegroups.com}
+\end{itemize}
+
+\subsubsection{Outils complémentaires}
+\begin{itemize}
+    \item Scripts de conversion : \texttt{https://github.com/nlplab/brat/tree/master/tools}
+    \item Extensions communautaires : \texttt{https://github.com/topics/brat}
+    \item Intégrations tierces : Voir documentation projet spécifique
+\end{itemize}
+
+\subsection{Bibliographie}
+
+% La bibliographie sera gérée automatiquement par biblatex
+\printbibliography[heading=none]
+
+\subsection{Exemples de corpus}
+
+Des exemples de corpus annotés avec BRAT sont disponibles dans le dossier \texttt{examples/} de ce guide, incluant :
+
+\begin{itemize}
+    \item Corpus MERLOT (annotation biomédicale)
+    \item Exemples d'entités nommées générales
+    \item Cas d'usage relations complexes
+    \item Templates de configuration
+\end{itemize}
+
+\newpage

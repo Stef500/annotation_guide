@@ -91,7 +91,7 @@ jobs:
       uses: actions/cache@v4
       with:
         path: ~/.cache/Tectonic
-        key: tectonic-packages-${{ runner.os }}-${{ hashFiles('templates/**/*.tex') }}
+        key: tectonic-packages-${{ runner.os }}-${{ hashFiles('guide/**/*.tex') }}
         restore-keys: |
           tectonic-packages-${{ runner.os }}-
     
@@ -125,10 +125,10 @@ jobs:
         echo "Event: ${{ github.event_name }}" >> output/logs/build-info.txt
         
         # Check Tectonic log for errors
-        if [ -f "output/main.log" ]; then
-          cp output/main.log output/logs/tectonic.log
+        if [ -f "output/main_guide.log" ]; then
+          cp output/main_guide.log output/logs/tectonic.log
           # Extract error summary
-          grep -i "error\|warning" output/main.log > output/logs/error-summary.txt || echo "No errors found" > output/logs/error-summary.txt
+          grep -i "error\|warning" output/main_guide.log > output/logs/error-summary.txt || echo "No errors found" > output/logs/error-summary.txt
         fi
         
         # List all output files
@@ -143,7 +143,7 @@ jobs:
         retention-days: 30
     
     - name: Prepare versioned artifacts
-      if: success() && hashFiles('output/main.pdf')
+      if: success() && hashFiles('output/main_guide.pdf')
       run: |
         # Create versioned directory structure
         mkdir -p artifacts/
@@ -153,8 +153,8 @@ jobs:
         BRANCH_CLEAN=$(echo "${{ github.ref_name }}" | sed 's/[^a-zA-Z0-9._-]/-/g')
         
         # Copy PDF with versioned name
-        cp output/main.pdf "artifacts/annotation-guide-${BRANCH_CLEAN}-${VERSION_INFO}.pdf"
-        cp output/main.pdf "artifacts/annotation-guide-latest.pdf"
+        cp output/main_guide.pdf "artifacts/annotation-guide-${BRANCH_CLEAN}-${VERSION_INFO}.pdf"
+        cp output/main_guide.pdf "artifacts/annotation-guide-latest.pdf"
         
         # Create version metadata
         cat > artifacts/version-info.json << EOF

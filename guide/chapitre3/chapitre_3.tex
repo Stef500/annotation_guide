@@ -1,0 +1,96 @@
+% Chapitre 3 : Outils et exemples pratiques
+
+\section{Outils et exemples pratiques}
+
+\subsection{Installation et configuration de BRAT}
+
+\subsubsection{Prérequis système}
+\begin{itemize}
+    \item Serveur web (Apache, Nginx)
+    \item Python 2.7 ou 3.x
+    \item Navigateur web moderne (Chrome, Firefox, Safari)
+\end{itemize}
+
+\subsubsection{Installation}
+\begin{enumerate}
+    \item Télécharger BRAT depuis le site officiel
+    \item Décompresser l'archive dans le répertoire web
+    \item Configurer les permissions d'accès
+    \item Tester l'installation avec les données d'exemple
+\end{enumerate}
+
+\subsection{Configuration d'un projet}
+
+\subsubsection{Structure des dossiers}
+\texttt{project/}
+\begin{itemize}
+    \item \texttt{annotation.conf} : Configuration du schéma d'annotation
+    \item \texttt{visual.conf} : Configuration de l'affichage
+    \item \texttt{tools.conf} : Outils d'annotation automatique
+    \item \texttt{kb\_shortcuts.conf} : Raccourcis clavier personnalisés
+\end{itemize}
+
+\subsubsection{Exemple de configuration}
+\begin{verbatim}
+[entities]
+Person
+Organization  
+Location
+Date
+
+[relations]
+Lives_in    Arg1:Person, Arg2:Location
+Works_for   Arg1:Person, Arg2:Organization
+\end{verbatim}
+
+\subsection{Tutoriel d'annotation pas à pas}
+
+\subsubsection{Annotation d'entités}
+\begin{enumerate}
+    \item Sélectionner le texte à annoter
+    \item Choisir le type d'entité dans le menu contextuel
+    \item Valider l'annotation
+    \item Vérifier la cohérence avec les annotations existantes
+\end{enumerate}
+
+\subsubsection{Annotation de relations}
+\begin{enumerate}
+    \item Sélectionner la première entité (source)
+    \item Glisser vers la seconde entité (cible)
+    \item Choisir le type de relation
+    \item Confirmer la création de la relation
+\end{enumerate}
+
+\subsection{Outils d'analyse et de visualisation}
+
+\subsubsection{Statistiques d'annotation}
+\begin{itemize}
+    \item Nombre d'entités par type
+    \item Distribution des relations
+    \item Métriques de progression
+\end{itemize}
+
+\subsubsection{Export des données}
+\begin{itemize}
+    \item Format standoff (natif BRAT)
+    \item Export JSON pour intégration
+    \item Conversion vers d'autres formats (CoNLL, XML)
+\end{itemize}
+
+\subsection{Intégration avec d'autres outils}
+
+\subsubsection{Pipeline de traitement}
+\begin{itemize}
+    \item Pré-traitement automatique
+    \item Annotation semi-automatique
+    \item Post-traitement et validation
+\end{itemize}
+
+\subsubsection{APIs et scripts}
+\begin{itemize}
+    \item Scripts Python pour l'import/export
+    \item API REST pour l'intégration
+    \item Outils de conversion de formats
+\end{itemize}
+
+\newpage
