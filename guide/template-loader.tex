@@ -1,0 +1,27 @@
+% Template Loader pour le Guide - Chemins adaptés pour le dossier guide/
+% BRAT Annotation Guide Template - Main Component Loader
+
+% Style components (load in dependency order avec chemins relatifs corrects)
+\input{../templates/styles/packages}        % Package imports and basic setup
+\input{../templates/styles/performance}     % XeLaTeX performance optimizations
+\input{../templates/styles/formatting}      % Colors and basic formatting
+\input{../templates/styles/multilingual}    % Language and Unicode support  
+\input{../templates/styles/typography}      % Typography commands and spacing
+\input{../templates/styles/tables}          % Table environments and formatting
+\input{../templates/styles/mathematics}     % Mathematical notation and formulas
+
+% Reusable components
+\input{../templates/components/header}       % Document headers and section intros
+\input{../templates/components/boxes}        % Information boxes and callouts
+\input{../templates/components/lists}        % Specialized list environments
+\input{../templates/components/navigation}   % TOC and cross-reference utilities
+
+% Layout setup (load after all style components)
+\input{../templates/layouts/page-setup}      % Page geometry and layout
+
+% Component usage documentation
+% To use this template system from guide/:
+% 1. Include this loader in your main document: \input{template-loader}
+% 2. Use predefined commands and environments from loaded components
+% 3. Customize colors in ../templates/styles/formatting.tex
+% 4. Add custom commands to appropriate component files
