@@ -38,11 +38,11 @@ L'entité BACTÉRIÉMIE identifie toute mention explicite ou implicite d'une inf
 
 \subsubsection{Exemples d'annotation}
 \begin{verbatim}
-✓ "Le patient présente une [bactériémie] à Staphylocoque doré"
-✓ "Les [hémocultures] sont revenues positives à E. coli"
-✓ "Diagnostic de [septicémie] sur cathéter central"
-✗ "Suspicion de bactériémie" (non confirmée)
-✗ "Hémocultures négatives" (absence de bactériémie)
+$\checkmark$ "Le patient présente une [bactériémie] à Staphylocoque doré"
+$\checkmark$ "Les [hémocultures] sont revenues positives à E. coli"
+$\checkmark$ "Diagnostic de [septicémie] sur cathéter central"
+$\times$ "Suspicion de bactériémie" (non confirmée)
+$\times$ "Hémocultures négatives" (absence de bactériémie)
 \end{verbatim}
 
 \subsubsection{Règles spécifiques}
@@ -92,10 +92,10 @@ L'entité BACTÉRIE identifie l'agent pathogène responsable de la bactériémie
 
 \subsubsection{Exemples d'annotation}
 \begin{verbatim}
-✓ "Bactériémie à [Staphylococcus aureus] résistant à la méthicilline"
-✓ "Présence de [E. coli] BLSE dans les hémocultures"
-✓ "Septicémie à [BGN] non identifié"
-✓ "[Streptocoque du groupe B] isolé sur 3 flacons"
+$\checkmark$ "Bactériémie à [Staphylococcus aureus] résistant à la méthicilline"
+$\checkmark$ "Présence de [E. coli] BLSE dans les hémocultures"
+$\checkmark$ "Septicémie à [BGN] non identifié"
+$\checkmark$ "[Streptocoque du groupe B] isolé sur 3 flacons"
 \end{verbatim}
 
 \subsection{Entité SITE\_PRIMAIRE}
@@ -155,10 +155,10 @@ Les sites primaires peuvent être qualifiés selon leur mode d'identification :
 
 \textbf{Exemples} :
 \begin{verbatim}
-✓ Direct : "Bactériémie sur cathéter central"
-✓ Direct : "Septicémie d'origine urinaire"
-✓ Indirect : "Patient porteur d'un cathéter. Bactériémie à E. coli"
-✓ Indirect : "PNA. Hémocultures positives le lendemain"
+$\checkmark$ Direct : "Bactériémie sur cathéter central"
+$\checkmark$ Direct : "Septicémie d'origine urinaire"
+$\checkmark$ Indirect : "Patient porteur d'un cathéter. Bactériémie à E. coli"
+$\checkmark$ Indirect : "PNA. Hémocultures positives le lendemain"
 \end{verbatim}
 
 \subsection{Entité SITE\_SECONDAIRE}
@@ -182,9 +182,9 @@ Comme pour les sites primaires, la distinction direct/indirect s'applique :
 
 \subsubsection{Exemples d'annotation}
 \begin{verbatim}
-✓ Direct : "Bactériémie compliquée d'[emboles septiques pulmonaires]"
-✓ Direct : "Avec [greffe septique sur la valve mitrale]"
-✓ Indirect : "Bactériémie. Découverte secondaire d'une [endocardite]"
+$\checkmark$ Direct : "Bactériémie compliquée d'[emboles septiques pulmonaires]"
+$\checkmark$ Direct : "Avec [greffe septique sur la valve mitrale]"
+$\checkmark$ Indirect : "Bactériémie. Découverte secondaire d'une [endocardite]"
 \end{verbatim}
 
 \subsection{Entité INFECTION}
@@ -251,9 +251,9 @@ L'entité CONTEXTE\_MÉDICAL identifie les antécédents, comorbidités et dispo
 
 \subsubsection{Exemples d'annotation}
 \begin{verbatim}
-✓ "Patient [diabétique] porteur d'un [cathéter de dialyse]. Bactériémie"
-✓ "Antécédent de [cancer du poumon]. Hémocultures positives"
-✓ "Sous [corticoïdes] au long cours. Septicémie à Candida"
+$\checkmark$ "Patient [diabétique] porteur d'un [cathéter de dialyse]. Bactériémie"
+$\checkmark$ "Antécédent de [cancer du poumon]. Hémocultures positives"
+$\checkmark$ "Sous [corticoïdes] au long cours. Septicémie à Candida"
 \end{verbatim}
 
 \subsection{Relations entre entités}
