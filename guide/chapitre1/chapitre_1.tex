@@ -587,4 +587,44 @@ Cette section documente les particularités linguistiques observées dans le cor
 
 Cette extension méthodologique permet d'appliquer les principes d'annotation de base aux spécificités complexes du français médical hospitalier, en s'appuyant sur l'expérience validée du corpus BACTHUB et les contraintes techniques identifiées lors de l'évaluation sur 300 épisodes cliniques réels.
 
+\subsection{Métriques de performance de référence}
+
+\subsubsection{Résultats sur corpus de validation}
+
+Basé sur l'évaluation du corpus de 300 épisodes, les métriques de performance suivantes constituent la référence pour l'évaluation de l'algorithme d'annotation :
+
+\begin{table}[H]
+\centering
+\caption{Performance de l'algorithme BACTHUB (300 épisodes)}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Tâche d'annotation} & \textbf{Précision} & \textbf{Rappel} & \textbf{F1-Score} & \textbf{Support} \\
+\hline
+Couple bactériémie-bactérie & 0.88 & 0.92 & 0.90 & 269 \\
+Site primaire (tous contextes) & 0.84 & 0.63 & 0.72 & 216 \\
+Site primaire (contexte informationnel) & 0.83 & 0.64 & 0.72 & 216 \\
+\hline
+\textbf{Comparaison avec CIM-10} & & & & \\
+Sites primaires (codes ICD-10) & 0.35 & 0.64 & 0.45 & 216 \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Seuils et paramètres de performance}
+
+\paragraph{Seuils de validation}
+\begin{itemize}
+    \item \textbf{Seuil de similarité approximative} : 0.8 (compromis précision/rappel optimal)
+    \item \textbf{Seuil de confiance contextuelle} : 0.7 pour validation indirecte
+    \item \textbf{Distance maximale phrase} : 3 phrases pour propagation contextuelle
+    \item \textbf{Distance maximale tokens} : 50 tokens pour cooccurrence
+\end{itemize}
+
+\paragraph{Analyse des erreurs}
+\begin{itemize}
+    \item \textbf{Faux positifs principaux} : Mentions d'infections anciennes (28\%), bactéries commensales (19\%)
+    \item \textbf{Faux négatifs principaux} : Sites indirects complexes (34\%), négation subtile (22\%)
+    \item \textbf{Ambiguïtés} : Polysémie anatomique (15\%), coréférence pronominale (12\%)
+\end{itemize}
+
 \newpage
