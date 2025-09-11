@@ -22,7 +22,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      BUILD_TYPE: ${{ github.event.inputs.build_type || (github.event_name == 'release' && 'final' || 'draft') }}
+      BUILD_TYPE: ${{ github.event.inputs.build_type || (github.event_name == 'release' && 'final' || (contains(github.event.head_commit.message, '[FINAL]') && 'final' || 'draft')) }}
     
     steps:
     - uses: actions/checkout@v4
@@ -94,6 +94,20 @@ jobs:
         key: tectonic-packages-${{ runner.os }}-${{ hashFiles('guide/**/*.tex') }}
         restore-keys: |
           tectonic-packages-${{ runner.os }}-
+    
+    - name: Detect build mode
+      run: |
+        echo "🔍 Build Mode Detection:"
+        echo "  Commit Message: ${{ github.event.head_commit.message }}"
+        echo "  Event Type: ${{ github.event_name }}"
+        echo "  Manual Input: ${{ github.event.inputs.build_type }}"
+        echo "  Final BUILD_TYPE: ${{ env.BUILD_TYPE }}"
+        
+        if [[ "${{ env.BUILD_TYPE }}" == "final" ]]; then
+          echo "✨ FINAL MODE ACTIVATED - Full production build"
+        else
+          echo "🚧 DRAFT MODE - Fast development build"
+        fi
     
     - name: Prepare output directory
       run: |
