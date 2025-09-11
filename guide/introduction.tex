@@ -1,39 +1,61 @@
-% Introduction du Guide d'annotation BRAT
+% Introduction du Guide d'annotation
 
 \section{Introduction}
 
-\subsection{Objectif du guide}
+\subsection{Contexte médical et enjeux cliniques}
 
-Ce guide d'annotation BRAT a pour objectif de fournir une documentation complète et structurée pour l'annotation de données textuelles. Il s'adresse aux annotateurs, aux chefs de projet et aux développeurs travaillant avec l'outil BRAT (Brat Rapid Annotation Tool).
+Les bactériémies, définies comme la présence de bactéries dans le sang, représentent un défi majeur de santé publique avec une mortalité supérieure à 20\% à trois mois. Ces infections, courantes tant en ville qu'à l'hôpital, peuvent potentiellement toucher tout patient et nécessitent une prise en charge rapide et adaptée.
+
+L'enjeu clinique majeur consiste à caractériser ces infections selon \textbf{la provenance des bactéries} (peau, urines, tube digestif, cathéter, etc.) afin de guider efficacement la prise en charge thérapeutique. Cette information cruciale se trouve consignée dans les comptes-rendus d'hospitalisation (CRH), mais son extraction manuelle reste chronophage et sujette à variabilité.
+
+\subsection{Du traitement automatique à l'annotation experte}
+
+Les méthodes de recherche sur grandes bases de données s'appuient traditionnellement sur les \textbf{codages CIM-10}, mais ces derniers présentent une inconstance notable. Face à cette limitation, le développement d'outils de traitement automatique du langage (TAL) dédiés aux maladies infectieuses devient nécessaire.
+
+Des travaux antérieurs ont démontré la faisabilité d'un algorithme à base de règles atteignant des performances encourageantes :
+\begin{itemize}
+    \item Identification bactériémie-bactérie : F1 score = 0,90
+    \item Identification site primaire : F1 score = 0,72
+\end{itemize}
+
+L'évolution vers des modèles d'apprentissage automatique plus sophistiqués (BERT, LLM) nécessite désormais la constitution de corpus annotés de qualité.
+
+\subsection{Objectif et portée du guide}
+
+Ce guide d'annotation a pour objectif de standardiser l'identification et l'annotation des éléments informatifs relatifs aux bactériémies dans les comptes-rendus médicaux. Il s'adresse aux annotateurs chargés de constituer des corpus d'entraînement et d'évaluation pour les modèles de TAL.
+
+\textbf{Périmètre d'annotation} : Seuls les éléments directement liés à une bactériémie confirmée sont annotés. Les infections non bactériémiques, les suspicions non confirmées et les explorations négatives sont exclues du processus d'annotation.
+
+Le guide couvre l'annotation de cinq catégories conceptuelles principales :
+\begin{enumerate}
+    \item \textbf{Bactériémie} : Identification de l'épisode infectieux
+    \item \textbf{Bactérie} : Agent pathogène responsable
+    \item \textbf{Site primaire} : Porte d'entrée de l'infection
+    \item \textbf{Site secondaire} : Localisation de complications
+    \item \textbf{Résistance} : Profil de résistance aux antibiotiques
+\end{enumerate}
 
 \subsection{Structure du guide}
 
 Ce guide est organisé en quatre chapitres principaux :
 
 \begin{enumerate}
-    \item \textbf{Concepts fondamentaux} : Introduction aux concepts de base de l'annotation textuelle et présentation de l'interface BRAT
-    \item \textbf{Méthodologie et bonnes pratiques} : Guide des meilleures pratiques pour assurer la qualité et la cohérence des annotations
-    \item \textbf{Outils et exemples pratiques} : Tutoriels et exemples concrets d'utilisation
-    \item \textbf{Cas d'usage avancés} : Scénarios complexes et fonctionnalités avancées
+    \item \textbf{Concepts fondamentaux} : Définitions des entités à annoter et de leurs relations
+    \item \textbf{Méthodologie et bonnes pratiques} : Règles d'annotation et gestion de la cohérence
+    \item \textbf{Outils et exemples pratiques} : Utilisation de BRAT et exemples d'annotation
+    \item \textbf{Cas d'usage avancés} : Situations complexes et cas limites
 \end{enumerate}
 
 \subsection{Public cible}
 
 Ce guide s'adresse à :
 \begin{itemize}
-    \item Annotateurs débutants et expérimentés
-    \item Gestionnaires de projets d'annotation
-    \item Développeurs intégrant BRAT dans leurs workflows
-    \item Chercheurs en traitement automatique du langage naturel
+    \item Annotateurs médicaux et linguistes
+    \item Gestionnaires de projets d'annotation en santé
+    \item Développeurs d'outils de TAL médical
+    \item Chercheurs en informatique biomédicale
 \end{itemize}
 
-\subsection{Prérequis}
-
-Pour utiliser efficacement ce guide, il est recommandé d'avoir :
-\begin{itemize}
-    \item Une connaissance de base des concepts linguistiques
-    \item Une familiarité avec les outils web
-    \item Des notions de gestion de projets de données
-\end{itemize}
+Cette approche structurée vise à soutenir le développement d'outils de TAL performants pour l'aide à la décision clinique en infectiologie.
 
 \newpage
