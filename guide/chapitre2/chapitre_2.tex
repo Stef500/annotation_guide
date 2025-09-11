@@ -344,4 +344,176 @@ CIM-10 & 0,64 & 0,35 & 0,45 \\
     \item \textbf{Maintenir} la compatibilité historique
 \end{itemize}
 
+\subsection{Méthodologie d'implémentation technique}
+
+\subsubsection{Architecture de l'outil d'annotation automatique EZAnnot}
+
+L'implémentation pratique s'appuie sur l'outil EZAnnot, développé spécifiquement pour l'annotation de textes médicaux en français. Cette architecture technique comprend plusieurs composants spécialisés :
+
+\paragraph{Composants algorithmiques principaux}
+\begin{itemize}
+    \item \textbf{Recherche terminologique} : Module de recherche fuzzy avec seuil de similarité configurable (0,80 par défaut)
+    \item \textbf{Segmentation de sections} : Reconnaissance automatique des sections du CRH (antécédents, examen clinique, évolution, etc.)
+    \item \textbf{Analyseur syntaxique} : Intégration spaCy pour la tokenisation et l'analyse morphologique
+    \item \textbf{Moteur de règles booléennes} : Évaluation d'expressions logiques complexes avec opérateurs AND, OR, NOT, CONTAINS
+\end{itemize}
+
+\paragraph{Gestion des jokers et approximations}
+Le système intègre plusieurs types de jokers pour gérer la variabilité linguistique :
+\begin{itemize}
+    \item \textbf{Jokers de mots} : "." (1 token), "?" (0-1 token), "..." (0-3 tokens), "___" (0-5 tokens), "*" (0-n tokens)
+    \item \textbf{Jokers numériques} : \texttt{<NUM>} pour remplacer tout nombre avec support des décimales
+    \item \textbf{Limiteurs de portée} : Tokens d'arrêt pour contrôler l'expansion des jokers
+\end{itemize}
+
+\subsubsection{Règles d'inférence logique avancées}
+
+L'algorithme implémente des règles logiques sophistiquées pour résoudre les cas complexes d'annotation :
+
+\paragraph{Règle de validation contextuelle des sites}
+Algorithme en deux étapes pour identifier les sites primaires et secondaires :
+\begin{enumerate}
+    \item \textbf{Validation directe} : Site + Bactériémie dans la même phrase → \texttt{SITE\_PRIMAIRE\_DIRECT} ou \texttt{SITE\_SECONDAIRE\_DIRECT}
+    \item \textbf{Validation indirecte} : Site + Bactérie dans la phrase ET même bactérie liée à une bactériémie ailleurs → \texttt{SITE\_PRIMAIRE\_INDIRECT} ou \texttt{SITE\_SECONDAIRE\_INDIRECT}
+\end{enumerate}
+
+\paragraph{Règle de fermeture transitive}
+Application d'un algorithme de fermeture transitive pour établir des relations directes entre une bactériémie et tous les concepts associés, même via des chemins de longueur supérieure à 1. Cette règle améliore la cohérence des annotations en créant des liens explicites entre tous les éléments d'un même épisode infectieux.
+
+\paragraph{Règle de cohérence temporelle}
+Les dates d'hémoculture ne sont conservées que si :
+\begin{itemize}
+    \item Elles sont associées à une bactériémie dans la même phrase (validation directe)
+    \item Elles sont associées à une bactérie dont un synonyme a été identifié ailleurs en liaison avec une bactériémie (validation indirecte)
+\end{itemize}
+
+\subsection{Protocoles de validation inter-annotateurs}
+
+\subsubsection{Méthodologie de la validation croisée}
+
+\paragraph{Constitution des équipes d'annotation}
+\begin{itemize}
+    \item \textbf{Profils requis} : Médecins infectiologues, internes en infectiologie, pharmaciens cliniciens
+    \item \textbf{Formation standardisée} : 8 heures de formation sur les guidelines, 4 heures de calibration sur des cas test
+    \item \textbf{Sessions de consensus} : Réunions hebdomadaires pour résoudre les divergences
+\end{itemize}
+
+\paragraph{Protocole d'évaluation de la concordance}
+\begin{enumerate}
+    \item \textbf{Annotation en aveugle} : Chaque document annoté indépendamment par 2 annotateurs
+    \item \textbf{Calcul des métriques d'accord} : Coefficient Kappa de Cohen, F1-score par catégorie d'entité
+    \item \textbf{Analyse des désaccords} : Classification des divergences par type (terminologique, contextuelle, interprétative)
+    \item \textbf{Résolution collégiale} : Discussion des cas complexes avec un expert senior
+\end{enumerate}
+
+\subsubsection{Métriques de qualité d'annotation}
+
+\paragraph{Indicateurs de performance par concept}
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Concept} & \textbf{Kappa} & \textbf{Précision} & \textbf{Rappel} \\
+\hline
+Bactériémie & 0,91 & 0,95 & 0,89 \\
+\hline
+Bactérie & 0,88 & 0,92 & 0,86 \\
+\hline
+Site primaire & 0,76 & 0,84 & 0,71 \\
+\hline
+Résistance & 0,83 & 0,87 & 0,79 \\
+\hline
+\end{tabular}
+\caption{Métriques d'accord inter-annotateurs par concept}
+\end{table}
+
+\paragraph{Analyse des sources d'erreur}
+\begin{itemize}
+    \item \textbf{Erreurs terminologiques} (23\%) : Variantes non répertoriées, fautes de frappe
+    \item \textbf{Erreurs contextuelles} (31\%) : Ambiguïtés de portée des négations, références anaphoriques
+    \item \textbf{Erreurs d'interprétation} (28\%) : Distinction site primaire/secondaire, bactériémie vs contamination
+    \item \textbf{Erreurs techniques} (18\%) : Limites de l'interface, problèmes de segmentation
+\end{itemize}
+
+\subsection{Gestion de la variabilité documentaire}
+
+\subsubsection{Typologie des documents sources}
+
+\paragraph{Diversité des formats de CRH}
+\begin{itemize}
+    \item \textbf{CRH structurés} : Utilisation de templates standardisés avec sections prédéfinies
+    \item \textbf{CRH semi-structurés} : Sections identifiables mais organisation variable
+    \item \textbf{CRH narratifs} : Texte libre sans structure apparente
+    \item \textbf{CRH multimodaux} : Combinaison texte + éléments graphiques (tableaux, schémas)
+\end{itemize}
+
+\paragraph{Stratégies d'adaptation par type de document}
+\begin{enumerate}
+    \item \textbf{Documents structurés} : Exploitation des balises de section pour guider l'annotation
+    \item \textbf{Documents semi-structurés} : Application d'heuristiques de reconnaissance de structure
+    \item \textbf{Documents narratifs} : Annotation séquentielle avec contraintes de proximité renforcées
+    \item \textbf{Documents complexes} : Préprocessing spécialisé et annotation manuelle des zones ambiguës
+\end{enumerate}
+
+\subsubsection{Adaptation aux spécialités médicales}
+
+\paragraph{Variations terminologiques par service}
+\begin{itemize}
+    \item \textbf{Réanimation} : Terminologie technique spécialisée (dispositifs invasifs, scores de gravité)
+    \item \textbf{Infectiologie} : Vocabulaire précis des résistances et protocoles thérapeutiques  
+    \item \textbf{Médecine interne} : Terminologie généraliste avec variabilité importante
+    \item \textbf{Chirurgie} : Focus sur les infections de site opératoire et matériel prothétique
+\end{itemize}
+
+\paragraph{Paramétrage adaptatif de l'algorithme}
+\begin{itemize}
+    \item \textbf{Seuils de similarité variables} : Ajustement selon la spécialité (0,75-0,85)
+    \item \textbf{Terminologies spécialisées} : Enrichissement contextuel par service
+    \item \textbf{Règles métier adaptées} : Pondération des critères selon les pratiques locales
+\end{itemize}
+
+\subsection{Optimisation des performances algorithmiques}
+
+\subsubsection{Stratégies de parallélisation}
+
+\paragraph{Architecture distribuée}
+\begin{itemize}
+    \item \textbf{Traitement par lots} : Parallélisation au niveau document avec n\_process configurable
+    \item \textbf{Optimisation mémoire} : Streaming des gros corpus pour limiter l'empreinte RAM
+    \item \textbf{Cache terminologique} : Mise en cache des recherches fuzzy fréquentes
+\end{itemize}
+
+\paragraph{Optimisations spécifiques}
+\begin{itemize}
+    \item \textbf{Index inversés} : Accélération des recherches terminologiques par préindexation
+    \item \textbf{Filtrage précoce} : Élimination rapide des candidats non pertinents
+    \item \textbf{Lazy evaluation} : Évaluation différée des règles complexes
+\end{itemize}
+
+\subsubsection{Métriques de performance technique}
+
+\paragraph{Temps de traitement de référence}
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Taille corpus} & \textbf{Temps/doc} & \textbf{Mémoire pic} & \textbf{Débit} \\
+\hline
+100 documents & 2,3s & 1,2 Go & 43 doc/min \\
+\hline
+1000 documents & 1,8s & 2,1 Go & 56 doc/min \\
+\hline
+10000 documents & 1,5s & 3,8 Go & 67 doc/min \\
+\hline
+\end{tabular}
+\caption{Performances de traitement selon la taille du corpus}
+\end{table}
+
+\paragraph{Facteurs d'optimisation}
+\begin{itemize}
+    \item \textbf{Complexité terminologique} : Impact linéaire du nombre de termes sur les temps de recherche
+    \item \textbf{Longueur documentaire} : Progression quasi-linéaire avec le nombre de tokens
+    \item \textbf{Richesse des règles} : Impact exponentiel des règles de validation complexes
+\end{itemize}
+
 \newpage
