@@ -4,12 +4,12 @@
 
 \subsection{Vue d'ensemble des catégories d'annotation}
 
-Le schéma d'annotation pour l'identification des bactériémies comprend six catégories principales d'entités et quatre types de relations. Chaque entité doit être annotée uniquement lorsqu'elle est directement liée à un épisode de bactériémie confirmé.
+Le schéma d'annotation pour l'identification des bactériémies comprend sept catégories principales d'entités et cinq types de relations. Chaque entité doit être annotée uniquement lorsqu'elle est directement liée à un épisode de bactériémie confirmé.
 
 \begin{table}[h]
 \centering
 \caption{Synthèse des entités à annoter}
-\begin{tabular}{|l|p{8cm}|l|}
+\begin{tabular}{|l|p{7cm}|l|}
 \hline
 \textbf{Entité} & \textbf{Description} & \textbf{Couleur BRAT} \\
 \hline
@@ -19,6 +19,7 @@ SITE\_PRIMAIRE & Porte d'entrée de l'infection & Vert \\
 SITE\_SECONDAIRE & Localisation des complications & Orange \\
 INFECTION & Description du foyer infectieux & Violet \\
 RÉSISTANCE & Profil de résistance antibiotique & Jaune \\
+CONTEXTE\_MÉDICAL & Antécédents et dispositifs médicaux & Cyan \\
 \hline
 \end{tabular}
 \end{table}
@@ -144,6 +145,22 @@ SNC & Méningite, méningoencéphalite, abcès cérébral, empyème sous-dural \
     \item "dans un contexte de [infection site]"
 \end{itemize}
 
+\subsubsection{Sites directs vs indirects}
+Les sites primaires peuvent être qualifiés selon leur mode d'identification :
+
+\begin{itemize}
+    \item \textbf{Site primaire direct} : Mentionné explicitement comme source de la bactériémie dans la même phrase ou proposition
+    \item \textbf{Site primaire indirect} : Inféré par association contextuelle, proximité dans le texte ou connaissance médicale
+\end{itemize}
+
+\textbf{Exemples} :
+\begin{verbatim}
+✓ Direct : "Bactériémie sur cathéter central"
+✓ Direct : "Septicémie d'origine urinaire"
+✓ Indirect : "Patient porteur d'un cathéter. Bactériémie à E. coli"
+✓ Indirect : "PNA. Hémocultures positives le lendemain"
+\end{verbatim}
+
 \subsection{Entité SITE\_SECONDAIRE}
 
 \subsubsection{Définition}
@@ -155,11 +172,19 @@ Le SITE\_SECONDAIRE identifie les localisations de dissémination ou de complica
     \item \textbf{Expressions types} : "compliquée de", "avec atteinte", "extension vers", "dissémination au niveau"
 \end{itemize}
 
+\subsubsection{Sites secondaires directs vs indirects}
+Comme pour les sites primaires, la distinction direct/indirect s'applique :
+
+\begin{itemize}
+    \item \textbf{Site secondaire direct} : Complication explicitement attribuée à la bactériémie
+    \item \textbf{Site secondaire indirect} : Complication inférée par le contexte temporel ou clinique
+\end{itemize}
+
 \subsubsection{Exemples d'annotation}
 \begin{verbatim}
-✓ "Bactériémie compliquée d'[emboles septiques pulmonaires]"
-✓ "Avec [greffe septique sur la valve mitrale]"
-✓ "Extension avec [spondylodiscite L4-L5]"
+✓ Direct : "Bactériémie compliquée d'[emboles septiques pulmonaires]"
+✓ Direct : "Avec [greffe septique sur la valve mitrale]"
+✓ Indirect : "Bactériémie. Découverte secondaire d'une [endocardite]"
 \end{verbatim}
 
 \subsection{Entité INFECTION}
@@ -187,6 +212,49 @@ L'entité RÉSISTANCE identifie le profil de résistance ou de sensibilité aux 
     \item \textbf{Sensibilités} : sensible, sauvage, SASM, pan-sensible
     \item \textbf{Marqueurs} : PLP2a positif, carbapénémase, bêta-lactamase
 \end{itemize}
+
+\subsection{Entité CONTEXTE\_MÉDICAL}
+
+\subsubsection{Définition}
+L'entité CONTEXTE\_MÉDICAL identifie les antécédents, comorbidités et dispositifs médicaux pertinents pour comprendre l'épisode de bactériémie.
+
+\subsubsection{Catégories de contexte}
+
+\paragraph{Antécédents médicaux}
+\begin{itemize}
+    \item \textbf{Oncologie} : Cancer, tumeur solide métastasée, lymphome, leucémie, chimiothérapie
+    \item \textbf{Métabolisme} : Diabète, diabète avec complication chronique, pied diabétique
+    \item \textbf{Hépato-gastro} : Cirrhose, hépatite chronique, hypertension portale, hémorragie de varices
+    \item \textbf{Cardiologie} : Insuffisance cardiaque congestive, maladies vasculaires, maladies cérébro-vasculaires
+    \item \textbf{Néphrologie} : Maladies rénales, atteinte rénale, dialyse
+    \item \textbf{Pneumologie} : Maladies pulmonaires chroniques
+    \item \textbf{Immunologie} : Immunosuppression, VIH/SIDA, greffe
+    \item \textbf{Rhumatologie} : Pathologies rhumatismales et systémiques
+    \item \textbf{Neurologie} : Démence, hémiplégie ou paraplégie, atteinte neurologique
+\end{itemize}
+
+\paragraph{Dispositifs médicaux}
+\begin{itemize}
+    \item \textbf{Intravasculaire} : Cathéter central, PAC, PICC-line, cathéter de dialyse
+    \item \textbf{Intracardiaque} : Pacemaker, défibrillateur, valve artificielle
+    \item \textbf{Intra-articulaire} : Prothèse de hanche/genou, matériel d'ostéosynthèse
+    \item \textbf{Intracerebral} : Dérivation ventriculaire, stimulateur cérébral
+    \item \textbf{Autres} : Sonde urinaire, sonde gastrique, trachéotomie
+\end{itemize}
+
+\paragraph{Traitements}
+\begin{itemize}
+    \item \textbf{Immunosuppresseurs} : Corticoïdes, méthotrexate, anti-TNF
+    \item \textbf{Addictions} : Usage de drogues intraveineuses, éthylisme chronique
+    \item \textbf{Listes d'attente} : Transplantation d'organe
+\end{itemize}
+
+\subsubsection{Exemples d'annotation}
+\begin{verbatim}
+✓ "Patient [diabétique] porteur d'un [cathéter de dialyse]. Bactériémie"
+✓ "Antécédent de [cancer du poumon]. Hémocultures positives"
+✓ "Sous [corticoïdes] au long cours. Septicémie à Candida"
+\end{verbatim}
 
 \subsection{Relations entre entités}
 
@@ -218,6 +286,13 @@ L'entité RÉSISTANCE identifie le profil de résistance ou de sensibilité aux 
     \item \textbf{Exemple} : "[S. aureus] [résistant à la méthicilline]"
 \end{itemize}
 
+\subsubsection{Relation CONTEXTE}
+\begin{itemize}
+    \item \textbf{Type} : Bactériémie → Contexte\_médical
+    \item \textbf{Cardinalité} : 1 bactériémie peut avoir 0 à N éléments de contexte
+    \item \textbf{Exemple} : "Patient [diabétique] présentant une [bactériémie]"
+\end{itemize}
+
 \subsection{Règles d'annotation spécifiques}
 
 \subsubsection{Périmètre d'annotation}
@@ -230,11 +305,21 @@ L'entité RÉSISTANCE identifie le profil de résistance ou de sensibilité aux 
 
 \subsubsection{Gestion de la négation}
 Ne PAS annoter les éléments précédés de termes de négation :
+
+\paragraph{Termes généraux}
 \begin{itemize}
     \item "absence de", "pas de", "sans"
     \item "a écarté", "écarte", "exclu"
     \item "ne révèle pas", "ne montre pas"
     \item "peu probable", "douteux"
+\end{itemize}
+
+\paragraph{Termes médicaux spécialisés}
+\begin{itemize}
+    \item \textbf{Microbiologie} : "hémocultures stériles", "cultures négatives", "pas de croissance", "absence de germe"
+    \item \textbf{Diagnostic} : "arguments contre", "infirme l'hypothèse", "ne plaide pas pour"
+    \item \textbf{Anglicismes} : "rule out", "unlikely", "doubtful", "negative for"
+    \item \textbf{Formulations indirectes} : "ne ressemblent pas à", "diffèrent de", "ne correspond pas à"
 \end{itemize}
 
 \subsubsection{Cas particuliers}
@@ -243,6 +328,28 @@ Ne PAS annoter les éléments précédés de termes de négation :
     \item \textbf{Co-infections} : Annoter toutes les bactéries identifiées
     \item \textbf{Sites multiples} : Distinguer site primaire unique et sites secondaires multiples
     \item \textbf{Évolution temporelle} : Annoter l'état au moment de la rédaction du CR
+    \item \textbf{Contexte médical} : Annoter uniquement si pertinent pour l'épisode infectieux
+    \item \textbf{Distinction direct/indirect} : Privilégier les liens directs, documenter les indirects
 \end{itemize}
+
+\subsubsection{Exemples complets issus du corpus BACTHUB}
+\begin{verbatim}
+Texte : "Patient diabétique porteur d'un cathéter de dialyse. 
+Bactériémie à Staphylocoque doré SARM sur cathéter."
+
+Annotations :
+- [diabétique] : CONTEXTE_MÉDICAL
+- [cathéter de dialyse] : CONTEXTE_MÉDICAL  
+- [Bactériémie] : BACTÉRIÉMIE
+- [Staphylocoque doré] : BACTÉRIE
+- [SARM] : RÉSISTANCE
+- [cathéter] : SITE_PRIMAIRE (direct)
+
+Relations :
+- CAUSÉE_PAR : Bactériémie → Staphylocoque doré
+- ORIGINE : Bactériémie → cathéter
+- PROFIL_RÉSISTANCE : Staphylocoque doré → SARM
+- CONTEXTE : Bactériémie → diabétique, cathéter de dialyse
+\end{verbatim}
 
 \newpage
