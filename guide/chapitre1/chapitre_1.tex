@@ -1,4 +1,114 @@
 % Chapitre 1 du guide d'annotation
-\section{Chapitre 1}
+\section{Contexte scientifique et travaux antérieurs}
 
-% Contenu à réécrire
+\subsection{Objectif du cas d'usage}
+
+L'objectif principal de ce cas d'usage est d'identifier la provenance des bactériémies dans les comptes-rendus d'hospitalisation (CRH). Une bactériémie désigne la présence de bactéries dans le sang, constituant une infection bactérienne systémique potentiellement grave.
+
+Cette problématique s'inscrit dans un contexte clinique majeur où les infections bactériennes représentent des pathologies courantes tant en ville qu'à l'hôpital, pouvant potentiellement toucher toute la population. Ces infections présentent une forte mortalité supérieure à 20\% à trois mois, ce qui constitue un enjeu de santé publique considérable.
+
+L'enjeu majeur réside dans la caractérisation de ces infections en fonction de la \textbf{provenance des bactéries} (peau, urines, tube digestif, etc.) pour guider la prise en charge thérapeutique. Cette caractérisation permet d'orienter le choix des antibiotiques et d'adapter la stratégie thérapeutique en fonction du site primaire d'infection.
+
+\subsection{Contexte méthodologique}
+
+Une minorité des algorithmes de traitement automatique du langage (TAL) se sont intéressés aux maladies infectieuses, et aucun n'a abordé spécifiquement ce cas d'usage de l'identification des sites primaires de bactériémies. Cette lacune dans la littérature souligne l'importance de développer des outils spécialisés pour cette problématique clinique.
+
+La recherche sur de grandes bases de données repose traditionnellement sur la méthode de référence utilisant les \textbf{codages CIM-10}. Cependant, cette approche présente des limites importantes car le codage est inconstant et souvent incomplet. Il devient donc nécessaire de \textbf{retourner aux dossiers médicaux} pour retranscrire l'information de manière plus précise et exhaustive.
+
+\subsection{Travaux antérieurs : développement d'un algorithme à base de règles}
+
+Dans le cadre des travaux préparatoires, une première approche méthodologique a été développée sous la forme d'un algorithme à base de règles. Cet algorithme s'appuie sur plusieurs composants structurés :
+
+\subsubsection{Terminologie des concepts à extraire}
+
+L'algorithme utilise une terminologie exhaustive listant pour chaque concept à extraire les termes possibles. Par exemple, pour la bactérie \textit{Staphylococcus aureus}, les variations suivantes sont répertoriées : \textit{S. aureus}, \textit{Staphylococcus aureus}, \textit{Staph aureaus}, \textit{Staph doré}, etc.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|p{3cm}|p{5cm}|p{6cm}|}
+\hline
+\textbf{Concept} & \textbf{Sous-concept} & \textbf{Exemple} \\
+\hline
+Bactériémie & & bactériémie, hémoculture, bactériémiant, septicémie \\
+\hline
+Résistance & & résistant à la méthicilline, sauvage, BLSE, [Positif]PLP2a \\
+\hline
+Bactérie & Achromobacter, Acineto, Actinomyces, Aerococcus, Aeromonas, Aggregatibacter, Anaerococcus, Bacillus, Bacteroides, Bifidobacterium, Brevibacterium, Brucella, Burkholderia, BGN, HACEK, Kingella, Yersinia, Chryseobacterium, Campylobacter, Candida, Capnocytophaga, Citrobacter, Clostri, Coryne, Dermabacter, Egghertella, Eikenella, Elizabethkingia, Enterobacter, Enterocoque, Escherichia, Fusobacterium, Gardnerella, Granulicatella, Haemophilus, Hafnia, Klebsiella, Lactobacillus, Listeria, Micrococcus, Moraxella, Morganella, Neisseria, Pantoea, Parvimonas, Pasteurella, Pediococcus, Pneumo, Prevotella, Propioni, Proteus, Providencia, Pseudomonas, Raoultella, Salmonella, Serratia, Shigella, Staph doré, Staph blanc, Staph, Steno, Strepto, Legionella, Bordetella, Helicobacter, Vibrio, Erysipelothryx, Nocardia, Peptostreptococcus, Rhodococcus, Francisella & C. perfringens, ERV, M. morganni, Staphylocoque coagulase negative, S. maltophilia, Streptocoque dysgalactiae \\
+\hline
+Site > Site primaire & Primaire, Urines, Digestif, Poumon, Cathéter, Matériel, Ostéo-artic, Peau, Cardio\_vasc, Genital int, ORL, SNC, Stomato & point de départ la ... <Infection>, point de départ biliaire, sur foyer rénal, porte d'entrée probablement digestive \\
+\hline
+Site > Site secondaire & Urines, Digestif, Poumon, Cathéter, Matériel, Ostéo-artic, Peau, Cardio\_vasc, Genital int, ORL, SNC, Stomato & compliquée par... <Infection>, embole septique au niveau pulmonaire, greffe sur cathéter \\
+\hline
+Infection & Urines, Digestif, Poumon, Cathéter, Matériel, Ostéo-artic, Peau, Cardio\_vasc, Genital int, ORL, SNC, Stomato & abcès au niveau de la peau, péritonite, infection prostatique, PNA \\
+\hline
+\end{tabular}
+\caption{Concepts et terminologies utilisés dans l'algorithme à base de règles}
+\end{table}
+
+\subsubsection{Terminologie de négation}
+
+L'algorithme intègre également une terminologie spécialisée dans l'identification des termes de négation, permettant d'exclure les mentions d'infections écartées ou non confirmées. Cette terminologie comprend des expressions telles que : \textit{absence d'argument en faveur}, \textit{l'a écarté}, \textit{a écarté}, \textit{ne ressemblent pas}, \textit{ne révèlent pas}, etc.
+
+\subsubsection{Règles d'identification des concepts}
+
+L'algorithme applique des règles d'identification spécifiques pour assurer la cohérence des extractions. Par exemple, une infection n'est identifiée que s'il y a dans la même phrase une notion de bactériémie ou d'une bactérie, elle-même liée ailleurs dans le compte-rendu d'hospitalisation à une bactériémie.
+
+\subsection{Architecture et fonctionnement de l'algorithme}
+
+\subsubsection{Périmètre d'analyse}
+
+L'algorithme de TAL s'appuie sur le périmètre de la phrase et sur des contraintes de section. L'hypothèse méthodologique posée stipule que l'information sur la bactériémie se trouve dans la même phrase où celle-ci est citée.
+
+\subsubsection{Seuil d'acceptation}
+
+L'algorithme fonctionne avec un seuil d'acceptation d'erreurs fixé à 0,8, permettant de maintenir un équilibre entre sensibilité et spécificité dans l'extraction automatique des concepts.
+
+\subsubsection{Capacités fonctionnelles}
+
+L'algorithme développé présente quatre capacités principales :
+
+\begin{enumerate}
+\item Identifier séparément chaque bactériémie et sa bactérie associée
+\item Identifier le site primaire lié à chaque bactériémie et les éventuels sites secondaires
+\item Ignorer les informations liées aux infections sans bactériémie
+\item Ignorer les suspicions d'infections non confirmées ou les explorations négatives
+\end{enumerate}
+
+\subsection{Évaluation de l'algorithme à base de règles}
+
+L'évaluation a été menée sur un corpus de 300 épisodes de bactériémie, permettant d'établir des métriques de performance selon plusieurs perspectives d'analyse.
+
+\subsubsection{Complétude des comptes-rendus}
+
+Sur les 300 épisodes évalués, 216 comptes-rendus (72\%) présentaient un contenu entièrement informatif sur la ou les bactériémies identifiées en microbiologie, incluant à la fois la mention de la bactériémie et l'identification de la bactérie responsable.
+
+\subsubsection{Performance en mode analyse textuelle pure}
+
+En se plaçant dans une situation d'étude basée entièrement sur du texte, sans tenir compte des données clinico-microbiologiques structurées, l'évaluation porte sur 269 bactériémies citées dans les comptes-rendus et identifiées par lecture experte.
+
+Les performances obtenues sont les suivantes :
+
+\begin{itemize}
+\item \textbf{Identification du couple bactériémie-bactérie} : Rappel = 0,92, Précision = 0,88, Score F1 = 0,90
+\item \textbf{Identification du site primaire} : Rappel = 0,63, Précision = 0,84, Score F1 = 0,72
+\end{itemize}
+
+\subsubsection{Performance en mode enrichissement de base de données}
+
+En se plaçant dans une situation d'étude rétrospective où les données textuelles enrichissent une base de données clinico-microbiologique existante, l'évaluation se concentre sur les 216 épisodes où les bactériémies d'intérêt sont toutes citées dans les comptes-rendus.
+
+Pour l'identification des sites primaires :
+\begin{itemize}
+\item \textbf{Performance du TAL} : Rappel = 0,64, Précision = 0,83, Score F1 = 0,72
+\item \textbf{Performance des codages CIM-10} : Rappel = 0,64, Précision = 0,35, Score F1 = 0,45
+\end{itemize}
+
+Cette comparaison démontre la supériorité de l'approche TAL par rapport aux codages CIM-10 traditionnels, particulièrement en termes de précision.
+
+Sur l'ensemble des 300 épisodes, en tenant compte des comptes-rendus avec information partielle, les performances du TAL atteignent : Rappel = 0,63, Précision = 0,82, Score F1 = 0,71.
+
+\subsection{Perspectives pour le développement de nouveaux modèles}
+
+Ces travaux antérieurs constituent la base méthodologique pour l'entraînement et l'évaluation de plusieurs nouveaux modèles : supervisés, BERT, et modèles de langage de grande taille (LLM), en comparaison avec l'algorithme de TAL à base de règles existant.
+
+L'objectif est de développer des approches plus sophistiquées capables d'améliorer les performances d'identification des sites primaires de bactériémies, tout en maintenant la robustesse démontrée par l'approche initiale à base de règles.
