@@ -1,24 +1,57 @@
 % Introduction du guide d'annotation
 \section{Introduction}
 
-Le domaine des infections bactériémiques représente un enjeu majeur de santé publique avec une mortalité supérieure à vingt pour cent à trois mois. Ces infections bactériennes dans le sang constituent des pathologies courantes tant en ville qu'à l'hôpital et peuvent potentiellement toucher l'ensemble de la population. L'enjeu principal réside dans la caractérisation de ces infections en fonction de la provenance des bactéries, qu'elle soit cutanée, urinaire, digestive ou liée à d'autres sites anatomiques, afin de guider efficacement la prise en charge thérapeutique.
+\subsection{Contexte médical et enjeux cliniques}
 
-La recherche sur les grandes bases de données hospitalières s'appuie traditionnellement sur les codages CIM-10 comme méthode de référence, mais cette approche présente des limites importantes dues à un codage inconstant et incomplet. Cette situation nécessite un retour aux dossiers médicaux pour retranscrire fidèlement l'information clinique contenue dans les comptes-rendus d'hospitalisation. Une minorité des algorithmes de traitement automatique du langage se sont intéressés aux maladies infectieuses, et aucun ne s'est spécifiquement penché sur ce cas d'usage particulier de l'identification de la provenance des bactériémies.
+Les bactériémies, définies comme la présence de bactéries dans le sang, représentent un défi majeur de santé publique avec une mortalité supérieure à 20\% à trois mois. Ces infections, courantes tant en ville qu'à l'hôpital, peuvent potentiellement toucher tout patient et nécessitent une prise en charge rapide et adaptée.
 
-Des travaux antérieurs ont permis la réalisation d'un outil à base de règles linguistiques s'appuyant sur une terminologie exhaustive listant les termes possibles pour les concepts à extraire. Cette terminologie comprend par exemple les différentes variantes d'écriture pour la bactérie Staphylococcus aureus telles que "S. aureus", "Staphylococcus aureus", "Staph aureaus" ou "Staph doré". Le système développé intègre également une terminologie spécialisée listant des termes de négation comme "absence d'argument en faveur", "l'a écarté", "a écarté", "ne ressemblent pas" ou "ne révèlent pas".
+L'enjeu clinique majeur consiste à caractériser ces infections selon la provenance des bactéries (peau, urines, tube digestif, cathéter, etc.) afin de guider efficacement la prise en charge thérapeutique. Cette information cruciale se trouve consignée dans les comptes-rendus d'hospitalisation (CRH), mais son extraction manuelle reste chronophage et sujette à variabilité.
 
-L'algorithme de traitement automatique du langage mis au point s'appuie sur le périmètre de la phrase et sur des contraintes de section documentaire. L'hypothèse posée stipule que l'information sur la bactériémie se trouve dans la même phrase où celle-ci est citée. Le système fonctionne avec un seuil d'acceptation d'erreurs de 0,8 et possède la capacité d'identifier séparément chaque bactériémie et sa bactérie associée, d'identifier le site primaire lié à chaque bactériémie ainsi que les éventuels sites secondaires, d'ignorer les informations relatives aux infections sans bactériémie, et d'ignorer les suspicions d'infections non confirmées ou les explorations négatives.
+\subsection{Du traitement automatique à l'annotation experte}
 
-L'évaluation de cet outil sur trois cents épisodes de bactériémie a montré que soixante-douze pour cent des comptes-rendus contenaient un contenu entièrement informatif sur les bactériémies identifiées en microbiologie. En se plaçant dans une situation d'étude basée entièrement sur du texte, l'algorithme de traitement automatique du langage a démontré des performances de 0,92 en rappel, 0,88 en précision et 0,90 en score F1 pour l'identification du couple bactériémie-bactérie. Pour l'identification des sites primaires, les performances atteignent 0,63 en rappel, 0,84 en précision et 0,72 en score F1.
+Les méthodes de recherche sur grandes bases de données s'appuient traditionnellement sur les codages CIM-10, mais ces derniers présentent une inconstance notable. Face à cette limitation, le développement d'outils de traitement automatique du langage (TAL) dédiés aux maladies infectieuses devient nécessaire.
 
-En comparaison avec les codages CIM-10, l'algorithme de traitement automatique du langage présente des performances supérieures. Pour l'identification du site primaire lorsque la bactériémie d'intérêt est présente dans le compte-rendu, l'algorithme atteint 0,64 en rappel, 0,83 en précision et 0,72 en score F1, tandis que les codes CIM-10 obtiennent seulement 0,64 en rappel, 0,35 en précision et 0,45 en score F1.
+Des travaux antérieurs ont démontré la faisabilité d'un algorithme à base de règles atteignant des performances encourageantes :
+\begin{itemize}
+\item Identification bactériémie-bactérie : F1 score = 0,90
+\item Identification site primaire : F1 score = 0,72
+\end{itemize}
 
-Dans le contexte du projet PARTAGES, l'objectif consiste à entraîner et spécialiser plusieurs modèles incluant des approches supervisées, BERT et des modèles de langage de grande taille développés dans le cadre du projet par le groupe de travail 3. Ces modèles seront comparés à l'algorithme de traitement automatique du langage à base de règles développé précédemment. L'entraînement s'appuiera sur deux types de données : les données annotées issues du projet BACTHUB de l'Entrepôt de Données de Santé de l'Assistance Publique-Hôpitaux de Paris, et les données de comptes-rendus de patients fictifs annotées établies dans le cadre du projet PARTAGES par le groupe de travail 6.
+L'évolution vers des modèles d'apprentissage automatique plus sophistiqués (BERT, LLM) nécessite désormais la constitution de corpus annotés de qualité.
 
-L'analyse portera sur deux degrés d'évaluation distincts. Le premier concerne la performance du traitement automatique du langage pour identifier un couple bactériémie-bactérie, permettant de tester la capacité du modèle à détecter non seulement le site primaire mais aussi la bactériémie et la bactérie, notamment pour détecter les cas d'hallucinations. Le second degré d'analyse porte sur la performance du traitement automatique du langage pour identifier le site primaire d'infection.
+\subsection{Objectif et portée du guide}
 
-Pour les comptes-rendus du corpus de patients fictifs, la méthodologie prévoit deux cents comptes-rendus dans lesquels le scénario indique explicitement que le document doit inclure une bactériémie. Cette bactériémie peut être liée ou non au diagnostic principal selon le cas clinique. Les praticiens sont invités à citer la bactériémie et ses caractéristiques associées de la même manière qu'ils l'auraient fait dans un vrai compte-rendu, et à inclure une information sur l'origine de la bactériémie avec la formulation qui leur semble adéquate et qui correspond à leur pratique clinique habituelle.
+Ce guide d'annotation a pour objectif de standardiser l'identification et l'annotation des éléments informatifs relatifs aux bactériémies dans les comptes-rendus médicaux. Il s'adresse aux annotateurs chargés de constituer des corpus d'entraînement et d'évaluation pour les modèles de TAL.
 
-Cette approche permet d'assurer une bonne diversité de situations cliniques avec bactériémie, telles qu'on pourrait les rencontrer dans la pratique quotidienne, tout en déclinant une variété intéressante de situations cliniques. Le fait de proposer cette méthodologie à des comptes-rendus d'infectiologie indépendamment du diagnostic principal garantit cette diversité nécessaire à l'évaluation robuste des modèles de traitement automatique du langage.
+Périmètre d'annotation : Seuls les éléments directement liés à une bactériémie confirmée sont annotés. Les infections non bactériémiques, les suspicions non confirmées et les explorations négatives sont exclues du processus d'annotation.
 
-Le présent guide d'annotation a pour objectif de fournir les instructions détaillées et la méthodologie nécessaires à l'annotation cohérente et systématique des données textuelles dans le cadre de ce cas d'usage spécifique. Il reprend les concepts et exemples issus des travaux antérieurs tout en les adaptant aux exigences particulières de l'évaluation des modèles de langage de grande taille et des approches supervisées contemporaines.
+Le guide couvre l'annotation de cinq catégories conceptuelles principales :
+\begin{enumerate}
+\item Bactériémie : Identification de l'épisode infectieux
+\item Bactérie : Agent pathogène responsable
+\item Site primaire : Porte d'entrée de l'infection
+\item Site secondaire : Localisation de complications
+\item Résistance : Profil de résistance aux antibiotiques
+\end{enumerate}
+
+\subsection{Structure du guide}
+
+Ce guide est organisé en quatre chapitres principaux :
+\begin{enumerate}
+\item Concepts fondamentaux : Définitions des entités à annoter et de leurs relations
+\item Méthodologie et bonnes pratiques : Règles d'annotation et gestion de la cohérence
+\item Outils et exemples pratiques : Utilisation de BRAT et exemples d'annotation
+\item Cas d'usage avancés : Situations complexes et cas limites
+\end{enumerate}
+
+\subsection{Public cible}
+
+Ce guide s'adresse à :
+\begin{itemize}
+\item Annotateurs médicaux et linguistes
+\item Gestionnaires de projets d'annotation en santé
+\item Développeurs d'outils de TAL médical
+\item Chercheurs en informatique biomédicale
+\end{itemize}
+
+Cette approche structurée vise à soutenir le développement d'outils de TAL performants pour l'aide à la décision clinique en infectiologie.
