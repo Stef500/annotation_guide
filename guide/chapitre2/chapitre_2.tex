@@ -1,4 +1,807 @@
 % Chapitre 2 du guide d'annotation
-\section{Chapitre 2}
+\chapter{Instructions Pratiques d'Annotation}
 
-% Contenu à réécrire
+\section{Processus général d'annotation}
+
+L'annotation d'un compte-rendu hospitalier selon le système BacThub suit un processus séquentiel rigoureux qui garantit l'exhaustivité et la cohérence des annotations. Ce processus comprend quatre étapes principales :
+
+\begin{enumerate}
+    \item \textbf{Lecture complète du compte-rendu} : Prendre connaissance de l'intégralité du document pour comprendre le contexte clinique global
+    \item \textbf{Identification des sections} : Segmenter le document selon les 13 types de sections reconnus par le système
+    \item \textbf{Application séquentielle des règles d'extraction} : Identifier les entités selon l'ordre de priorité défini
+    \item \textbf{Validation des contraintes de cohérence} : Appliquer les 45 règles de cohérence pour valider et nettoyer les annotations
+\end{enumerate}
+
+\textbf{Principe fondamental :} L'annotation s'appuie sur l'hypothèse que l'information sur la bactériémie se trouve dans la même phrase où celle-ci est citée.
+
+\section{Méthodologie d'identification des entités}
+
+\subsection{Recherche des bactériémies}
+
+La bactériémie constitue l'entité d'entrée du processus d'annotation. Sa détection suit une procédure précise :
+
+\subsubsection{Termes déclencheurs}
+
+Rechercher dans le texte les termes suivants :
+\begin{itemize}
+    \item bactériémie
+    \item hémoculture
+    \item bactériémiant
+    \item septicémie
+\end{itemize}
+
+\subsubsection{Validation contextuelle}
+
+Pour chaque terme détecté, vérifier la présence dans la même phrase d'au moins une des entités suivantes :
+\begin{itemize}
+    \item Une \textbf{bactérie} (référez-vous à la liste des 77 bactéries du Chapitre 1)
+    \item Un \textbf{site} d'infection (parmi les 13 catégories définies)
+    \item Une \textbf{infection} caractérisée
+\end{itemize}
+
+\subsubsection{Vérification des sections autorisées}
+
+Confirmer que la bactériémie se trouve dans l'une des sections suivantes :
+\begin{itemize}
+    \item histoire
+    \item examen\_clinique
+    \item examen\_complementaire
+    \item evolution
+    \item conclusion
+    \item traitement\_sortie
+    \item traitement
+    \item autre
+\end{itemize}
+
+\subsection{Identification des bactéries}
+
+L'identification des bactéries suit des règles de reconnaissance spécifiques pour gérer les variantes terminologiques.
+
+\subsubsection{Règle fondamentale de reconnaissance}
+
+\textbf{Si le terme fait un seul mot, récupérer un mot après.}
+
+\textbf{Séparateur entre les mots :} espace ou point
+
+\textbf{Exemples d'application :}
+\begin{itemize}
+    \item "Staphylococcus aureus" = deux mots → annotation complète
+    \item "S. aureus" = deux mots → annotation complète
+    \item "S.aureus" (sans espace) = deux mots → annotation complète
+    \item "Staph" = un mot → récupérer le mot suivant
+\end{itemize}
+
+\subsubsection{Gestion des variantes orthographiques}
+
+Le système tolère :
+\begin{itemize}
+    \item Les espaces variables autour des points
+    \item L'absence de point dans les abréviations
+    \item Les variations de casse
+\end{itemize}
+
+\subsubsection{Contrainte de liaison}
+
+Chaque bactérie identifiée doit respecter la contrainte : "Même phrase que Bactériémie et/ou Site primaire et/ou Site secondaire et/ou Infection".
+
+\subsubsection{Vérification des sections autorisées}
+
+Les bactéries ne peuvent être annotées que dans les sections :
+\begin{itemize}
+    \item examen\_complementaire
+    \item evolution
+    \item conclusion
+    \item traitement\_sortie
+    \item traitement
+\end{itemize}
+
+\subsection{Détection des sites d'infection}
+
+Les sites d'infection peuvent être identifiés selon deux modalités : directe et indirecte.
+
+\subsubsection{Sites primaires directs}
+
+\textbf{Définition :} Site trouvé grâce à une association avec une bactériémie dans la même phrase.
+
+\textbf{Méthode d'identification :}
+\begin{enumerate}
+    \item Localiser une bactériémie dans une phrase
+    \item Rechercher dans la même phrase des termes correspondant aux 13 catégories de sites
+    \item Valider l'association contextuelle
+\end{enumerate}
+
+\subsubsection{Sites primaires indirects}
+
+\textbf{Définition :} Site trouvé grâce à une association avec une bactérie mentionnée par ailleurs avec une bactériémie.
+
+\textbf{Méthode d'identification :}
+\begin{enumerate}
+    \item Identifier une bactérie associée à une bactériémie (relation directe ou indirecte)
+    \item Rechercher dans le document d'autres mentions de cette même bactérie
+    \item Si une mention de la bactérie apparaît dans la même phrase qu'un site, créer l'association indirecte
+\end{enumerate}
+
+\subsubsection{Sites secondaires}
+
+\textbf{Définition :} Complications ou emboles septiques résultant de la bactériémie primaire.
+
+\textbf{Termes indicateurs :}
+\begin{itemize}
+    \item "compliquée par..."
+    \item "embole septique au niveau..."
+    \item "greffe sur..."
+    \item "localisation secondaire..."
+\end{itemize}
+
+\subsubsection{Application de la hiérarchie des sites}
+
+Classer chaque site identifié selon les 13 catégories :
+\begin{enumerate}
+    \item Primaire
+    \item Urines
+    \item Digestif
+    \item Poumon
+    \item Cathéter
+    \item Matériel
+    \item Ostéo-artic
+    \item Peau
+    \item Cardio\_vasc
+    \item Genital int
+    \item ORL
+    \item SNC
+    \item Stomato
+\end{enumerate}
+
+\section{Application des règles de cohérence}
+
+L'application des règles de cohérence suit un ordre strict pour garantir la validité des annotations.
+
+\subsection{Ordre d'application des règles}
+
+\begin{enumerate}
+    \item \textbf{Règles de section} : Vérification des contraintes par section
+    \item \textbf{Règles familiales} : Suppression des antécédents familiaux
+    \item \textbf{Règles de cohérence inter-entités} : Validation des associations
+    \item \textbf{Règles de négation} : Application du système de négation
+\end{enumerate}
+
+\subsection{Vérification des contraintes de section}
+
+\subsubsection{Contrôle systématique par type d'entité}
+
+Pour chaque entité annotée, vérifier sa présence dans les sections autorisées :
+
+\textbf{Antécédents Charlson :}
+\begin{itemize}
+    \item Sections autorisées : head, motif, antecedent, mode\_de\_vie, histoire
+    \item Règle : NOT(SECTION\_intro\_patient) → REMOVE
+\end{itemize}
+
+\textbf{Bactériémie et Bactérie :}
+\begin{itemize}
+    \item Sections autorisées : parcours\_patient OR examen\_complementaire
+    \item Règle : NOT(SECTION\_parcours\_patient OR SECTION\_examen\_complementaire) → REMOVE
+\end{itemize}
+
+\textbf{Sites et Infections :}
+\begin{itemize}
+    \item Sections autorisées : parcours\_patient
+    \item Règle : NOT(SECTION\_parcours\_patient) → REMOVE
+\end{itemize}
+
+\subsubsection{Application des regroupements de sections}
+
+\textbf{SECTION\_intro\_patient :}
+SECTION\_head OR SECTION\_motif OR SECTION\_antecedent OR SECTION\_mode\_de\_vie OR SECTION\_histoire
+
+\textbf{SECTION\_parcours\_patient :}
+SECTION\_histoire OR SECTION\_evolution OR SECTION\_conclusion OR SECTION\_autre
+
+\subsection{Application des règles de suppression}
+
+\subsubsection{Règles de suppression familiales}
+
+Supprimer systématiquement tous les antécédents Charlson marqués comme familiaux :
+\begin{itemize}
+    \item Infarctus : Famille → REMOVE
+    \item Insuffisance cardiaque congestive : Famille → REMOVE
+    \item Maladies vasculaires : Famille → REMOVE
+    \item Maladies cérébro-vasculaires : Famille → REMOVE
+    \item Démence : Famille → REMOVE
+    \item Maladies pulmonaires chroniques : Famille → REMOVE
+    \item Pathologies rhumatismales et systémiques : Famille → REMOVE
+    \item Maladies rénales : Famille → REMOVE
+    \item Cancer : Famille → REMOVE
+    \item Leucémie : Famille → REMOVE
+    \item Lymphome : Famille → REMOVE
+    \item Tumeur solide métastasée : Famille → REMOVE
+    \item Cirrhose : Famille → REMOVE
+    \item Diabète : Famille → REMOVE
+\end{itemize}
+
+\subsubsection{Règles de cohérence inter-entités}
+
+Appliquer les 4 règles principales de cohérence :
+\begin{enumerate}
+    \item Site : NOT(Bactériémie OR Bactérie) → REMOVE
+    \item Infection : NOT(Bactériémie OR Bactérie) → REMOVE
+    \item Bactériémie : NOT(Site OR Bactérie OR Infection) → REMOVE
+    \item Bactérie : NOT(Site OR Bactériémie OR Infection) → REMOVE
+\end{enumerate}
+
+\subsubsection{Suppression en cascade}
+
+Lorsqu'une entité est supprimée, vérifier l'impact sur les entités dépendantes :
+\begin{itemize}
+    \item Dose Corticoïdes : NOT(Corticoïdes) → REMOVE
+    \item Durée Corticoïdes : NOT(Corticoïdes) → REMOVE
+    \item Atteinte rénale : NOT(Diabète) → REMOVE
+    \item Atteinte ophtalmologique : NOT(Diabète) → REMOVE
+    \item Atteinte neurologique : NOT(Diabète) → REMOVE
+    \item Atteinte vasculaire : NOT(Diabète) → REMOVE
+    \item Résistance bactérie : NOT Bactérie → REMOVE
+\end{itemize}
+
+\subsection{Gestion de la négation}
+
+\subsubsection{Identification des indices de négation}
+
+\textbf{Indices de négation pré (précèdent l'entité) :}
+\begin{itemize}
+    \item "absence de", "pas de", "aucun", "aucune"
+    \item "sans", "ne révèle pas"
+    \item "incompatible avec", "l'a écarté"
+    \item "exclut", "infirme"
+\end{itemize}
+
+\textbf{Indices de négation post (suivent l'entité) :}
+\begin{itemize}
+    \item "négatif", "négative"
+    \item "est exclu", "sont exclus"
+    \item "a été écarté", "improbable"
+    \item "peu probable", "est absent", "sont absents"
+\end{itemize}
+
+\subsubsection{Vérification du chevauchement}
+
+Pour chaque entité annotée :
+\begin{enumerate}
+    \item Identifier les expressions de négation dans un périmètre défini
+    \item Vérifier si l'entité chevauche (partiellement ou totalement) avec une expression de négation
+    \item Si chevauchement détecté : appliquer la règle OVERLAPS Négation → REMOVE
+\end{enumerate}
+
+\subsubsection{Application de la règle universelle}
+
+\textbf{Règle :} * : OVERLAPS Négation → REMOVE
+
+Cette règle s'applique à toutes les entités sans exception.
+
+\section{Cas particuliers et exceptions}
+
+\subsection{Antécédents familiaux}
+
+\subsubsection{Détection du contexte familial}
+
+Rechercher les indicateurs de contexte familial :
+\begin{itemize}
+    \item "antécédents familiaux"
+    \item "famille"
+    \item "père", "mère", "frère", "sœur"
+    \item "parents", "grands-parents"
+\end{itemize}
+
+\subsubsection{Application de la règle de suppression}
+
+Toute entité Antécédent Charlson associée à un contexte familial doit être supprimée, même si elle respecte par ailleurs toutes les autres contraintes.
+
+\subsection{Explorations négatives et suspicions non confirmées}
+
+\subsubsection{Identification des résultats négatifs}
+
+Rechercher les formulations indiquant :
+\begin{itemize}
+    \item "hémocultures négatives"
+    \item "pas de germe isolé"
+    \item "stériles"
+    \item "absence de croissance"
+\end{itemize}
+
+\subsubsection{Non-annotation des suspicions}
+
+Ne pas annoter les hypothèses diagnostiques non confirmées :
+\begin{itemize}
+    \item "suspicion de bactériémie"
+    \item "probable bactériémie"
+    \item "à éliminer"
+    \item "en cours d'exploration"
+\end{itemize}
+
+\subsection{Infections sans bactériémie}
+
+\subsubsection{Exclusion des infections localisées}
+
+Ne pas annoter les infections qui ne sont pas associées à une bactériémie :
+\begin{itemize}
+    \item Infections urinaires isolées
+    \item Infections cutanées locales
+    \item Pneumonies sans bactériémie associée
+\end{itemize}
+
+\subsubsection{Maintien des infections liées aux bactériémies}
+
+Conserver uniquement les infections qui :
+\begin{enumerate}
+    \item Sont mentionnées dans la même phrase qu'une bactériémie
+    \item Sont associées à une bactérie elle-même liée à une bactériémie
+    \item Constituent le point de départ d'une bactériémie (site primaire)
+\end{enumerate}
+
+\section{Contrôles qualité}
+
+\subsection{Vérification de la complétude}
+
+\subsubsection{Contrôle des bactériémies}
+
+S'assurer que toutes les bactériémies mentionnées dans le compte-rendu ont été identifiées :
+\begin{enumerate}
+    \item Relecture complète du document
+    \item Recherche systématique des 4 termes déclencheurs
+    \item Vérification de l'annotation de chaque occurrence
+\end{enumerate}
+
+\subsubsection{Contrôle des associations}
+
+Vérifier que chaque bactériémie est associée à :
+\begin{itemize}
+    \item Au moins une bactérie OU un site OU une infection
+    \item Une date d'hémoculture si mentionnée
+\end{itemize}
+
+\subsection{Cohérence des relations}
+
+\subsubsection{Validation des triplets bactériémie-bactérie-site}
+
+Pour chaque bactériémie annotée, contrôler :
+\begin{enumerate}
+    \item L'existence d'une bactérie associée
+    \item L'identification du site primaire
+    \item La cohérence temporelle et contextuelle
+\end{enumerate}
+
+\subsubsection{Vérification des sites secondaires}
+
+S'assurer que les sites secondaires sont bien des complications d'une bactériémie primaire identifiée.
+
+\subsection{Absence d'annotations dans les sections interdites}
+
+\subsubsection{Contrôle systématique par section}
+
+Vérifier qu'aucune entité n'a été annotée dans une section interdite pour son type.
+
+\subsubsection{Cas particuliers à surveiller}
+
+\begin{itemize}
+    \item Bactéries dans les sections d'antécédents
+    \item Paramètres vitaux hors examen clinique
+    \item Antécédents Charlson dans les sections de traitement
+\end{itemize}
+
+\subsection{Validation de l'application correcte de la négation}
+
+\subsubsection{Contrôle des expressions de négation}
+
+Vérifier que toutes les entités associées à une négation ont été correctement supprimées.
+
+\subsubsection{Cas limites à examiner}
+
+\begin{itemize}
+    \item Négations à distance de l'entité
+    \item Négations partielles
+    \item Double négations
+\end{itemize}
+
+\textbf{Principe de validation finale :} Chaque annotation conservée doit respecter l'ensemble des contraintes définies dans ce chapitre et être cohérente avec le contexte clinique du compte-rendu.% Chapitre 2 du guide d'annotation
+\chapter{Instructions Pratiques d'Annotation}
+
+\section{Processus général d'annotation}
+
+L'annotation d'un compte-rendu hospitalier selon le système BacThub suit un processus séquentiel rigoureux qui garantit l'exhaustivité et la cohérence des annotations. Ce processus comprend quatre étapes principales :
+
+\begin{enumerate}
+    \item \textbf{Lecture complète du compte-rendu} : Prendre connaissance de l'intégralité du document pour comprendre le contexte clinique global
+    \item \textbf{Identification des sections} : Segmenter le document selon les 13 types de sections reconnus par le système
+    \item \textbf{Application séquentielle des règles d'extraction} : Identifier les entités selon l'ordre de priorité défini
+    \item \textbf{Validation des contraintes de cohérence} : Appliquer les 45 règles de cohérence pour valider et nettoyer les annotations
+\end{enumerate}
+
+\textbf{Principe fondamental :} L'annotation s'appuie sur l'hypothèse que l'information sur la bactériémie se trouve dans la même phrase où celle-ci est citée.
+
+\section{Méthodologie d'identification des entités}
+
+\subsection{Recherche des bactériémies}
+
+La bactériémie constitue l'entité d'entrée du processus d'annotation. Sa détection suit une procédure précise :
+
+\subsubsection{Termes déclencheurs}
+
+Rechercher dans le texte les termes suivants :
+\begin{itemize}
+    \item bactériémie
+    \item hémoculture
+    \item bactériémiant
+    \item septicémie
+\end{itemize}
+
+\subsubsection{Validation contextuelle}
+
+Pour chaque terme détecté, vérifier la présence dans la même phrase d'au moins une des entités suivantes :
+\begin{itemize}
+    \item Une \textbf{bactérie} (référez-vous à la liste des 77 bactéries du Chapitre 1)
+    \item Un \textbf{site} d'infection (parmi les 13 catégories définies)
+    \item Une \textbf{infection} caractérisée
+\end{itemize}
+
+\subsubsection{Vérification des sections autorisées}
+
+Confirmer que la bactériémie se trouve dans l'une des sections suivantes :
+\begin{itemize}
+    \item histoire
+    \item examen\_clinique
+    \item examen\_complementaire
+    \item evolution
+    \item conclusion
+    \item traitement\_sortie
+    \item traitement
+    \item autre
+\end{itemize}
+
+\subsection{Identification des bactéries}
+
+L'identification des bactéries suit des règles de reconnaissance spécifiques pour gérer les variantes terminologiques.
+
+\subsubsection{Règle fondamentale de reconnaissance}
+
+\textbf{Si le terme fait un seul mot, récupérer un mot après.}
+
+\textbf{Séparateur entre les mots :} espace ou point
+
+\textbf{Exemples d'application :}
+\begin{itemize}
+    \item "Staphylococcus aureus" = deux mots → annotation complète
+    \item "S. aureus" = deux mots → annotation complète
+    \item "S.aureus" (sans espace) = deux mots → annotation complète
+    \item "Staph" = un mot → récupérer le mot suivant
+\end{itemize}
+
+\subsubsection{Gestion des variantes orthographiques}
+
+Le système tolère :
+\begin{itemize}
+    \item Les espaces variables autour des points
+    \item L'absence de point dans les abréviations
+    \item Les variations de casse
+\end{itemize}
+
+\subsubsection{Contrainte de liaison}
+
+Chaque bactérie identifiée doit respecter la contrainte : "Même phrase que Bactériémie et/ou Site primaire et/ou Site secondaire et/ou Infection".
+
+\subsubsection{Vérification des sections autorisées}
+
+Les bactéries ne peuvent être annotées que dans les sections :
+\begin{itemize}
+    \item examen\_complementaire
+    \item evolution
+    \item conclusion
+    \item traitement\_sortie
+    \item traitement
+\end{itemize}
+
+\subsection{Détection des sites d'infection}
+
+Les sites d'infection peuvent être identifiés selon deux modalités : directe et indirecte.
+
+\subsubsection{Sites primaires directs}
+
+\textbf{Définition :} Site trouvé grâce à une association avec une bactériémie dans la même phrase.
+
+\textbf{Méthode d'identification :}
+\begin{enumerate}
+    \item Localiser une bactériémie dans une phrase
+    \item Rechercher dans la même phrase des termes correspondant aux 13 catégories de sites
+    \item Valider l'association contextuelle
+\end{enumerate}
+
+\subsubsection{Sites primaires indirects}
+
+\textbf{Définition :} Site trouvé grâce à une association avec une bactérie mentionnée par ailleurs avec une bactériémie.
+
+\textbf{Méthode d'identification :}
+\begin{enumerate}
+    \item Identifier une bactérie associée à une bactériémie (relation directe ou indirecte)
+    \item Rechercher dans le document d'autres mentions de cette même bactérie
+    \item Si une mention de la bactérie apparaît dans la même phrase qu'un site, créer l'association indirecte
+\end{enumerate}
+
+\subsubsection{Sites secondaires}
+
+\textbf{Définition :} Complications ou emboles septiques résultant de la bactériémie primaire.
+
+\textbf{Termes indicateurs :}
+\begin{itemize}
+    \item "compliquée par..."
+    \item "embole septique au niveau..."
+    \item "greffe sur..."
+    \item "localisation secondaire..."
+\end{itemize}
+
+\subsubsection{Application de la hiérarchie des sites}
+
+Classer chaque site identifié selon les 13 catégories :
+\begin{enumerate}
+    \item Primaire
+    \item Urines
+    \item Digestif
+    \item Poumon
+    \item Cathéter
+    \item Matériel
+    \item Ostéo-artic
+    \item Peau
+    \item Cardio\_vasc
+    \item Genital int
+    \item ORL
+    \item SNC
+    \item Stomato
+\end{enumerate}
+
+\section{Application des règles de cohérence}
+
+L'application des règles de cohérence suit un ordre strict pour garantir la validité des annotations.
+
+\subsection{Ordre d'application des règles}
+
+\begin{enumerate}
+    \item \textbf{Règles de section} : Vérification des contraintes par section
+    \item \textbf{Règles familiales} : Suppression des antécédents familiaux
+    \item \textbf{Règles de cohérence inter-entités} : Validation des associations
+    \item \textbf{Règles de négation} : Application du système de négation
+\end{enumerate}
+
+\subsection{Vérification des contraintes de section}
+
+\subsubsection{Contrôle systématique par type d'entité}
+
+Pour chaque entité annotée, vérifier sa présence dans les sections autorisées :
+
+\textbf{Antécédents Charlson :}
+\begin{itemize}
+    \item Sections autorisées : head, motif, antecedent, mode\_de\_vie, histoire
+    \item Règle : NOT(SECTION\_intro\_patient) → REMOVE
+\end{itemize}
+
+\textbf{Bactériémie et Bactérie :}
+\begin{itemize}
+    \item Sections autorisées : parcours\_patient OR examen\_complementaire
+    \item Règle : NOT(SECTION\_parcours\_patient OR SECTION\_examen\_complementaire) → REMOVE
+\end{itemize}
+
+\textbf{Sites et Infections :}
+\begin{itemize}
+    \item Sections autorisées : parcours\_patient
+    \item Règle : NOT(SECTION\_parcours\_patient) → REMOVE
+\end{itemize}
+
+\subsubsection{Application des regroupements de sections}
+
+\textbf{SECTION\_intro\_patient :}
+SECTION\_head OR SECTION\_motif OR SECTION\_antecedent OR SECTION\_mode\_de\_vie OR SECTION\_histoire
+
+\textbf{SECTION\_parcours\_patient :}
+SECTION\_histoire OR SECTION\_evolution OR SECTION\_conclusion OR SECTION\_autre
+
+\subsection{Application des règles de suppression}
+
+\subsubsection{Règles de suppression familiales}
+
+Supprimer systématiquement tous les antécédents Charlson marqués comme familiaux :
+\begin{itemize}
+    \item Infarctus : Famille → REMOVE
+    \item Insuffisance cardiaque congestive : Famille → REMOVE
+    \item Maladies vasculaires : Famille → REMOVE
+    \item Maladies cérébro-vasculaires : Famille → REMOVE
+    \item Démence : Famille → REMOVE
+    \item Maladies pulmonaires chroniques : Famille → REMOVE
+    \item Pathologies rhumatismales et systémiques : Famille → REMOVE
+    \item Maladies rénales : Famille → REMOVE
+    \item Cancer : Famille → REMOVE
+    \item Leucémie : Famille → REMOVE
+    \item Lymphome : Famille → REMOVE
+    \item Tumeur solide métastasée : Famille → REMOVE
+    \item Cirrhose : Famille → REMOVE
+    \item Diabète : Famille → REMOVE
+\end{itemize}
+
+\subsubsection{Règles de cohérence inter-entités}
+
+Appliquer les 4 règles principales de cohérence :
+\begin{enumerate}
+    \item Site : NOT(Bactériémie OR Bactérie) → REMOVE
+    \item Infection : NOT(Bactériémie OR Bactérie) → REMOVE
+    \item Bactériémie : NOT(Site OR Bactérie OR Infection) → REMOVE
+    \item Bactérie : NOT(Site OR Bactériémie OR Infection) → REMOVE
+\end{enumerate}
+
+\subsubsection{Suppression en cascade}
+
+Lorsqu'une entité est supprimée, vérifier l'impact sur les entités dépendantes :
+\begin{itemize}
+    \item Dose Corticoïdes : NOT(Corticoïdes) → REMOVE
+    \item Durée Corticoïdes : NOT(Corticoïdes) → REMOVE
+    \item Atteinte rénale : NOT(Diabète) → REMOVE
+    \item Atteinte ophtalmologique : NOT(Diabète) → REMOVE
+    \item Atteinte neurologique : NOT(Diabète) → REMOVE
+    \item Atteinte vasculaire : NOT(Diabète) → REMOVE
+    \item Résistance bactérie : NOT Bactérie → REMOVE
+\end{itemize}
+
+\subsection{Gestion de la négation}
+
+\subsubsection{Identification des indices de négation}
+
+\textbf{Indices de négation pré (précèdent l'entité) :}
+\begin{itemize}
+    \item "absence de", "pas de", "aucun", "aucune"
+    \item "sans", "ne révèle pas"
+    \item "incompatible avec", "l'a écarté"
+    \item "exclut", "infirme"
+\end{itemize}
+
+\textbf{Indices de négation post (suivent l'entité) :}
+\begin{itemize}
+    \item "négatif", "négative"
+    \item "est exclu", "sont exclus"
+    \item "a été écarté", "improbable"
+    \item "peu probable", "est absent", "sont absents"
+\end{itemize}
+
+\subsubsection{Vérification du chevauchement}
+
+Pour chaque entité annotée :
+\begin{enumerate}
+    \item Identifier les expressions de négation dans un périmètre défini
+    \item Vérifier si l'entité chevauche (partiellement ou totalement) avec une expression de négation
+    \item Si chevauchement détecté : appliquer la règle OVERLAPS Négation → REMOVE
+\end{enumerate}
+
+\subsubsection{Application de la règle universelle}
+
+\textbf{Règle :} * : OVERLAPS Négation → REMOVE
+
+Cette règle s'applique à toutes les entités sans exception.
+
+\section{Cas particuliers et exceptions}
+
+\subsection{Antécédents familiaux}
+
+\subsubsection{Détection du contexte familial}
+
+Rechercher les indicateurs de contexte familial :
+\begin{itemize}
+    \item "antécédents familiaux"
+    \item "famille"
+    \item "père", "mère", "frère", "sœur"
+    \item "parents", "grands-parents"
+\end{itemize}
+
+\subsubsection{Application de la règle de suppression}
+
+Toute entité Antécédent Charlson associée à un contexte familial doit être supprimée, même si elle respecte par ailleurs toutes les autres contraintes.
+
+\subsection{Explorations négatives et suspicions non confirmées}
+
+\subsubsection{Identification des résultats négatifs}
+
+Rechercher les formulations indiquant :
+\begin{itemize}
+    \item "hémocultures négatives"
+    \item "pas de germe isolé"
+    \item "stériles"
+    \item "absence de croissance"
+\end{itemize}
+
+\subsubsection{Non-annotation des suspicions}
+
+Ne pas annoter les hypothèses diagnostiques non confirmées :
+\begin{itemize}
+    \item "suspicion de bactériémie"
+    \item "probable bactériémie"
+    \item "à éliminer"
+    \item "en cours d'exploration"
+\end{itemize}
+
+\subsection{Infections sans bactériémie}
+
+\subsubsection{Exclusion des infections localisées}
+
+Ne pas annoter les infections qui ne sont pas associées à une bactériémie :
+\begin{itemize}
+    \item Infections urinaires isolées
+    \item Infections cutanées locales
+    \item Pneumonies sans bactériémie associée
+\end{itemize}
+
+\subsubsection{Maintien des infections liées aux bactériémies}
+
+Conserver uniquement les infections qui :
+\begin{enumerate}
+    \item Sont mentionnées dans la même phrase qu'une bactériémie
+    \item Sont associées à une bactérie elle-même liée à une bactériémie
+    \item Constituent le point de départ d'une bactériémie (site primaire)
+\end{enumerate}
+
+\section{Contrôles qualité}
+
+\subsection{Vérification de la complétude}
+
+\subsubsection{Contrôle des bactériémies}
+
+S'assurer que toutes les bactériémies mentionnées dans le compte-rendu ont été identifiées :
+\begin{enumerate}
+    \item Relecture complète du document
+    \item Recherche systématique des 4 termes déclencheurs
+    \item Vérification de l'annotation de chaque occurrence
+\end{enumerate}
+
+\subsubsection{Contrôle des associations}
+
+Vérifier que chaque bactériémie est associée à :
+\begin{itemize}
+    \item Au moins une bactérie OU un site OU une infection
+    \item Une date d'hémoculture si mentionnée
+\end{itemize}
+
+\subsection{Cohérence des relations}
+
+\subsubsection{Validation des triplets bactériémie-bactérie-site}
+
+Pour chaque bactériémie annotée, contrôler :
+\begin{enumerate}
+    \item L'existence d'une bactérie associée
+    \item L'identification du site primaire
+    \item La cohérence temporelle et contextuelle
+\end{enumerate}
+
+\subsubsection{Vérification des sites secondaires}
+
+S'assurer que les sites secondaires sont bien des complications d'une bactériémie primaire identifiée.
+
+\subsection{Absence d'annotations dans les sections interdites}
+
+\subsubsection{Contrôle systématique par section}
+
+Vérifier qu'aucune entité n'a été annotée dans une section interdite pour son type.
+
+\subsubsection{Cas particuliers à surveiller}
+
+\begin{itemize}
+    \item Bactéries dans les sections d'antécédents
+    \item Paramètres vitaux hors examen clinique
+    \item Antécédents Charlson dans les sections de traitement
+\end{itemize}
+
+\subsection{Validation de l'application correcte de la négation}
+
+\subsubsection{Contrôle des expressions de négation}
+
+Vérifier que toutes les entités associées à une négation ont été correctement supprimées.
+
+\subsubsection{Cas limites à examiner}
+
+\begin{itemize}
+    \item Négations à distance de l'entité
+    \item Négations partielles
+    \item Double négations
+\end{itemize}
+
+\textbf{Principe de validation finale :} Chaque annotation conservée doit respecter l'ensemble des contraintes définies dans ce chapitre et être cohérente avec le contexte clinique du compte-rendu.
