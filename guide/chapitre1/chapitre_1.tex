@@ -1,329 +1,503 @@
-% Chapitre 1 : Concepts fondamentaux
-\chapter{Concepts fondamentaux}
+% Chapitre 1 du guide d'annotation
+\chapter{Concepts et Objectifs de l'Annotation}
 
-Ce chapitre présente les définitions des entités principales à annoter, leurs relations et les règles conceptuelles qui guident le processus d'annotation dans le cadre de l'identification des bactériémies.
+\section{Objectifs du cas d'usage}
 
-\section{Définitions des entités principales}
+Le système d'annotation BacThub a pour finalité d'identifier et d'annoter automatiquement les informations relatives aux bactériémies dans les comptes-rendus hospitaliers. Le système poursuit quatre objectifs principaux :
+
+\begin{enumerate}
+    \item \textbf{Identifier séparément chaque bactériémie et sa bactérie} : Reconnaître et associer chaque épisode de bactériémie avec la bactérie responsable
+    \item \textbf{Identifier le site primaire lié à chaque bactériémie (et les éventuels sites secondaires)} : Déterminer l'origine anatomique de l'infection bactérienne et ses complications éventuelles
+    \item \textbf{Ignorer les informations liées aux infections sans bactériémie} : Exclure les infections localisées qui ne sont pas associées à une bactériémie
+    \item \textbf{Ignorer les suspicions d'infections non confirmées, ou les explorations négatives} : Ne pas annoter les hypothèses diagnostiques non confirmées ou les résultats négatifs
+\end{enumerate}
+
+Ces objectifs s'appuient sur l'hypothèse que l'information sur la bactériémie se trouve dans la même phrase où celle-ci est citée.
+
+\section{Concepts principaux à annoter}
 
 \subsection{Bactériémie}
 
-\subsubsection{Définition médicale}
-La bactériémie est définie comme la présence de bactéries viables dans le sang, confirmée par une hémoculture positive. Cette condition constitue l'élément central de notre schéma d'annotation.
+La bactériémie constitue l'entité centrale du système d'annotation. Elle correspond à la présence de bactéries dans le sang et peut être exprimée par les termes suivants : bactériémie, hémoculture, bactériémiant, septicémie.
 
-\subsubsection{Critères d'annotation}
-\textbf{À annoter :}
-\begin{itemize}
-\item Mentions explicites : \textit{bactériémie}, \textit{hémoculture positive}, \textit{septicémie}, \textit{bactériémiant}
-\item Contexte de confirmation : \textit{mise en évidence de}, \textit{isolement de}
-\item Références temporelles : \textit{épisode de bactériémie}, \textit{bactériémie du [date]}
-\end{itemize}
+\textbf{Contraintes d'identification :} La bactériémie doit être identifiée dans la même phrase qu'une Bactérie et/ou qu'un Site et/ou qu'une Infection.
 
-\textbf{À exclure :}
-\begin{itemize}
-\item Suspicions non confirmées : \textit{suspicion de bactériémie}, \textit{à éliminer}
-\item Négations : \textit{pas de bactériémie}, \textit{absence de sepsis}
-\item Explorations négatives : \textit{hémocultures stériles}
-\end{itemize}
-
-\subsubsection{Exemples d'annotation}
-\begin{enumerate}
-\item \textit{"Bactériémie à Staphylococcus aureus"} → [Bactériémie : \textit{Bactériémie}]
-\item \textit{"Hémocultures positives à E. coli"} → [Bactériémie : \textit{Hémocultures positives}]
-\item \textit{"Épisode de septicémie nosocomiale"} → [Bactériémie : \textit{septicémie}]
-\end{enumerate}
+\textbf{Sections autorisées :} histoire, examen\_clinique, examen\_complementaire, evolution, conclusion, traitement\_sortie, traitement, autre.
 
 \subsection{Bactérie}
 
-\subsubsection{Définition}
-Agent pathogène responsable de la bactériémie, identifié par culture microbiologique ou méthodes moléculaires.
+Le système reconnaît 77 types de bactéries organisés hiérarchiquement. Chaque bactérie doit respecter la contrainte : "Même phrase que Bactériémie et/ou Site primaire et/ou Site secondaire et/ou Infection".
 
-\subsubsection{Nomenclature et variantes}
-Les bactéries peuvent être mentionnées sous différentes formes dans les comptes-rendus. Le tableau suivant présente les principales variantes acceptées :
+\textbf{Règle de reconnaissance :} Si le terme fait un seul mot, récupérer un mot après (séparateur entre les mots dans les termes = espace ou point). Exemple : Staphylococcus aureus est deux mots, S. aureus également, S.aureus (sans espace) également. Tolérer les espaces et l'absence de point.
 
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|l|}
-\hline
-\textbf{Bactérie} & \textbf{Variantes acceptées} \\
-\hline
-Staphylococcus aureus & S. aureus, Staph aureus, Staph doré \\
-\hline
-Escherichia coli & E. coli, Colibacille \\
-\hline
-Streptococcus pneumoniae & S. pneumoniae, Pneumocoque \\
-\hline
-Enterococcus faecalis & E. faecalis, Entérocoque \\
-\hline
-Pseudomonas aeruginosa & P. aeruginosa, Pyocyanique \\
-\hline
-\end{tabular}
-\caption{Principales variantes de nomenclature bactérienne}
-\end{table}
+\textbf{Liste exhaustive des bactéries annotées :}
 
-\subsubsection{Critères d'annotation}
-\textbf{À annoter :}
 \begin{itemize}
-\item Nomenclature complète : \textit{Staphylococcus aureus}
-\item Abréviations standardisées : \textit{S. aureus}, \textit{E. coli}
-\item Noms vernaculaires : \textit{Staph doré}, \textit{pneumocoque}
-\item Groupes bactériens : \textit{BGN} (bacilles Gram négatif), \textit{cocci Gram positif}
+    \item \textbf{Achromobacter}
+    \item \textbf{Acineto}
+    \item \textbf{Actinomyces}
+    \item \textbf{Aerococcus}
+    \item \textbf{Aeromonas}
+    \item \textbf{Aggregatibacter}
+    \item \textbf{Anaerococcus}
+    \item \textbf{Bacteroides}
+    \item \textbf{Bacillus}
+    \item \textbf{Bifidobacterium}
+    \item \textbf{BGN} (Bacilles à Gram négatif)
+    \item \textbf{Brevibacterium}
+    \item \textbf{Brucella}
+    \item \textbf{Burkholderia}
+    \item \textbf{Campylobacter}
+    \item \textbf{Capnocytophaga}
+    \item \textbf{Chryseobacterium}
+    \item \textbf{Citrobacter}
+    \item \textbf{Clostri} (Clostridium)
+    \item \textbf{Candida}
+    \item \textbf{Coryne} (Corynebacterium)
+    \item \textbf{Dermabacter}
+    \item \textbf{Egghertella}
+    \item \textbf{Eikenella}
+    \item \textbf{Elizabethkingia}
+    \item \textbf{Enterocoque}
+    \item \textbf{Enterobacter}
+    \item \textbf{Escherichia}
+    \item \textbf{Fusobacterium}
+    \item \textbf{Gardnerella}
+    \item \textbf{Granulicatella}
+    \item \textbf{Hafnia}
+    \item \textbf{Haemophilus}
+    \item \textbf{Klebsiella}
+    \item \textbf{Lactobacillus}
+    \item \textbf{Listeria}
+    \item \textbf{Micrococcus}
+    \item \textbf{Morganella}
+    \item \textbf{Moraxella}
+    \item \textbf{Neisseria}
+    \item \textbf{Pantoea}
+    \item \textbf{Parvimonas}
+    \item \textbf{Pasteurella}
+    \item \textbf{Pediococcus}
+    \item \textbf{Pneumo} (Pneumocoque)
+    \item \textbf{Prevotella}
+    \item \textbf{Propioni} (Propionibacterium)
+    \item \textbf{Providencia}
+    \item \textbf{Proteus}
+    \item \textbf{Pseudomonas}
+    \item \textbf{Raoultella}
+    \item \textbf{Salmonella}
+    \item \textbf{Serratia}
+    \item \textbf{Shigella}
+    \item \textbf{Staph} (Staphylocoque) avec ses sous-types :
+        \begin{itemize}
+            \item Staph blanc
+            \item Staph doré
+        \end{itemize}
+    \item \textbf{Steno} (Stenotrophomonas)
+    \item \textbf{Strepto} (Streptocoque)
+    \item \textbf{HACEK} (groupe de bactéries)
+    \item \textbf{Kingella}
+    \item \textbf{Yersinia}
+    \item \textbf{Legionella}
+    \item \textbf{Bordetella}
+    \item \textbf{Helicobacter}
+    \item \textbf{Vibrio}
+    \item \textbf{Erysipelothryx}
+    \item \textbf{Nocardia}
+    \item \textbf{Peptostreptococcus}
+    \item \textbf{Rhodococcus}
+    \item \textbf{Francisella}
 \end{itemize}
 
-\subsubsection{Gestion des variantes orthographiques}
-Les variantes orthographiques courantes doivent être annotées même en cas de fautes de frappe mineures :
+\textbf{Sections autorisées :} examen\_complementaire, evolution, conclusion, traitement\_sortie, traitement.
+
+\subsection{Sites d'infection}
+
+Les sites d'infection se déclinent en deux catégories principales : sites primaires et sites secondaires.
+
+\subsubsection{Site primaire}
+
+Le site primaire représente le point de départ de la bactériémie. Il peut être identifié de deux manières :
 \begin{itemize}
-\item \textit{Staph aureaus} → à annoter comme \textit{Staphylococcus aureus}
-\item \textit{E.coli} → à annoter comme \textit{Escherichia coli}
+    \item \textbf{Direct} : Site trouvé grâce à une association avec une bactériémie dans la même phrase
+    \item \textbf{Indirect} : Site trouvé grâce à une association avec une bactérie mentionnée par ailleurs avec une bactériémie
 \end{itemize}
 
-\subsection{Site primaire}
+\textbf{Contrainte d'identification :} Même phrase que Bactériémie, OU même phrase que Bactérie dont un synonyme a déjà été identifié ailleurs dans le document en liaison à un terme Bactériémie.
 
-\subsubsection{Définition}
-Le site primaire correspond à la porte d'entrée de l'infection, c'est-à-dire la localisation anatomique d'origine de l'infection bactérienne qui a conduit à la bactériémie.
+\subsubsection{Site secondaire}
 
-\subsubsection{Catégories de sites primaires}
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|l|}
-\hline
-\textbf{Catégorie} & \textbf{Exemples d'expressions} \\
-\hline
-Urines & \textit{d'origine urinaire}, \textit{sur foyer rénal}, \textit{point de départ vésical} \\
-\hline
-Digestif & \textit{porte d'entrée digestive}, \textit{d'origine abdominale}, \textit{foyer biliaire} \\
-\hline
-Poumon & \textit{d'origine pulmonaire}, \textit{sur foyer respiratoire}, \textit{pneumopathie} \\
-\hline
-Cathéter & \textit{sur cathéter}, \textit{liée au dispositif}, \textit{infection de KTC} \\
-\hline
-Peau & \textit{cutanée}, \textit{d'origine dermatologique}, \textit{sur plaie} \\
-\hline
-\end{tabular}
-\caption{Catégories de sites primaires et expressions associées}
-\end{table}
+Le site secondaire correspond aux complications ou aux emboles septiques résultant de la bactériémie primaire. Comme pour le site primaire, il peut être identifié de manière directe ou indirecte selon les mêmes règles.
 
-\subsubsection{Règles de validation}
-Deux types de validation sont acceptés :
+\subsubsection{Catégories de sites}
 
-\textbf{Validation directe :} Site primaire et bactériémie dans la même phrase
-\begin{quote}
-\textit{"Bactériémie d'origine urinaire à E. coli"}
-\end{quote}
-
-\textbf{Validation indirecte :} Site primaire + bactérie + référence croisée à la bactériémie dans le document
-\begin{quote}
-\textit{"Infection urinaire à E. coli"} + \textit{"Hémocultures positives à E. coli"} (dans un autre paragraphe)
-\end{quote}
-
-\subsection{Site secondaire}
-
-\subsubsection{Définition}
-Localisation des complications septiques secondaires à la bactériémie, distincte du site primaire.
-
-\subsubsection{Expressions caractéristiques}
+Les sites d'infection sont classés selon les catégories suivantes :
 \begin{itemize}
-\item \textit{"compliquée de"}, \textit{"compliquée par"}
-\item \textit{"embole septique"}, \textit{"localisation secondaire"}
-\item \textit{"greffe sur"}, \textit{"extension à"}
+    \item \textbf{Primaire} : Site principal de l'infection
+    \item \textbf{Urines} : Infections urinaires
+    \item \textbf{Digestif} : Infections du tractus digestif
+    \item \textbf{Poumon} : Infections pulmonaires
+    \item \textbf{Cathéter} : Infections liées aux cathéters
+    \item \textbf{Matériel} : Infections sur matériel prothétique
+    \item \textbf{Ostéo-artic} : Infections ostéo-articulaires
+    \item \textbf{Peau} : Infections cutanées
+    \item \textbf{Cardio\_vasc} : Infections cardiovasculaires
+    \item \textbf{Genital int} : Infections génitales internes
+    \item \textbf{ORL} : Infections oto-rhino-laryngologiques
+    \item \textbf{SNC} : Infections du système nerveux central
+    \item \textbf{Stomato} : Infections stomatologiques
 \end{itemize}
 
-\subsubsection{Exemples}
-\begin{enumerate}
-\item \textit{"Bactériémie d'origine urinaire compliquée d'endocardite"} 
-   \begin{itemize}
-   \item Site primaire : urinaire
-   \item Site secondaire : endocardite
-   \end{itemize}
-\item \textit{"Sepsis sur cathéter avec embole septique pulmonaire"}
-   \begin{itemize}
-   \item Site primaire : cathéter
-   \item Site secondaire : pulmonaire
-   \end{itemize}
-\end{enumerate}
+\textbf{Sections autorisées :} histoire, examen\_clinique, examen\_complementaire, evolution, conclusion, traitement\_sortie, traitement, autre.
 
-\subsection{Résistance}
+\subsection{Date hémoculture}
 
-\subsubsection{Définition}
-Profil de sensibilité ou de résistance de la bactérie aux antibiotiques, information cruciale pour la prise en charge thérapeutique.
+Entité permettant d'identifier les dates des prélèvements d'hémocultures.
 
-\subsubsection{Types de résistance à annoter}
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|l|l|}
-\hline
-\textbf{Type} & \textbf{Exemples} & \textbf{Expressions} \\
-\hline
-SARM & S. aureus résistant à la méticilline & \textit{SARM}, \textit{résistant à la méticilline} \\
-\hline
-BLSE & Entérobactéries BLSE & \textit{BLSE+}, \textit{producteur de BLSE} \\
-\hline
-Sensibilité & Souche sensible & \textit{sensible}, \textit{sauvage} \\
-\hline
-Multi-résistance & BMR & \textit{BMR}, \textit{multi-résistant} \\
-\hline
-\end{tabular}
-\caption{Types de résistance et expressions associées}
-\end{table}
+\textbf{Contrainte d'identification :} Même phrase que Bactériémie, OU même phrase que Bactérie dont un synonyme a déjà été identifié ailleurs dans le document en liaison à un terme Bactériémie.
 
-\section{Relations entre entités}
+\textbf{Sections autorisées :} histoire, examen\_clinique, examen\_complementaire, evolution, conclusion, traitement\_sortie, traitement, autre.
 
-\subsection{Relations directes}
+\subsection{Résistance bactérie}
 
-\subsubsection{Relation Bactériémie-Bactérie}
-Cette relation est établie lorsque la bactériémie et la bactérie sont mentionnées dans la même phrase ou dans un contexte syntaxique proche.
+Entité décrivant les caractéristiques de résistance aux antibiotiques des bactéries identifiées.
 
-\textbf{Exemple :} \textit{"Bactériémie à Staphylococcus aureus"}
+\textbf{Contrainte d'identification :} Même phrase que Bactérie.
+
+\textbf{Sections autorisées :} histoire, examen\_clinique, examen\_complementaire, evolution, conclusion, traitement\_sortie, traitement, autre.
+
+\subsection{Infection}
+
+Entité décrivant les manifestations infectieuses associées à la bactériémie.
+
+\textbf{Contrainte d'identification :} Même phrase que Bactériémie, OU même phrase que Bactérie dont un synonyme a déjà été identifié ailleurs dans le document en liaison à un terme Bactériémie.
+
+\textbf{Sections autorisées :} histoire, examen\_clinique, examen\_complementaire, evolution, conclusion, traitement\_sortie, traitement, autre.
+
+\subsection{Antécédents Charlson}
+
+Le système reconnaît l'ensemble des antécédents inclus dans le score de Charlson, organisés hiérarchiquement :
+
 \begin{itemize}
-\item Entité 1 : [Bactériémie : \textit{Bactériémie}]
-\item Entité 2 : [Bactérie : \textit{Staphylococcus aureus}]
-\item Relation : Bactériémie $\leftrightarrow$ Bactérie
+    \item \textbf{Infarctus} : Infarctus du myocarde
+    \item \textbf{Insuffisance cardiaque congestive}
+    \item \textbf{Maladies vasculaires} : Maladies vasculaires périphériques
+    \item \textbf{Maladies cérébro-vasculaires} : AVC/AIT, sauf hémiplégie
+    \item \textbf{Hémiplégie ou paraplégie}
+    \item \textbf{Démence} : Déficit cognitif chronique
+    \item \textbf{Maladies pulmonaires chroniques}
+    \item \textbf{Pathologies rhumatismales et systémiques} : Lupus, myosite, connectivite mixte, PR
+    \item \textbf{Pathologie ulcéreuse}
+    \item \textbf{Maladies rénales} : Modérées ou sévères
+    \item \textbf{Cancer}
+    \item \textbf{Leucémie}
+    \item \textbf{Lymphome}
+    \item \textbf{Tumeur solide métastasée}
+    \item \textbf{Cirrhose} avec ses complications :
+        \begin{itemize}
+            \item Hypertension portale
+            \item Hépatite chronique
+            \item Hémorragie de varices
+            \item Greffe
+        \end{itemize}
+    \item \textbf{Diabète} avec ses complications :
+        \begin{itemize}
+            \item Diabète avec complication chronique
+            \item Diabète sans complication chronique
+            \item Atteinte rénale
+            \item Atteinte ophtalmologique
+            \item Atteinte neurologique
+            \item Atteinte vasculaire
+            \item Pied diabétique
+        \end{itemize}
+    \item \textbf{VIH/SIDA}
 \end{itemize}
 
-\subsubsection{Relation Bactériémie-Site primaire}
-Établie selon les règles de validation directe ou indirecte définies précédemment.
+\textbf{Contrainte importante :} Les antécédents familiaux sont exclus par la règle négation "Famille dans même phrase".
 
-\subsection{Relations indirectes}
+\textbf{Sections autorisées :} head, motif, antecedent, mode\_de\_vie, histoire.
 
-\subsubsection{Fermeture transitive}
-Le système applique une fermeture transitive pour établir des liens entre entités non directement connectées mais partageant des éléments communs.
+\subsection{Autres antécédents}
 
-\textbf{Principe :} Si A est lié à B, et B est lié à C, alors A est lié à C.
-
-\textbf{Exemple :}
-\begin{enumerate}
-\item \textit{"Infection urinaire à E. coli"} → Site(urinaire) $\leftrightarrow$ Bactérie(E. coli)
-\item \textit{"Hémocultures positives à E. coli"} → Bactériémie $\leftrightarrow$ Bactérie(E. coli)
-\item \textbf{Inférence :} Bactériémie $\leftrightarrow$ Site(urinaire)
-\end{enumerate}
-
-\section{Hiérarchie conceptuelle}
-
-\subsection{Concepts englobants}
-
-\subsubsection{Épisode de bactériémie}
-Un épisode de bactériémie constitue l'unité temporelle et clinique de référence. Il peut inclure :
 \begin{itemize}
-\item Une ou plusieurs bactériémies simultanées
-\item Des sites primaires multiples (rare)
-\item Des complications secondaires
+    \item \textbf{Usage de drogues intraveineuses}
+    \item \textbf{Présence de matériel} avec ses sous-types :
+        \begin{itemize}
+            \item Présence de matériel intravasculaire
+            \item Présence de matériel intracardiaque
+            \item Présence de matériel intraarticulaire
+            \item Présence de matériel intracérébral
+        \end{itemize}
 \end{itemize}
 
-\subsection{Concepts spécialisés}
+\textbf{Sections autorisées pour Usage de drogues intraveineuses :} head, motif, antecedent, mode\_de\_vie, histoire.
 
-\subsubsection{Sous-types anatomiques}
-Certains sites peuvent être subdivisés :
+\textbf{Sections autorisées pour Présence de matériel :} head, motif, antecedent, mode\_de\_vie, histoire, examen\_clinique.
+
+\subsection{Traitement}
+
 \begin{itemize}
-\item \textbf{Urinaire :} vésical, rénal, prostatique
-\item \textbf{Digestif :} gastrique, intestinal, biliaire, pancréatique
-\item \textbf{Respiratoire :} pulmonaire, pleural, ORL
+    \item \textbf{Traitement Immunosuppresseur}
+    \item \textbf{Corticoïdes} avec ses attributs :
+        \begin{itemize}
+            \item Dose Corticoïdes (contrainte : même phrase que Corticoïdes)
+            \item Durée Corticoïdes (contrainte : même phrase que Corticoïdes)
+        \end{itemize}
 \end{itemize}
 
-\section{Règles de négation et modalité}
+\textbf{Sections autorisées :} head, motif, antecedent, mode\_de\_vie, traitement\_entree, histoire, traitement\_sortie, traitement.
 
-\subsection{Gestion de la négation}
+\subsection{Paramètres vitaux}
 
-\subsubsection{Marqueurs de négation}
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|l|}
-\hline
-\textbf{Type} & \textbf{Expressions} \\
-\hline
-Négation directe & \textit{pas de}, \textit{absence de}, \textit{sans} \\
-\hline
-Négation d'hypothèse & \textit{écarté}, \textit{éliminé}, \textit{peu probable} \\
-\hline
-Négation de résultat & \textit{stérile}, \textit{négatif}, \textit{non significatif} \\
-\hline
-\end{tabular}
-\caption{Marqueurs de négation}
-\end{table}
-
-\subsubsection{Portée de la négation}
-La négation s'applique généralement à l'ensemble de la proposition dans laquelle elle apparaît.
-
-\textbf{Exemple :} \textit{"Pas de signe de bactériémie"}
+Le système reconnaît les paramètres vitaux suivants :
 \begin{itemize}
-\item Entité négée : [Bactériémie : \textit{bactériémie}]
-\item Marqueur : \textit{Pas de}
-\item \textbf{Action :} Ne pas annoter cette occurrence
+    \item \textbf{PAS} : Pression artérielle systolique
+    \item \textbf{PAD} : Pression artérielle diastolique
+    \item \textbf{PAS/PAD} : Pression artérielle systolique/diastolique
+    \item \textbf{PAM} : Pression artérielle moyenne
+    \item \textbf{Température}
+    \item \textbf{FR} : Fréquence respiratoire
+    \item \textbf{Saturation en oxygène}
+    \item \textbf{Débit d'oxygène}
+    \item \textbf{Modalité d'administration de l'oxygène}
+    \item \textbf{Fraction inspirée oxygène} (FiO2)
+    \item \textbf{PaO2/FiO2}
+    \item \textbf{Diurèse}
 \end{itemize}
 
-\subsection{Modalité temporelle}
+\textbf{Sections autorisées :} examen\_clinique (et evolution pour Diurèse).
 
-\subsubsection{Distinction temporelle}
-Il est essentiel de distinguer :
+\subsection{État neurologique}
+
+Le système reconnaît les états neurologiques suivants :
 \begin{itemize}
-\item \textbf{Épisode actuel :} bactériémie de l'hospitalisation en cours
-\item \textbf{Antécédents :} épisodes antérieurs mentionnés dans l'anamnèse
+    \item \textbf{Alerte}
+    \item \textbf{Confusion}
+    \item \textbf{Désorientation}
+    \item \textbf{Stupeur}
+    \item \textbf{Coma}
+    \item \textbf{Score de Glasgow}
 \end{itemize}
 
-\textbf{Marqueurs d'antécédents :}
+\textbf{Sections autorisées :} examen\_clinique.
+
+\section{Règles de cohérence}
+
+Le système BacThub applique 45 règles de cohérence réparties en plusieurs catégories.
+
+\subsection{Règles de suppression contextuelles par section}
+
+\subsubsection{Sections d'introduction patient}
+
+Les sections d'introduction patient sont définies comme : SECTION\_head OR SECTION\_motif OR SECTION\_antecedent OR SECTION\_mode\_de\_vie OR SECTION\_histoire.
+
+\textbf{Règles appliquées :}
 \begin{itemize}
-\item \textit{"Antécédent de bactériémie"}
-\item \textit{"En [année], épisode de sepsis"}
-\item \textit{"Notion de bactériémie antérieure"}
+    \item Antécédent Charlson : NOT(SECTION\_intro\_patient) → REMOVE
+    \item Usage de drogues intraveineuses : NOT(SECTION\_intro\_patient) → REMOVE
 \end{itemize}
 
-\subsubsection{Règle d'annotation temporelle}
-\textbf{Principe :} Seules les bactériémies de l'épisode actuel sont annotées, sauf indication contraire explicite dans les consignes du projet.
+\subsubsection{Sections de parcours patient}
 
-\section{Exemples annotés}
+Les sections de parcours patient sont définies comme : SECTION\_histoire OR SECTION\_evolution OR SECTION\_conclusion OR SECTION\_autre.
 
-\subsection{Exemple simple}
-
-\subsubsection{Texte}
-\textit{"Bactériémie à Staphylococcus aureus résistant à la méticilline d'origine cutanée."}
-
-\subsubsection{Annotations}
+\textbf{Règles appliquées :}
 \begin{itemize}
-\item [Bactériémie : \textit{Bactériémie}]
-\item [Bactérie : \textit{Staphylococcus aureus}]
-\item [Résistance : \textit{résistant à la méticilline}]
-\item [Site\_primaire : \textit{d'origine cutanée}]
+    \item Bactérie : NOT(SECTION\_parcours\_patient OR SECTION\_examen\_complementaire) → REMOVE
+    \item Bactériémie : NOT(SECTION\_parcours\_patient OR SECTION\_examen\_complementaire) → REMOVE
+    \item Date hémoculture : NOT(SECTION\_parcours\_patient OR SECTION\_examen\_complementaire) → REMOVE
+    \item Résistance bactérie : NOT(SECTION\_parcours\_patient OR SECTION\_examen\_complementaire) → REMOVE
+    \item Site : NOT(SECTION\_parcours\_patient) → REMOVE
+    \item Infection : NOT(SECTION\_parcours\_patient) → REMOVE
 \end{itemize}
 
-\subsubsection{Relations}
+\subsubsection{Autres règles contextuelles}
+
 \begin{itemize}
-\item Bactériémie $\leftrightarrow$ Bactérie
-\item Bactériémie $\leftrightarrow$ Site\_primaire
-\item Bactérie $\leftrightarrow$ Résistance
+    \item Présence de matériel : NOT(SECTION\_intro\_patient OR SECTION\_examen\_clinique) → REMOVE
+    \item Traitement : NOT(SECTION\_intro\_patient OR SECTION\_traitement\_entree OR SECTION\_traitement) → REMOVE
+    \item Paramètre vital : NOT(SECTION\_examen\_clinique) → REMOVE
+    \item Diurèse : NOT(SECTION\_examen\_clinique OR SECTION\_evolution) → REMOVE
+    \item État neurologique : NOT(SECTION\_examen\_clinique) → REMOVE
 \end{itemize}
 
-\subsection{Exemple complexe}
+\subsection{Règles de suppression familiales}
 
-\subsubsection{Texte}
-\textit{"Infection urinaire à Escherichia coli BLSE. [...] Hémocultures positives à E. coli. Évolution favorable sous traitement adapté. Pas de complication endocarditique."}
-
-\subsubsection{Annotations}
+Les antécédents familiaux sont systématiquement supprimés :
 \begin{itemize}
-\item [Bactérie : \textit{Escherichia coli}] (première occurrence)
-\item [Résistance : \textit{BLSE}]
-\item [Site\_primaire : \textit{urinaire}] (validation indirecte)
-\item [Bactériémie : \textit{Hémocultures positives}]
-\item [Bactérie : \textit{E. coli}] (seconde occurrence)
+    \item Infarctus : Famille → REMOVE
+    \item Insuffisance cardiaque congestive : Famille → REMOVE
+    \item Maladies vasculaires : Famille → REMOVE
+    \item Maladies cérébro-vasculaires : Famille → REMOVE
+    \item Démence : Famille → REMOVE
+    \item Maladies pulmonaires chroniques : Famille → REMOVE
+    \item Pathologies rhumatismales et systémiques : Famille → REMOVE
+    \item Maladies rénales : Famille → REMOVE
+    \item Cancer : Famille → REMOVE
+    \item Leucémie : Famille → REMOVE
+    \item Lymphome : Famille → REMOVE
+    \item Tumeur solide métastasée : Famille → REMOVE
+    \item Cirrhose : Famille → REMOVE
+    \item Diabète : Famille → REMOVE
 \end{itemize}
 
-\subsubsection{Relations inférées}
-Par fermeture transitive :
+\subsection{Règles de cohérence entre entités}
+
+Ces règles garantissent la cohérence logique entre les différentes entités annotées :
+
 \begin{itemize}
-\item Site\_primaire(urinaire) $\leftrightarrow$ Bactérie(E. coli) [mention directe]
-\item Bactériémie $\leftrightarrow$ Bactérie(E. coli) [mention directe]
-\item \textbf{Inférence :} Bactériémie $\leftrightarrow$ Site\_primaire(urinaire)
+    \item Site : NOT(Bactériémie OR Bactérie) → REMOVE
+    \item Infection : NOT(Bactériémie OR Bactérie) → REMOVE
+    \item Bactériémie : NOT(Site OR Bactérie OR Infection) → REMOVE
+    \item Bactérie : NOT(Site OR Bactériémie OR Infection) → REMOVE
 \end{itemize}
 
-\subsubsection{Éléments non annotés}
+\subsection{Règles de dépendance}
+
 \begin{itemize}
-\item \textit{"Pas de complication endocarditique"} → négation, non annotée
-\item \textit{"traitement adapté"} → hors périmètre d'annotation
+    \item Dose Corticoïdes : NOT(Corticoïdes) → REMOVE
+    \item Durée Corticoïdes : NOT(Corticoïdes) → REMOVE
+    \item Atteinte rénale : NOT(Diabète) → REMOVE
+    \item Atteinte ophtalmologique : NOT(Diabète) → REMOVE
+    \item Atteinte neurologique : NOT(Diabète) → REMOVE
+    \item Atteinte vasculaire : NOT(Diabète) → REMOVE
+    \item Résistance bactérie : NOT Bactérie → REMOVE
 \end{itemize}
 
-\subsection{Cas limite : suspicion}
+\subsection{Règles spécifiques}
 
-\subsubsection{Texte}
-\textit{"Suspicion de bactériémie sur fièvre. Hémocultures en cours."}
+\begin{itemize}
+    \item Maladies cérébro-vasculaires : SECTION\_head OR SECTION\_motif → REMOVE
+    \item Greffe : Liste attente → REMOVE
+\end{itemize}
 
-\subsubsection{Action}
-\textbf{Aucune annotation} car il s'agit d'une suspicion non confirmée.
+\subsection{Règle de négation globale}
 
-Cette approche conceptuelle structurée garantit la cohérence et la qualité des annotations, éléments essentiels pour l'entraînement de modèles de TAL performants.
+\textbf{Règle universelle :} * : OVERLAPS Négation → REMOVE
+
+Toute entité qui chevauche avec une expression de négation est automatiquement supprimée du système d'annotation.
+
+\subsection{Règle de liaison}
+
+\textbf{Règle unique de liaison :} Bactériémie : Date et bactériémie → LINK
+
+Cette règle établit des relations sémantiques explicites entre les bactériémies et les dates associées.
+
+\section{Gestion de la négation}
+
+Le système de négation repose sur la détection d'expressions linguistiques qui indiquent l'absence, l'exclusion ou la négation d'une information médicale.
+
+\subsection{Principe général}
+
+Toute entité annotée qui chevauche avec une expression de négation est automatiquement supprimée du système d'annotation par application de la règle : * : OVERLAPS Négation → REMOVE.
+
+\subsection{Structure du système de négation}
+
+Le système utilise deux types d'indices de négation :
+
+\subsubsection{Indices de négation pré}
+
+Les indices de négation pré précèdent l'entité niée. La terminologie de négation définit 411 expressions réparties entre indices pré et post.
+
+\textbf{Exemples d'indices de négation pré :}
+\begin{itemize}
+    \item "absence de"
+    \item "pas de"
+    \item "aucun", "aucune"
+    \item "sans"
+    \item "ne révèle pas"
+    \item "incompatible avec"
+    \item "l'a écarté"
+    \item "exclut"
+    \item "infirme"
+\end{itemize}
+
+\subsubsection{Indices de négation post}
+
+Les indices de négation post suivent l'entité niée.
+
+\textbf{Exemples d'indices de négation post :}
+\begin{itemize}
+    \item "négatif", "négative"
+    \item "est exclu", "sont exclus"
+    \item "a été écarté"
+    \item "improbable"
+    \item "peu probable"
+    \item "est absent", "sont absents"
+\end{itemize}
+
+\subsection{Application pratique}
+
+Le système de négation fonctionne selon le principe de chevauchement : si une entité annotée partage tout ou partie de son empan textuel avec une expression de négation, elle est automatiquement supprimée.
+
+\textbf{Formule de négation :} <Indice négation pré> * ou * <Indice négation post>
+
+Cette formule indique que l'entité niée peut se situer après un indice de négation pré ou avant un indice de négation post.
+
+\section{Contraintes par section du compte-rendu}
+
+Le système d'annotation applique des contraintes strictes selon les sections du compte-rendu hospitalier pour garantir la pertinence contextuelle des annotations.
+
+\subsection{Définition des sections}
+
+Le système reconnaît 13 types de sections médicales :
+
+\begin{itemize}
+    \item \textbf{SECTION\_head} : En-tête du document
+    \item \textbf{SECTION\_motif} : Motif d'hospitalisation
+    \item \textbf{SECTION\_antecedent} : Antécédents médicaux
+    \item \textbf{SECTION\_antecedent\_familiaux} : Antécédents familiaux
+    \item \textbf{SECTION\_mode\_de\_vie} : Mode de vie du patient
+    \item \textbf{SECTION\_traitement\_entree} : Traitements à l'entrée
+    \item \textbf{SECTION\_histoire} : Histoire de la maladie
+    \item \textbf{SECTION\_examen\_clinique} : Examen clinique
+    \item \textbf{SECTION\_examen\_complementaire} : Examens complémentaires
+    \item \textbf{SECTION\_evolution} : Évolution du patient
+    \item \textbf{SECTION\_conclusion} : Conclusion
+    \item \textbf{SECTION\_traitement\_sortie} : Traitements de sortie
+    \item \textbf{SECTION\_traitement} : Traitements généraux
+    \item \textbf{SECTION\_autre} : Autres sections
+\end{itemize}
+
+\subsection{Regroupements de sections}
+
+\subsubsection{SECTION\_intro\_patient}
+
+Regroupe les sections relatives à l'introduction du patient :
+SECTION\_head OR SECTION\_motif OR SECTION\_antecedent OR SECTION\_mode\_de\_vie OR SECTION\_histoire
+
+\subsubsection{SECTION\_parcours\_patient}
+
+Regroupe les sections relatives au parcours du patient :
+SECTION\_histoire OR SECTION\_evolution OR SECTION\_conclusion OR SECTION\_autre
+
+\subsection{Contraintes par type d'entité}
+
+\subsubsection{Entités liées aux antécédents}
+
+\textbf{Antécédents Charlson :} Autorisés uniquement dans head, motif, antecedent, mode\_de\_vie, histoire
+
+\textbf{Usage de drogues intraveineuses :} Autorisé uniquement dans head, motif, antecedent, mode\_de\_vie, histoire
+
+\textbf{Présence de matériel :} Autorisée dans head, motif, antecedent, mode\_de\_vie, histoire, examen\_clinique
+
+\subsubsection{Entités liées aux infections}
+
+\textbf{Bactériémie :} Autorisée dans histoire, examen\_clinique, examen\_complementaire, evolution, conclusion, traitement\_sortie, traitement, autre
+
+\textbf{Bactérie :} Autorisée dans examen\_complementaire, evolution, conclusion, traitement\_sortie, traitement
+
+\textbf{Site et Infection :} Autorisés dans histoire, examen\_clinique, examen\_complementaire, evolution, conclusion, traitement\_sortie, traitement, autre
+
+\textbf{Date hémoculture et Résistance bactérie :} Autorisées dans histoire, examen\_clinique, examen\_complementaire, evolution, conclusion, traitement\_sortie, traitement, autre
+
+\subsubsection{Entités liées aux traitements}
+
+\textbf{Traitement :} Autorisé dans head, motif, antecedent, mode\_de\_vie, traitement\_entree, histoire, traitement\_sortie, traitement
+
+\subsubsection{Entités liées à l'examen clinique}
+
+\textbf{Paramètres vitaux :} Autorisés uniquement dans examen\_clinique (sauf Diurèse qui est aussi autorisée dans evolution)
+
+\textbf{État neurologique :} Autorisé uniquement dans examen\_clinique
+
+Cette structuration garantit que chaque type d'information est annoté dans le contexte approprié du compte-rendu médical.
