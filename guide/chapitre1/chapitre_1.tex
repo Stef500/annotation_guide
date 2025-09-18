@@ -1,1 +1,329 @@
-% Chapitre 1 vide
+% Chapitre 1 : Concepts fondamentaux
+\chapter{Concepts fondamentaux}
+
+Ce chapitre présente les définitions des entités principales à annoter, leurs relations et les règles conceptuelles qui guident le processus d'annotation dans le cadre de l'identification des bactériémies.
+
+\section{Définitions des entités principales}
+
+\subsection{Bactériémie}
+
+\subsubsection{Définition médicale}
+La bactériémie est définie comme la présence de bactéries viables dans le sang, confirmée par une hémoculture positive. Cette condition constitue l'élément central de notre schéma d'annotation.
+
+\subsubsection{Critères d'annotation}
+\textbf{À annoter :}
+\begin{itemize}
+\item Mentions explicites : \textit{bactériémie}, \textit{hémoculture positive}, \textit{septicémie}, \textit{bactériémiant}
+\item Contexte de confirmation : \textit{mise en évidence de}, \textit{isolement de}
+\item Références temporelles : \textit{épisode de bactériémie}, \textit{bactériémie du [date]}
+\end{itemize}
+
+\textbf{À exclure :}
+\begin{itemize}
+\item Suspicions non confirmées : \textit{suspicion de bactériémie}, \textit{à éliminer}
+\item Négations : \textit{pas de bactériémie}, \textit{absence de sepsis}
+\item Explorations négatives : \textit{hémocultures stériles}
+\end{itemize}
+
+\subsubsection{Exemples d'annotation}
+\begin{enumerate}
+\item \textit{"Bactériémie à Staphylococcus aureus"} → [Bactériémie : \textit{Bactériémie}]
+\item \textit{"Hémocultures positives à E. coli"} → [Bactériémie : \textit{Hémocultures positives}]
+\item \textit{"Épisode de septicémie nosocomiale"} → [Bactériémie : \textit{septicémie}]
+\end{enumerate}
+
+\subsection{Bactérie}
+
+\subsubsection{Définition}
+Agent pathogène responsable de la bactériémie, identifié par culture microbiologique ou méthodes moléculaires.
+
+\subsubsection{Nomenclature et variantes}
+Les bactéries peuvent être mentionnées sous différentes formes dans les comptes-rendus. Le tableau suivant présente les principales variantes acceptées :
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Bactérie} & \textbf{Variantes acceptées} \\
+\hline
+Staphylococcus aureus & S. aureus, Staph aureus, Staph doré \\
+\hline
+Escherichia coli & E. coli, Colibacille \\
+\hline
+Streptococcus pneumoniae & S. pneumoniae, Pneumocoque \\
+\hline
+Enterococcus faecalis & E. faecalis, Entérocoque \\
+\hline
+Pseudomonas aeruginosa & P. aeruginosa, Pyocyanique \\
+\hline
+\end{tabular}
+\caption{Principales variantes de nomenclature bactérienne}
+\end{table}
+
+\subsubsection{Critères d'annotation}
+\textbf{À annoter :}
+\begin{itemize}
+\item Nomenclature complète : \textit{Staphylococcus aureus}
+\item Abréviations standardisées : \textit{S. aureus}, \textit{E. coli}
+\item Noms vernaculaires : \textit{Staph doré}, \textit{pneumocoque}
+\item Groupes bactériens : \textit{BGN} (bacilles Gram négatif), \textit{cocci Gram positif}
+\end{itemize}
+
+\subsubsection{Gestion des variantes orthographiques}
+Les variantes orthographiques courantes doivent être annotées même en cas de fautes de frappe mineures :
+\begin{itemize}
+\item \textit{Staph aureaus} → à annoter comme \textit{Staphylococcus aureus}
+\item \textit{E.coli} → à annoter comme \textit{Escherichia coli}
+\end{itemize}
+
+\subsection{Site primaire}
+
+\subsubsection{Définition}
+Le site primaire correspond à la porte d'entrée de l'infection, c'est-à-dire la localisation anatomique d'origine de l'infection bactérienne qui a conduit à la bactériémie.
+
+\subsubsection{Catégories de sites primaires}
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Catégorie} & \textbf{Exemples d'expressions} \\
+\hline
+Urines & \textit{d'origine urinaire}, \textit{sur foyer rénal}, \textit{point de départ vésical} \\
+\hline
+Digestif & \textit{porte d'entrée digestive}, \textit{d'origine abdominale}, \textit{foyer biliaire} \\
+\hline
+Poumon & \textit{d'origine pulmonaire}, \textit{sur foyer respiratoire}, \textit{pneumopathie} \\
+\hline
+Cathéter & \textit{sur cathéter}, \textit{liée au dispositif}, \textit{infection de KTC} \\
+\hline
+Peau & \textit{cutanée}, \textit{d'origine dermatologique}, \textit{sur plaie} \\
+\hline
+\end{tabular}
+\caption{Catégories de sites primaires et expressions associées}
+\end{table}
+
+\subsubsection{Règles de validation}
+Deux types de validation sont acceptés :
+
+\textbf{Validation directe :} Site primaire et bactériémie dans la même phrase
+\begin{quote}
+\textit{"Bactériémie d'origine urinaire à E. coli"}
+\end{quote}
+
+\textbf{Validation indirecte :} Site primaire + bactérie + référence croisée à la bactériémie dans le document
+\begin{quote}
+\textit{"Infection urinaire à E. coli"} + \textit{"Hémocultures positives à E. coli"} (dans un autre paragraphe)
+\end{quote}
+
+\subsection{Site secondaire}
+
+\subsubsection{Définition}
+Localisation des complications septiques secondaires à la bactériémie, distincte du site primaire.
+
+\subsubsection{Expressions caractéristiques}
+\begin{itemize}
+\item \textit{"compliquée de"}, \textit{"compliquée par"}
+\item \textit{"embole septique"}, \textit{"localisation secondaire"}
+\item \textit{"greffe sur"}, \textit{"extension à"}
+\end{itemize}
+
+\subsubsection{Exemples}
+\begin{enumerate}
+\item \textit{"Bactériémie d'origine urinaire compliquée d'endocardite"} 
+   \begin{itemize}
+   \item Site primaire : urinaire
+   \item Site secondaire : endocardite
+   \end{itemize}
+\item \textit{"Sepsis sur cathéter avec embole septique pulmonaire"}
+   \begin{itemize}
+   \item Site primaire : cathéter
+   \item Site secondaire : pulmonaire
+   \end{itemize}
+\end{enumerate}
+
+\subsection{Résistance}
+
+\subsubsection{Définition}
+Profil de sensibilité ou de résistance de la bactérie aux antibiotiques, information cruciale pour la prise en charge thérapeutique.
+
+\subsubsection{Types de résistance à annoter}
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Type} & \textbf{Exemples} & \textbf{Expressions} \\
+\hline
+SARM & S. aureus résistant à la méticilline & \textit{SARM}, \textit{résistant à la méticilline} \\
+\hline
+BLSE & Entérobactéries BLSE & \textit{BLSE+}, \textit{producteur de BLSE} \\
+\hline
+Sensibilité & Souche sensible & \textit{sensible}, \textit{sauvage} \\
+\hline
+Multi-résistance & BMR & \textit{BMR}, \textit{multi-résistant} \\
+\hline
+\end{tabular}
+\caption{Types de résistance et expressions associées}
+\end{table}
+
+\section{Relations entre entités}
+
+\subsection{Relations directes}
+
+\subsubsection{Relation Bactériémie-Bactérie}
+Cette relation est établie lorsque la bactériémie et la bactérie sont mentionnées dans la même phrase ou dans un contexte syntaxique proche.
+
+\textbf{Exemple :} \textit{"Bactériémie à Staphylococcus aureus"}
+\begin{itemize}
+\item Entité 1 : [Bactériémie : \textit{Bactériémie}]
+\item Entité 2 : [Bactérie : \textit{Staphylococcus aureus}]
+\item Relation : Bactériémie $\leftrightarrow$ Bactérie
+\end{itemize}
+
+\subsubsection{Relation Bactériémie-Site primaire}
+Établie selon les règles de validation directe ou indirecte définies précédemment.
+
+\subsection{Relations indirectes}
+
+\subsubsection{Fermeture transitive}
+Le système applique une fermeture transitive pour établir des liens entre entités non directement connectées mais partageant des éléments communs.
+
+\textbf{Principe :} Si A est lié à B, et B est lié à C, alors A est lié à C.
+
+\textbf{Exemple :}
+\begin{enumerate}
+\item \textit{"Infection urinaire à E. coli"} → Site(urinaire) $\leftrightarrow$ Bactérie(E. coli)
+\item \textit{"Hémocultures positives à E. coli"} → Bactériémie $\leftrightarrow$ Bactérie(E. coli)
+\item \textbf{Inférence :} Bactériémie $\leftrightarrow$ Site(urinaire)
+\end{enumerate}
+
+\section{Hiérarchie conceptuelle}
+
+\subsection{Concepts englobants}
+
+\subsubsection{Épisode de bactériémie}
+Un épisode de bactériémie constitue l'unité temporelle et clinique de référence. Il peut inclure :
+\begin{itemize}
+\item Une ou plusieurs bactériémies simultanées
+\item Des sites primaires multiples (rare)
+\item Des complications secondaires
+\end{itemize}
+
+\subsection{Concepts spécialisés}
+
+\subsubsection{Sous-types anatomiques}
+Certains sites peuvent être subdivisés :
+\begin{itemize}
+\item \textbf{Urinaire :} vésical, rénal, prostatique
+\item \textbf{Digestif :} gastrique, intestinal, biliaire, pancréatique
+\item \textbf{Respiratoire :} pulmonaire, pleural, ORL
+\end{itemize}
+
+\section{Règles de négation et modalité}
+
+\subsection{Gestion de la négation}
+
+\subsubsection{Marqueurs de négation}
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Type} & \textbf{Expressions} \\
+\hline
+Négation directe & \textit{pas de}, \textit{absence de}, \textit{sans} \\
+\hline
+Négation d'hypothèse & \textit{écarté}, \textit{éliminé}, \textit{peu probable} \\
+\hline
+Négation de résultat & \textit{stérile}, \textit{négatif}, \textit{non significatif} \\
+\hline
+\end{tabular}
+\caption{Marqueurs de négation}
+\end{table>
+
+\subsubsection{Portée de la négation}
+La négation s'applique généralement à l'ensemble de la proposition dans laquelle elle apparaît.
+
+\textbf{Exemple :} \textit{"Pas de signe de bactériémie"}
+\begin{itemize}
+\item Entité négée : [Bactériémie : \textit{bactériémie}]
+\item Marqueur : \textit{Pas de}
+\item \textbf{Action :} Ne pas annoter cette occurrence
+\end{itemize}
+
+\subsection{Modalité temporelle}
+
+\subsubsection{Distinction temporelle}
+Il est essentiel de distinguer :
+\begin{itemize}
+\item \textbf{Épisode actuel :} bactériémie de l'hospitalisation en cours
+\item \textbf{Antécédents :} épisodes antérieurs mentionnés dans l'anamnèse
+\end{itemize}
+
+\textbf{Marqueurs d'antécédents :}
+\begin{itemize}
+\item \textit{"Antécédent de bactériémie"}
+\item \textit{"En [année], épisode de sepsis"}
+\item \textit{"Notion de bactériémie antérieure"}
+\end{itemize>
+
+\subsubsection{Règle d'annotation temporelle}
+\textbf{Principe :} Seules les bactériémies de l'épisode actuel sont annotées, sauf indication contraire explicite dans les consignes du projet.
+
+\section{Exemples annotés}
+
+\subsection{Exemple simple}
+
+\subsubsection{Texte}
+\textit{"Bactériémie à Staphylococcus aureus résistant à la méticilline d'origine cutanée."}
+
+\subsubsection{Annotations}
+\begin{itemize}
+\item [Bactériémie : \textit{Bactériémie}]
+\item [Bactérie : \textit{Staphylococcus aureus}]
+\item [Résistance : \textit{résistant à la méticilline}]
+\item [Site\_primaire : \textit{d'origine cutanée}]
+\end{itemize}
+
+\subsubsection{Relations}
+\begin{itemize}
+\item Bactériémie $\leftrightarrow$ Bactérie
+\item Bactériémie $\leftrightarrow$ Site\_primaire
+\item Bactérie $\leftrightarrow$ Résistance
+\end{itemize}
+
+\subsection{Exemple complexe}
+
+\subsubsection{Texte}
+\textit{"Infection urinaire à Escherichia coli BLSE. [...] Hémocultures positives à E. coli. Évolution favorable sous traitement adapté. Pas de complication endocarditique."}
+
+\subsubsection{Annotations}
+\begin{itemize}
+\item [Bactérie : \textit{Escherichia coli}] (première occurrence)
+\item [Résistance : \textit{BLSE}]
+\item [Site\_primaire : \textit{urinaire}] (validation indirecte)
+\item [Bactériémie : \textit{Hémocultures positives}]
+\item [Bactérie : \textit{E. coli}] (seconde occurrence)
+\end{itemize}
+
+\subsubsection{Relations inférées}
+Par fermeture transitive :
+\begin{itemize}
+\item Site\_primaire(urinaire) $\leftrightarrow$ Bactérie(E. coli) [mention directe]
+\item Bactériémie $\leftrightarrow$ Bactérie(E. coli) [mention directe]
+\item \textbf{Inférence :} Bactériémie $\leftrightarrow$ Site\_primaire(urinaire)
+\end{itemize}
+
+\subsubsection{Éléments non annotés}
+\begin{itemize}
+\item \textit{"Pas de complication endocarditique"} → négation, non annotée
+\item \textit{"traitement adapté"} → hors périmètre d'annotation
+\end{itemize}
+
+\subsection{Cas limite : suspicion}
+
+\subsubsection{Texte}
+\textit{"Suspicion de bactériémie sur fièvre. Hémocultures en cours."}
+
+\subsubsection{Action}
+\textbf{Aucune annotation} car il s'agit d'une suspicion non confirmée.
+
+Cette approche conceptuelle structurée garantit la cohérence et la qualité des annotations, éléments essentiels pour l'entraînement de modèles de TAL performants.
