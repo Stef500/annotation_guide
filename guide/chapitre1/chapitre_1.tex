@@ -3,31 +3,31 @@
 
 \section{Objectif du cas d'usage}
 
-L'objectif principal de ce cas d'usage est d'identifier la provenance des bactériémies dans les comptes-rendus d'hospitalisation (CRH), soit les infections bactériennes présentes dans le sang. Cette identification vise à caractériser ces infections en fonction de la provenance des bactéries (peau, urines, tube digestif, poumon, cathéter, matériel, ostéo-articulaire, cardiovasculaire, génital, ORL, système nerveux central, stomatologie) afin de guider la prise en charge clinique.
+L'objectif principal de ce cas d'usage est d'identifier la provenance des bactÃ©riÃ©mies dans les comptes-rendus d'hospitalisation (CRH), soit les infections bactÃ©riennes prÃ©sentes dans le sang. Cette identification vise Ã  caractÃ©riser ces infections en fonction de la provenance des bactÃ©ries (peau, urines, tube digestif, poumon, cathÃ©ter, matÃ©riel, ostÃ©o-articulaire, cardiovasculaire, gÃ©nital, ORL, systÃ¨me nerveux central, stomatologie) afin de guider la prise en charge clinique.
 
 \section{Contexte scientifique et enjeux cliniques}
 
-\subsection{Épidémiologie et mortalité}
+\subsection{Ã‰pidÃ©miologie et mortalitÃ©}
 
-Les bactériémies représentent des infections courantes tant en ville qu'à l'hôpital, pouvant potentiellement toucher toute la population. Ces infections présentent une forte mortalité supérieure à 20\% à trois mois, constituant un enjeu de santé publique majeur.
+Les bactÃ©riÃ©mies reprÃ©sentent des infections courantes tant en ville qu'Ã  l'hÃ´pital, pouvant potentiellement toucher toute la population. Ces infections prÃ©sentent une forte mortalitÃ© supÃ©rieure Ã  20\% Ã  trois mois, constituant un enjeu de santÃ© publique majeur.
 
-\subsection{Enjeux de caractérisation}
+\subsection{Enjeux de caractÃ©risation}
 
-L'enjeu majeur consiste à caractériser ces infections en fonction de la \textbf{provenance des bactéries} pour guider la prise en charge thérapeutique. Cette caractérisation nécessite de retourner aux dossiers médicaux pour retranscrire l'information clinique pertinente.
+L'enjeu majeur consiste Ã  caractÃ©riser ces infections en fonction de la \textbf{provenance des bactÃ©ries} pour guider la prise en charge thÃ©rapeutique. Cette caractÃ©risation nÃ©cessite de retourner aux dossiers mÃ©dicaux pour retranscrire l'information clinique pertinente.
 
-\subsection{Limitations méthodologiques actuelles}
+\subsection{Limitations mÃ©thodologiques actuelles}
 
-Pour la recherche sur grandes bases de données, la méthode de référence s'appuie sur les \textbf{codages CIM-10}, mais ce codage reste \textbf{inconstant} et incomplet. Une minorité des algorithmes de traitement automatique du langage (TAL) se sont intéressés aux maladies infectieuses, et aucun ne s'est spécifiquement penché sur ce cas d'usage.
+Pour la recherche sur grandes bases de donnÃ©es, la mÃ©thode de rÃ©fÃ©rence s'appuie sur les \textbf{codages CIM-10}, mais ce codage reste \textbf{inconstant} et incomplet. Une minoritÃ© des algorithmes de traitement automatique du langage (TAL) se sont intÃ©ressÃ©s aux maladies infectieuses, et aucun ne s'est spÃ©cifiquement penchÃ© sur ce cas d'usage.
 
-\section{Travaux antérieurs : système à base de règles}
+\section{Travaux antÃ©rieurs : systÃ¨me Ã  base de rÃ¨gles}
 
-\subsection{Réalisation d'un outil à base de règles}
+\subsection{RÃ©alisation d'un outil Ã  base de rÃ¨gles}
 
-Un outil de TAL à base de règles a été développé, s'appuyant sur plusieurs composants :
+Un outil de TAL Ã  base de rÃ¨gles a Ã©tÃ© dÃ©veloppÃ©, s'appuyant sur plusieurs composants :
 
 \subsubsection{Terminologie des concepts}
 
-Une terminologie exhaustive listant pour les concepts à extraire les termes possibles. Par exemple, pour la bactérie \textit{Staphylococcus aureus}, les variantes incluent : \textit{S. aureus, Staphylococcus aureus, Staph aureaus, Staph doré}, etc.
+Une terminologie exhaustive listant pour les concepts Ã  extraire les termes possibles. Par exemple, pour la bactÃ©rie \textit{Staphylococcus aureus}, les variantes incluent : \textit{S. aureus, Staphylococcus aureus, Staph aureaus, Staph dorÃ©}, etc.
 
 \begin{table}[h]
 \centering
@@ -35,62 +35,62 @@ Une terminologie exhaustive listant pour les concepts à extraire les termes poss
 \hline
 \textbf{Concept} & \textbf{Sous-concept} & \textbf{Exemple} \\
 \hline
-Bactériémie & & bactériémie, hémoculture, bactériémiant, septicémie \\
+BactÃ©riÃ©mie & & bactÃ©riÃ©mie, hÃ©moculture, bactÃ©riÃ©miant, septicÃ©mie \\
 \hline
-Résistance & & résistant à la méthicilline, sauvage, BLSE, [Positif]PLP2a \\
+RÃ©sistance & & rÃ©sistant Ã  la mÃ©thicilline, sauvage, BLSE, [Positif]PLP2a \\
 \hline
-Bactérie & Achromobacter, Acineto, Actinomyces, Aerococcus, Aeromonas, Aggregatibacter, Anaerococcus, Bacillus, Bacteroides, Bifidobacterium, Brevibacterium, Brucella, Burkholderia, BGN, HACEK, Kingella, Yersinia, Chryseobacterium, Campylobacter, Candida, Capnocytophaga, Citrobacter, Clostri, Coryne, Dermabacter, Egghertella, Eikenella, Elizabethkingia, Enterobacter, Enterocoque, Escherichia, Fusobacterium, Gardnerella, Granulicatella, Haemophilus, Hafnia, Klebsiella, Lactobacillus, Listeria, Micrococcus, Moraxella, Morganella, Neisseria, Pantoea, Parvimonas, Pasteurella, Pediococcus, Pneumo, Prevotella, Propioni, Proteus, Providencia, Pseudomonas, Raoultella, Salmonella, Serratia, Shigella, Staph doré, Staph blanc, Staph, Steno, Strepto, Legionella, Bordetella, Helicobacter, Vibrio, Erysipelothryx, Nocardia, Peptostreptococcus, Rhodococcus, Francisella & C. perfringens, ERV, M. morganni, Staphylocoque coagulase négative, S. maltophilia, Streptocoque dysgalactiae \\
+BactÃ©rie & Achromobacter, Acineto, Actinomyces, Aerococcus, Aeromonas, Aggregatibacter, Anaerococcus, Bacillus, Bacteroides, Bifidobacterium, Brevibacterium, Brucella, Burkholderia, BGN, HACEK, Kingella, Yersinia, Chryseobacterium, Campylobacter, Candida, Capnocytophaga, Citrobacter, Clostri, Coryne, Dermabacter, Egghertella, Eikenella, Elizabethkingia, Enterobacter, Enterocoque, Escherichia, Fusobacterium, Gardnerella, Granulicatella, Haemophilus, Hafnia, Klebsiella, Lactobacillus, Listeria, Micrococcus, Moraxella, Morganella, Neisseria, Pantoea, Parvimonas, Pasteurella, Pediococcus, Pneumo, Prevotella, Propioni, Proteus, Providencia, Pseudomonas, Raoultella, Salmonella, Serratia, Shigella, Staph dorÃ©, Staph blanc, Staph, Steno, Strepto, Legionella, Bordetella, Helicobacter, Vibrio, Erysipelothryx, Nocardia, Peptostreptococcus, Rhodococcus, Francisella & C. perfringens, ERV, M. morganni, Staphylocoque coagulase nÃ©gative, S. maltophilia, Streptocoque dysgalactiae \\
 \hline
-Site > Site primaire & Primaire, Urines, Digestif, Poumon, Cathéter, Matériel, Ostéo-artic, Peau, Cardio\_vasc, Genital int, ORL, SNC, Stomato & point de départ la & <Infection>, point de départ biliaire, sur foyer rénal, porte d'entrée probablement digestive \\
+Site primaire & Primaire, Urines, Digestif, Poumon, CathÃ©ter, MatÃ©riel, OstÃ©o-artic, Peau, Cardio\_vasc, Genital int, ORL, SNC, Stomato & point de dÃ©part..., point de dÃ©part biliaire, sur foyer rÃ©nal, porte d'entrÃ©e probablement digestive \\
 \hline
-Site > Site secondaire & Urines, Digestif, Poumon, Cathéter, Matériel, Ostéo-artic, Peau, Cardio\_vasc, Genital int, ORL, SNC, Stomato & compliquée par& <Infection>, embole septique au niveau pulmonaire, greffe sur cathéter \\
+Site secondaire & Urines, Digestif, Poumon, CathÃ©ter, MatÃ©riel, OstÃ©o-artic, Peau, Cardio\_vasc, Genital int, ORL, SNC, Stomato & compliquÃ©e par..., embole septique au niveau pulmonaire, greffe sur cathÃ©ter \\
 \hline
-Infection & Urines, Digestif, Poumon, Cathéter, Matériel, Ostéo-artic, Peau, Cardio\_vasc, Genital int, ORL, SNC, Stomato & abcès au niveau de la peau, péritonite, infection prostatique, PNA \\
+Infection & Urines, Digestif, Poumon, CathÃ©ter, MatÃ©riel, OstÃ©o-artic, Peau, Cardio\_vasc, Genital int, ORL, SNC, Stomato & abcÃ¨s au niveau de la peau, pÃ©ritonite, infection prostatique, PNA \\
 \hline
 \end{tabular}
 \caption{Terminologie des concepts principaux}
 \end{table}
 
-\subsubsection{Terminologie de négation}
+\subsubsection{Terminologie de nÃ©gation}
 
-Une terminologie spécialisée listant des termes de négation, comprenant des expressions telles que : \textit{absence d'argument en faveur, l'a écarté, a écarté, ne ressemblent pas, ne révèlent pas}, etc.
+Une terminologie spÃ©cialisÃ©e listant des termes de nÃ©gation, comprenant des expressions telles que : \textit{absence d'argument en faveur, l'a Ã©cartÃ©, a Ã©cartÃ©, ne ressemblent pas, ne rÃ©vÃ¨lent pas}, etc.
 
-\subsubsection{Règles d'identification des concepts}
+\subsubsection{RÃ¨gles d'identification des concepts}
 
-Des règles d'identification sophistiquées, par exemple : identifier une infection uniquement s'il y a dans la même phrase une notion de bactériémie ou d'une bactérie, elle-même liée ailleurs dans le CRH à une bactériémie.
+Des rÃ¨gles d'identification sophistiquÃ©es, par exemple : identifier une infection uniquement s'il y a dans la mÃªme phrase une notion de bactÃ©riÃ©mie ou d'une bactÃ©rie, elle-mÃªme liÃ©e ailleurs dans le CRH Ã  une bactÃ©riÃ©mie.
 
-\subsection{Caractéristiques de l'algorithme}
+\subsection{CaractÃ©ristiques de l'algorithme}
 
-L'algorithme de TAL présente les caractéristiques suivantes :
+L'algorithme de TAL prÃ©sente les caractÃ©ristiques suivantes :
 
 \begin{itemize}
-\item S'appuie sur le périmètre de la phrase et sur des contraintes de section
-\item Pose l'hypothèse que l'information sur la bactériémie se trouve dans la même phrase où celle-ci est citée
+\item S'appuie sur le pÃ©rimÃ¨tre de la phrase et sur des contraintes de section
+\item Pose l'hypothÃ¨se que l'information sur la bactÃ©riÃ©mie se trouve dans la mÃªme phrase oÃ¹ celle-ci est citÃ©e
 \item Utilise un seuil d'acceptation d'erreurs de 0,8
 \item Capable de :
   \begin{enumerate}
-  \item Identifier séparément chaque bactériémie et sa bactérie
-  \item Identifier le site primaire lié à chaque bactériémie (et les éventuels sites secondaires)
-  \item Ignorer les informations liées aux infections sans bactériémie
-  \item Ignorer les suspicions d'infections non confirmées ou les explorations négatives
+  \item Identifier sÃ©parÃ©ment chaque bactÃ©riÃ©mie et sa bactÃ©rie
+  \item Identifier le site primaire liÃ© Ã  chaque bactÃ©riÃ©mie (et les Ã©ventuels sites secondaires)
+  \item Ignorer les informations liÃ©es aux infections sans bactÃ©riÃ©mie
+  \item Ignorer les suspicions d'infections non confirmÃ©es ou les explorations nÃ©gatives
   \end{enumerate}
 \end{itemize}
 
-\section{Évaluation du système à base de règles}
+\section{Ã‰valuation du systÃ¨me Ã  base de rÃ¨gles}
 
-\subsection{Méthodologie d'évaluation}
+\subsection{MÃ©thodologie d'Ã©valuation}
 
-L'évaluation a été réalisée sur 300 épisodes de bactériémie selon trois approches complémentaires :
+L'Ã©valuation a Ã©tÃ© rÃ©alisÃ©e sur 300 Ã©pisodes de bactÃ©riÃ©mie selon trois approches complÃ©mentaires :
 
-\subsubsection{Analyse de complétude informationnelle}
+\subsubsection{Analyse de complÃ©tude informationnelle}
 
-216 sur 300 comptes-rendus (72\%) présentaient un contenu entièrement informatif sur la ou les bactériémies identifiées en microbiologie et ayant mené à l'inclusion d'un épisode (bactériémie citée, ainsi que la bactérie).
+216 sur 300 comptes-rendus (72\%) prÃ©sentaient un contenu entiÃ¨rement informatif sur la ou les bactÃ©riÃ©mies identifiÃ©es en microbiologie et ayant menÃ© Ã  l'inclusion d'un Ã©pisode (bactÃ©riÃ©mie citÃ©e, ainsi que la bactÃ©rie).
 
-\subsubsection{Évaluation en contexte textuel pur}
+\subsubsection{Ã‰valuation en contexte textuel pur}
 
-En se plaçant dans une situation d'étude basée entièrement sur du texte, sans tenir compte des données clinico-microbiologiques structurées, l'évaluation portait sur la question : "Quand on utilise le TAL pour identifier dans du texte des bactériémies et leur site primaire, quelle est sa performance ?"
+En se plaÃ§ant dans une situation d'Ã©tude basÃ©e entiÃ¨rement sur du texte, sans tenir compte des donnÃ©es clinico-microbiologiques structurÃ©es, l'Ã©valuation portait sur la question : "Quand on utilise le TAL pour identifier dans du texte des bactÃ©riÃ©mies et leur site primaire, quelle est sa performance ?"
 
-L'analyse a inclus toutes les bactériémies citées dans les comptes-rendus et identifiées par lecture experte (n = 269). Ce nombre peut être supérieur aux bactériémies de microbiologie, car les mêmes séjours peuvent en inclure d'autres.
+L'analyse a inclus toutes les bactÃ©riÃ©mies citÃ©es dans les comptes-rendus et identifiÃ©es par lecture experte (n = 269). Ce nombre peut Ãªtre supÃ©rieur aux bactÃ©riÃ©mies de microbiologie, car les mÃªmes sÃ©jours peuvent en inclure d'autres.
 
 Les performances obtenues sont :
 
@@ -98,27 +98,27 @@ Les performances obtenues sont :
 \centering
 \begin{tabular}{|l|c|c|c|}
 \hline
-\textbf{Critère} & \textbf{Rappel} & \textbf{Précision} & \textbf{Score F1} \\
+\textbf{CritÃ¨re} & \textbf{Rappel} & \textbf{PrÃ©cision} & \textbf{Score F1} \\
 \hline
-Bactériémie-bactérie & 0,92 & 0,88 & 0,90 \\
+BactÃ©riÃ©mie-bactÃ©rie & 0,92 & 0,88 & 0,90 \\
 \hline
 Site primaire & 0,63 & 0,84 & 0,72 \\
 \hline
 \end{tabular}
-\caption{Performances du système TAL en contexte textuel pur}
+\caption{Performances du systÃ¨me TAL en contexte textuel pur}
 \end{table}
 
-\subsubsection{Évaluation en contexte rétrospectif}
+\subsubsection{Ã‰valuation en contexte rÃ©trospectif}
 
-En regardant dans les documents uniquement les bactériémies ayant mené à la sélection des documents, donc en se plaçant dans une situation d'étude rétrospective où on utilise les données textuelles pour enrichir une base de données clinico-microbiologique :
+En regardant dans les documents uniquement les bactÃ©riÃ©mies ayant menÃ© Ã  la sÃ©lection des documents, donc en se plaÃ§ant dans une situation d'Ã©tude rÃ©trospective oÃ¹ on utilise les donnÃ©es textuelles pour enrichir une base de donnÃ©es clinico-microbiologique :
 
-\paragraph{Sur les 216 épisodes avec information complète :}
+\paragraph{Sur les 216 Ã©pisodes avec information complÃ¨te :}
 
 \begin{table}[h]
 \centering
 \begin{tabular}{|l|c|c|c|}
 \hline
-\textbf{Méthode} & \textbf{Rappel} & \textbf{Précision} & \textbf{Score F1} \\
+\textbf{MÃ©thode} & \textbf{Rappel} & \textbf{PrÃ©cision} & \textbf{Score F1} \\
 \hline
 TAL & 0,64 & 0,83 & 0,72 \\
 \hline
@@ -128,144 +128,144 @@ Codages CIM-10 & 0,64 & 0,35 & 0,45 \\
 \caption{Comparaison TAL vs codages CIM-10 pour l'identification du site primaire}
 \end{table}
 
-\paragraph{Sur les 300 épisodes complets :}
+\paragraph{Sur les 300 Ã©pisodes complets :}
 
-Étant donné que la plupart des 84 épisodes n'ayant pas d'information sur la bactérie ayant mené à leur inclusion issue de la microbiologie augmentent de manière majeure le nombre de vrais négatifs (ce qui n'impacte pas le calcul du rappel et de la précision), et considérant que quelques comptes-rendus ont une information partielle sur les bactériémies de microbiologie, les performances finales sont :
+Ã‰tant donnÃ© que la plupart des 84 Ã©pisodes n'ayant pas d'information sur la bactÃ©rie ayant menÃ© Ã  leur inclusion issue de la microbiologie augmentent de maniÃ¨re majeure le nombre de vrais nÃ©gatifs (ce qui n'impacte pas le calcul du rappel et de la prÃ©cision), et considÃ©rant que quelques comptes-rendus ont une information partielle sur les bactÃ©riÃ©mies de microbiologie, les performances finales sont :
 
-\textbf{Performances globales TAL : Rappel = 0,63, Précision = 0,82, Score F1 = 0,71}
+\textbf{Performances globales TAL : Rappel = 0,63, PrÃ©cision = 0,82, Score F1 = 0,71}
 
-\section{Architecture technique du système BACTHUB}
+\section{Architecture technique du systÃ¨me BACTHUB}
 
-\subsection{Vue d'ensemble du système}
+\subsection{Vue d'ensemble du systÃ¨me}
 
-Le système BACTHUB s'appuie sur une architecture de données complexe orchestrée par des notebooks centralisés. L'ensemble des traitements est coordonné par deux notebooks principaux :
+Le systÃ¨me BACTHUB s'appuie sur une architecture de donnÃ©es complexe orchestrÃ©e par des notebooks centralisÃ©s. L'ensemble des traitements est coordonnÃ© par deux notebooks principaux :
 
 \begin{itemize}
-\item \textbf{run\_all.md} : "One Notebook To Rule Them All" pour les données principales
-\item \textbf{run\_all\_tem.md} : Version spécialisée pour les données témoins
+\item \textbf{run\_all.md} : "One Notebook To Rule Them All" pour les donnÃ©es principales
+\item \textbf{run\_all\_tem.md} : Version spÃ©cialisÃ©e pour les donnÃ©es tÃ©moins
 \end{itemize}
 
 \subsection{Configuration et espaces de travail}
 
-Le système utilise une configuration centralisée définissant :
+Le systÃ¨me utilise une configuration centralisÃ©e dÃ©finissant :
 
 \begin{itemize}
 \item \textbf{Espaces de travail} : CSE\_WORKSPACE, WORKSPACE
-\item \textbf{Versions} : \_1027 pour les données principales, \_tem\_0218 pour les témoins
-\item \textbf{Paramètres temporels} : DATE\_BASE fixée à '2020-10-27 23:59:59'
+\item \textbf{Versions} : \_1027 pour les donnÃ©es principales, \_tem\_0218 pour les tÃ©moins
+\item \textbf{ParamÃ¨tres temporels} : DATE\_BASE fixÃ©e Ã  '2020-10-27 23:59:59'
 \end{itemize}
 
-\subsection{Tables principales du système}
+\subsection{Tables principales du systÃ¨me}
 
 \subsubsection{Tables d'observation}
 
 \begin{itemize}
-\item observation\_physio : données physiologiques
-\item observation\_lab : données de laboratoire
-\item observation\_cim10 : diagnostics codés
-\item observation\_ccam : actes médicaux
+\item observation\_physio : donnÃ©es physiologiques
+\item observation\_lab : donnÃ©es de laboratoire
+\item observation\_cim10 : diagnostics codÃ©s
+\item observation\_ccam : actes mÃ©dicaux
 \item observation\_doc : documents cliniques
-\item observation\_med : données médicamenteuses
-\item observation\_ufr : données par unité fonctionnelle
-\item observation\_microbio\_tous\_milieux\_clean : données microbiologiques nettoyées
+\item observation\_med : donnÃ©es mÃ©dicamenteuses
+\item observation\_ufr : donnÃ©es par unitÃ© fonctionnelle
+\item observation\_microbio\_tous\_milieux\_clean : donnÃ©es microbiologiques nettoyÃ©es
 \end{itemize}
 
 \subsubsection{Tables patient et visite}
 
 \begin{itemize}
-\item i2b2\_patient : données patients
+\item i2b2\_patient : donnÃ©es patients
 \item visit\_all : ensemble des visites
-\item visit\_inclusion\_clean : visites d'inclusion nettoyées
+\item visit\_inclusion\_clean : visites d'inclusion nettoyÃ©es
 \item visit\_doublon\_more : gestion des doublons de visites
 \item visit\_chevauchement\_more : gestion des chevauchements de visites
 \end{itemize}
 
-\subsection{Processus de nettoyage des données}
+\subsection{Processus de nettoyage des donnÃ©es}
 
-Le système intègre des processus sophistiqués de nettoyage :
+Le systÃ¨me intÃ¨gre des processus sophistiquÃ©s de nettoyage :
 
 \begin{itemize}
-\item \textbf{Identification des visites problématiques} : VISITS\_TO\_DELETE
-\item \textbf{Détection des patients avec décès fictifs} : PATIENTS\_FAKE\_DEATH
-\item \textbf{Orchestration séquentielle} : Exécution de notebooks spécialisés via \%run pour le nettoyage des visites, dédoublonnage, microbiologie et autres observations
+\item \textbf{Identification des visites problÃ©matiques} : VISITS\_TO\_DELETE
+\item \textbf{DÃ©tection des patients avec dÃ©cÃ¨s fictifs} : PATIENTS\_FAKE\_DEATH
+\item \textbf{Orchestration sÃ©quentielle} : ExÃ©cution de notebooks spÃ©cialisÃ©s via \%run pour le nettoyage des visites, dÃ©doublonnage, microbiologie et autres observations
 \end{itemize}
 
 \section{Outil d'annotation : EZAnnot}
 
-\subsection{Présentation générale}
+\subsection{PrÃ©sentation gÃ©nÃ©rale}
 
-EZAnnot est un outil de traitement de langage naturel développé par Xavier Tannier pour l'extraction de concepts et l'annotation basée sur des règles. Il permet de créer facilement des schémas d'annotation, d'extraire des concepts à partir de terminologies et d'appliquer des règles d'annotation sur des textes médicaux, sans nécessiter de compétences en programmation pour l'utilisation de base.
+EZAnnot est un outil de traitement de langage naturel dÃ©veloppÃ© par Xavier Tannier pour l'extraction de concepts et l'annotation basÃ©e sur des rÃ¨gles. Il permet de crÃ©er facilement des schÃ©mas d'annotation, d'extraire des concepts Ã  partir de terminologies et d'appliquer des rÃ¨gles d'annotation sur des textes mÃ©dicaux, sans nÃ©cessiter de compÃ©tences en programmation pour l'utilisation de base.
 
-\subsection{Fonctionnalités principales}
+\subsection{FonctionnalitÃ©s principales}
 
 \begin{itemize}
-\item \textbf{Extraction de concepts} : Identification automatique d'entités médicales dans les textes
-\item \textbf{Règles sentence-level} : Application de règles logiques au niveau de la phrase
-\item \textbf{Splitter de sections intégré} : Segmentation automatique des documents médicaux
-\item \textbf{Sorties multiples} : Génération d'annotations Brat et de dataframes pandas
+\item \textbf{Extraction de concepts} : Identification automatique d'entitÃ©s mÃ©dicales dans les textes
+\item \textbf{RÃ¨gles sentence-level} : Application de rÃ¨gles logiques au niveau de la phrase
+\item \textbf{Splitter de sections intÃ©grÃ©} : Segmentation automatique des documents mÃ©dicaux
+\item \textbf{Sorties multiples} : GÃ©nÃ©ration d'annotations Brat et de dataframes pandas
 \item \textbf{Configuration sans programmation} : Utilisation de fichiers Excel pour la configuration
 \end{itemize}
 
 \subsection{Composants techniques}
 
-\subsubsection{Schémas hiérarchiques}
+\subsubsection{SchÃ©mas hiÃ©rarchiques}
 
-EZAnnot permet la création de schémas d'annotation hiérarchiques définissant les relations parent-enfant entre entités médicales. Ces schémas supportent les relations is-a et les attributs d'entités avec génération automatique de la configuration pour l'interface Brat.
+EZAnnot permet la crÃ©ation de schÃ©mas d'annotation hiÃ©rarchiques dÃ©finissant les relations parent-enfant entre entitÃ©s mÃ©dicales. Ces schÃ©mas supportent les relations is-a et les attributs d'entitÃ©s avec gÃ©nÃ©ration automatique de la configuration pour l'interface Brat.
 
 \subsubsection{Terminologies avec matching approximatif}
 
-Le système intègre un moteur de recherche sophistiqué combinant :
+Le systÃ¨me intÃ¨gre un moteur de recherche sophistiquÃ© combinant :
 
 \begin{itemize}
-\item \textbf{Dictionnaires exacts} : Recherche précise de termes
-\item \textbf{Matching approximatif} : Tolérance aux variations orthographiques avec seuil de similarité à 0,80
-\item \textbf{Expressions régulières} : Patterns complexes pour des cas spécifiques
-\item \textbf{Trie terminologique} : Structure optimisée pour la recherche avec wildcards
+\item \textbf{Dictionnaires exacts} : Recherche prÃ©cise de termes
+\item \textbf{Matching approximatif} : TolÃ©rance aux variations orthographiques avec seuil de similaritÃ© Ã  0,80
+\item \textbf{Expressions rÃ©guliÃ¨res} : Patterns complexes pour des cas spÃ©cifiques
+\item \textbf{Trie terminologique} : Structure optimisÃ©e pour la recherche avec wildcards
 \end{itemize}
 
-\subsubsection{Système de règles logiques}
+\subsubsection{SystÃ¨me de rÃ¨gles logiques}
 
-EZAnnot intègre un système complet d'opérateurs logiques :
+EZAnnot intÃ¨gre un systÃ¨me complet d'opÃ©rateurs logiques :
 
 \begin{itemize}
-\item \textbf{Opérateurs booléens} : AND, OR, NOT
-\item \textbf{Opérateurs spatiaux} : IN, CONTAINS, OVERLAPS pour les relations entre entités
-\item \textbf{Wildcards avancés} : *, ..., ., ? pour la flexibilité d'expression
-\item \textbf{Tokens génériques} : <NUM>, <ENTITY> pour des patterns abstraits
+\item \textbf{OpÃ©rateurs boolÃ©ens} : AND, OR, NOT
+\item \textbf{OpÃ©rateurs spatiaux} : IN, CONTAINS, OVERLAPS pour les relations entre entitÃ©s
+\item \textbf{Wildcards avancÃ©s} : *, ..., ., ? pour la flexibilitÃ© d'expression
+\item \textbf{Tokens gÃ©nÃ©riques} : <NUM>, <ENTITY> pour des patterns abstraits
 \end{itemize}
 
-\subsection{Intégration avec le projet BACTHUB}
+\subsection{IntÃ©gration avec le projet BACTHUB}
 
-Dans le contexte du projet BACTHUB, EZAnnot est configuré avec :
+Dans le contexte du projet BACTHUB, EZAnnot est configurÃ© avec :
 
 \begin{itemize}
-\item \textbf{Schéma médical spécialisé} : 165 entités dans la version 19\_01 optimisée
-\item \textbf{Terminologie exhaustive} : 5418 entrées terminologiques (version 19\_01)
-\item \textbf{Système de négation} : 431 expressions de négation médicale française
-\item \textbf{Règles d'annotation} : 45 règles logiques incluant des actions LINK, REMOVE et ADD
+\item \textbf{SchÃ©ma mÃ©dical spÃ©cialisÃ©} : 165 entitÃ©s dans la version 19\_01 optimisÃ©e
+\item \textbf{Terminologie exhaustive} : 5418 entrÃ©es terminologiques (version 19\_01)
+\item \textbf{SystÃ¨me de nÃ©gation} : 431 expressions de nÃ©gation mÃ©dicale franÃ§aise
+\item \textbf{RÃ¨gles d'annotation} : 45 rÃ¨gles logiques incluant des actions LINK, REMOVE et ADD
 \end{itemize}
 
-\section{Points de discussion pour la stratégie d'annotation}
+\section{Points de discussion pour la stratÃ©gie d'annotation}
 
-\subsection{Schéma d'annotation}
+\subsection{SchÃ©ma d'annotation}
 
-Une question importante à discuter concerne la reprise du schéma d'annotation antérieur, notamment l'indentation hiérarchique. Par exemple :
+Une question importante Ã  discuter concerne la reprise du schÃ©ma d'annotation antÃ©rieur, notamment l'indentation hiÃ©rarchique. Par exemple :
 \begin{itemize}
-\item Bactérie > Staph > Staph blanc
+\item BactÃ©rie > Staph > Staph blanc
 \item Site > Site primaire
 \end{itemize}
 
-\subsection{Périmètre d'annotation}
+\subsection{PÃ©rimÃ¨tre d'annotation}
 
-Un point critique à clarifier en fonction de la stratégie d'évaluation concerne le périmètre des éléments annotés :
+Un point critique Ã  clarifier en fonction de la stratÃ©gie d'Ã©valuation concerne le pÃ©rimÃ¨tre des Ã©lÃ©ments annotÃ©s :
 
 \begin{itemize}
-\item \textbf{Position actuelle} : Les éléments annotés sont ceux liés à une bactériémie. Les infections non liées à une bactériémie ne sont pas annotées.
-\item \textbf{Question à trancher} : Faut-il annoter également les infections non liées à une bactériémie ?
+\item \textbf{Position actuelle} : Les Ã©lÃ©ments annotÃ©s sont ceux liÃ©s Ã  une bactÃ©riÃ©mie. Les infections non liÃ©es Ã  une bactÃ©riÃ©mie ne sont pas annotÃ©es.
+\item \textbf{Question Ã  trancher} : Faut-il annoter Ã©galement les infections non liÃ©es Ã  une bactÃ©riÃ©mie ?
 \end{itemize}
 
-Dans l'algorithme à base de règles, l'hypothèse était que l'information sur la bactériémie se trouve dans la même phrase où celle-ci est citée. Pour le LLM, il faudra probablement élargir ce périmètre selon la stratégie retenue.
+Dans l'algorithme Ã  base de rÃ¨gles, l'hypothÃ¨se Ã©tait que l'information sur la bactÃ©riÃ©mie se trouve dans la mÃªme phrase oÃ¹ celle-ci est citÃ©e. Pour le LLM, il faudra probablement Ã©largir ce pÃ©rimÃ¨tre selon la stratÃ©gie retenue.
 
-\subsection{Évolution méthodologique}
+\subsection{Ã‰volution mÃ©thodologique}
 
-L'annotation se faisait initialement dans le périmètre de la phrase. Avec l'approche LLM, il faudra probablement élargir ce périmètre selon la stratégie d'annotation retenue, nécessitant une redéfinition des contraintes contextuelles et des règles de proximité entre entités.
+L'annotation se faisait initialement dans le pÃ©rimÃ¨tre de la phrase. Avec l'approche LLM, il faudra probablement Ã©largir ce pÃ©rimÃ¨tre selon la stratÃ©gie d'annotation retenue, nÃ©cessitant une redÃ©finition des contraintes contextuelles et des rÃ¨gles de proximitÃ© entre entitÃ©s.
