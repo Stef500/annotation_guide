@@ -1,1 +1,207 @@
-% Chapitre 1 vide
+% Chapitre 1 du guide d'annotation
+\section{Cadre du cas d'usage CU6}
+
+\subsection{Objectif clinique et périmètre scientifique}
+L'objectif du cas d'usage consiste à identifier la provenance des bactériémies dans les comptes-rendus hospitaliers, c'est-à-dire les infections bactériennes présentes dans le sang. Le périmètre décrit repose sur les constats suivants :
+\begin{itemize}
+    \item les bactériémies sont des infections fréquentes en ville comme à l'hôpital et peuvent toucher tout type de patient ;
+    \item la mortalité associée dépasse 20\,\% à trois mois ;
+    \item caractériser la provenance bactérienne (peau, urines, tube digestif, etc.) est un enjeu majeur pour orienter la prise en charge clinique ;
+    \item peu d'algorithmes de traitement automatique du langage se sont concentrés sur les maladies infectieuses et aucun n'a encore ciblé ce cas d'usage spécifique ;
+    \item les codages CIM-10 constituent la méthode de référence dans les études sur grandes bases, mais leur application reste inconstante, ce qui impose de retourner aux dossiers médicaux pour reconstituer l'information.
+\end{itemize}
+
+\subsection{Contraintes documentaires et périmètre des jeux de données}
+Le corpus exploité s'appuie sur des comptes-rendus hospitaliers (CRH) : il faut donc croiser les informations narratives pour identifier les bactériémies et leurs attributs. Les travaux antérieurs ont combiné des données hospitalières issues du projet BACTHUB (espace projet \texttt{cse\_190006}) et des comptes-rendus fictifs annotés dans le cadre du projet PARTAGES (WP~6). Deux niveaux d'analyse sont attendus : la détection des couples bactériémie--bactérie et l'identification du site primaire (et éventuels sites secondaires) de la bactériémie.
+
+\subsection{Scénarios d'évaluation existants}
+Une évaluation a été menée sur 300 épisodes de bactériémie, en détaillant plusieurs indicateurs :
+\begin{itemize}
+    \item 216 comptes-rendus sur 300 (72\,\%) contenaient l'ensemble des informations recherchées (bactériémie citée et bactérie associée) ;
+    \item sur 269 bactériémies citées dans les comptes-rendus et identifiées par lecture experte, l'algorithme à base de règles a produit, selon les paires de mesures rapportées, des résultats de 0,64~--~0,83~--~0,72 pour l'identification du site primaire lorsque l'épisode de microbiologie est décrit, contre 0,64~--~0,35~--~0,45 pour les codes CIM-10 ;
+    \item ramené à l'ensemble des 300 épisodes, l'algorithme à base de règles affiche 0,63~--~0,82~--~0,71.
+\end{itemize}
+Les jeux d'essai incluent 200 comptes-rendus fictifs contenant chacun au moins une bactériémie décrite, avec mention obligatoire de la bactérie et du site primaire, ainsi que des scénarios complémentaires pour vérifier l'absence de bactériémie dans certains documents.
+
+\section{Héritage algorithmique et ressources historiques\label{sec:heritage}}
+
+\subsection{Terminologie de référence}
+Le système à base de règles précédemment déployé repose sur une terminologie recensant les concepts d'intérêt, leurs sous-concepts et des exemples textuels associés. La table ci-dessous reprend les éléments fournis pour maintenir une cohérence avec les annotations antérieures.
+\begin{table}[ht]
+    \centering
+    \small
+    \begin{tabular}{p{2.8cm}p{8.2cm}p{4.2cm}}
+        \hline
+        \textbf{Concept} & \textbf{Sous-concepts} & \textbf{Exemples}\\
+        \hline
+        Bactériémie & bactériémie, hémoculture, bactériémiant, septicémie & -- \\
+        Résistance & résistant à la méthicilline, sauvage, BLSE, {[}Positif{]}PLP2a & -- \\
+        Bactérie & Achromobacter, Acineto, Actinomyces, Aerococcus, Aeromonas, Aggregatibacter, Anaerococcus, Bacillus, Bacteroides, Bifidobacterium, Brevibacterium, Brucella, Burkholderia, BGN, HACEK, Kingella, Yersinia, Chryseobacterium, Campylobacter, Candida, Capnocytophaga, Citrobacter, Clostri, Coryne, Dermabacter, Egghertella, Eikenella, Elizabethkingia, Enterobacter, Enterocoque, Escherichia, Fusobacterium, Gardnerella, Granulicatella, Haemophilus, Hafnia, Klebsiella, Lactobacillus, Listeria, Micrococcus, Moraxella, Morganella, Neisseria, Pantoea, Parvimonas, Pasteurella, Pediococcus, Pneumo, Prevotella, Propioni, Proteus, Providencia, Pseudomonas, Raoultella, Salmonella, Serratia, Shigella, Staph doré, Staph blanc, Staph, Steno, Strepto, Legionella, Bordetella, Helicobacter, Vibrio, Erysipelothryx, Nocardia, Peptostreptococcus, Rhodococcus, Francisella & C.~perfringens, ERV, M.~morganni, Staphylocoque coagulase negative, S.~maltophilia, Streptocoque dysgalactiae \\
+        Site>Site primaire & Primaire, Urines, Digestif, Poumon, Cathéter, Matériel, Ostéo-artic, Peau, Cardio\_vasc, Genital int, ORL, SNC, Stomato & point de départ la \ldots{} \texttt{<Infection>}, point de départ biliaire, sur foyer rénal, porte d'entrée probablement digestive \\
+        Site>Site secondaire & Urines, Digestif, Poumon, Cathéter, Matériel, Ostéo-artic, Peau, Cardio\_vasc, Genital int, ORL, SNC, Stomato & compliquée par\ldots{} \texttt{<Infection>}, embole septique au niveau pulmonaire, greffe sur cathéter \\
+        Infection & Urines, Digestif, Poumon, Cathéter, Matériel, Ostéo-artic, Peau, Cardio\_vasc, Genital int, ORL, SNC, Stomato & abcès au niveau de la peau, péritonite, infection prostatique, PNA \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Gestion de la négation et règles contextuelles}
+Une terminologie distincte recense les expressions de négation (par exemple : « absence d'argument en faveur », « l'a écarté », « ne révèlent pas »). Les règles d'annotation imposent que les éléments repérés soient contextualisés : une infection n'est retenue que si une bactériémie ou une bactérie est mentionnée dans la même phrase, et les associations bactériémie--bactérie doivent apparaître ailleurs dans le compte-rendu en lien explicite.
+
+\subsection{Hypothèses d'extraction}
+Les traitements historiques s'appuient sur le périmètre de la phrase et des contraintes de section, avec l'hypothèse que la bactériémie est décrite dans la même phrase que l'information pertinente. Un seuil d'acceptation d'erreurs de 0{,}8 a été utilisé pour valider les règles. Le système permettait :
+\begin{enumerate}
+    \item d'identifier séparément chaque bactériémie et la bactérie associée ;
+    \item de documenter le site primaire (et les sites secondaires éventuels) pour chaque bactériémie ;
+    \item d'ignorer les informations relatives aux infections sans bactériémie ;
+    \item d'écarter les suspicions non confirmées et les explorations négatives.
+\end{enumerate}
+
+\subsection{Points à clarifier}
+Les discussions en cours portent sur la reprise éventuelle du schéma d'annotation hiérarchique antérieur (par exemple \texttt{Bactérie>Staph>Staph blanc}) et sur la consigne de limiter l'annotation aux éléments explicitement reliés à une bactériémie, ce qui exclurait les infections non confirmées ou non bactériémiques.
+
+\section{Écosystème de données BACTHUB}
+
+\subsection{Orchestration générale des traitements}
+Le notebook principal \texttt{run\_all.md} orchestre l'ensemble des traitements de données du projet BACTHUB :
+\begin{itemize}
+    \item configuration centralisée des espaces de travail (\texttt{CSE\_WORKSPACE}, \texttt{WORKSPACE}) avec gestion des versions (suffixes \_1027 ou \_tem\_0218) et de la date de référence ;
+    \item pilotage des tables patients (\texttt{i2b2\_patient}), visites (\texttt{visit\_all}, \texttt{visit\_inclusion\_clean}) et observations spécialisées (physiologie, laboratoire, microbiologie, médicaments, CCAM, CIM-10, documents) ;
+    \item suppression de visites problématiques (\texttt{VISITS\_TO\_DELETE}) et de décès fictifs (\texttt{PATIENTS\_FAKE\_DEATH}) avant consolidation des jeux de données ;
+    \item référence à des schémas de tables (par exemple \texttt{bacthub\_tables\_v6.png}) pour expliciter l'architecture ; 
+    \item exécution séquentielle des notebooks spécialisés pour nettoyer, dédoublonner et transformer les données.
+\end{itemize}
+Le pendant dédié aux témoins (\texttt{run\_all\_tem.md}) documente une architecture similaire avec des tables suffixées \_tem et met en garde contre une exécution directe du notebook.
+
+\subsection{Nettoyage et structuration des tables}
+Le répertoire \texttt{clean\_notebooks} décrit 65 scripts, notamment :
+\begin{itemize}
+    \item \texttt{dedoublonnage.md}, \texttt{delete\_from\_visit()} et \texttt{replace\_in\_tables()} pour harmoniser les identifiants de visite ;
+    \item \texttt{episodes.md} et \texttt{episodes\_more.md} pour créer les épisodes microbiologiques et CIM-10 (regroupements sur fenêtres de 72~h et enrichissement par codes CIM-10) ;
+    \item \texttt{visit\_inclusion.md} définissant les critères d'inclusion (âge $\geq$ 18 ans, microbiologie sanguine ou codes CIM-10 A40*, A41*, A327, A394, A427, A021, A548, A480) ;
+    \item des répertoires spécialisés (\texttt{med/}, \texttt{phedra/}, \texttt{late\_2020/}) détaillant la normalisation des posologies, la catégorisation des milieux de prélèvement (173 milieux agrégés en 15 catégories) et le traitement de périodes temporelles ciblées.
+\end{itemize}
+
+\subsection{Contrôles qualité}
+Le répertoire \texttt{data\_quality} recense des contrôles couvrant les tables de visites, d'épisodes, de microbiologie, de médicaments et de témoins. Les scripts calculent des taux de complétude, vérifient l'unicité des identifiants, comparent cas et témoins et déclinent des variantes pour les versions témoins. Des analyses spécifiques (par exemple \texttt{DQ\_episodes\_cim10\_ccam.md}) mobilisent PySpark, pandas et seaborn pour inspecter la qualité des épisodes enrichis.
+
+\subsection{Construction des épisodes et enrichissements}
+Le répertoire \texttt{clean\_notebooks\_episodes} détaille les extractions biologiques (\texttt{bio\_episode\_quantitatif-all.md}), physiologiques (\texttt{phy\_episode\_quantitatif.md}) et les enrichissements par unités fonctionnelles (\texttt{episodes\_ufr.md}). Les scripts calculent des fenêtres temporelles (24, 48 ou 72~h autour des épisodes), normalisent les pires valeurs biologiques et intègrent des référentiels (\texttt{finess\_ufr.csv}) pour qualifier les établissements (PSL, SAT, BCH, SLS, BCT, CCH, BJN, TNN, AVC, LRB, APR, PBR, JVR). Les versions 0423 documentent les exclusions d'épisodes (196 + 1220 + 11 cas selon les critères de durée) et la constitution d'une table finale \texttt{episodes\_final\_0423}.
+
+\subsection{Analyses exploratoires}
+Le dossier \texttt{analyses} présente une étude PySpark sur 181\,257 enregistrements d'épisodes (types \texttt{mbio\_cim10} C ou M), couvrant 2015--2019 et 32 hôpitaux. Les fonctions dédiées (\texttt{group\_year()}) comparent la distribution des épisodes par type, année et établissement (par exemple HMN, PSL, BJN), mettant en évidence des spécialisations selon les sites.
+
+\subsection{Appariements cas--témoins}
+Les scripts d'appariement cas--témoins (versions 27/01, 22/09, 28/05) appliquent un algorithme vectorisé (âge $\pm 5$ ans, sexe, période avril--septembre vs octobre--mars) pour sélectionner 5 ou 10 témoins par cas. Les versions récentes excluent explicitement les patients d'inclusion et gèrent jusqu'à 1\,098\,573 témoins potentiels (population de départ). Les résultats documentés incluent :
+\begin{itemize}
+    \item 18\,324 cas appariés avec 5 témoins (version du 27/01) ;
+    \item 11\,336 cas appariés avec 5 témoins (version du 28/05 optimisée) ;
+    \item des tables de sortie Spark vérifiant l'unicité des témoins et la non contamination cas/témoins.
+\end{itemize}
+
+\subsection{Appariement SNDS et référentiels externes}
+La série de scripts \texttt{SNDS} prépare les exports vers le Système National des Données de Santé :
+\begin{itemize}
+    \item \texttt{appariement\_SNDS\_2209.md} gère 10 témoins par cas (10\,433 cas et 104\,095 témoins) et produit des tables suffixées \_2209\_10temoins ;
+    \item des exports CSV distincts (CCAM, DAS, DP/DR, réanimation) détaillent les colonnes \texttt{encounter\_num}, \texttt{finess\_j}, \texttt{finess\_g}, \texttt{code\_cim10\_*}, \texttt{code\_ccam} ;
+    \item les référentiels \texttt{finess\_APHP.md} et \texttt{finess\_ufr.md} font le lien entre codes internes AP-HP, codes FINESS juridiques et géographiques et libellés d'unités fonctionnelles ;
+    \item \texttt{finess\_appariement.md} assemble les correspondances UFR$\rightarrow$FINESS (6\,695 lignes) en distinguant cas (C) et témoins (T), avec corrections ciblées (HEGP).
+\end{itemize}
+
+\subsection{Scripts d'audit}
+Le script \texttt{count\_all\_tables\_data.md} automatise le comptage d'enregistrements et de colonnes sur 54 tables (plus de 112 millions d'observations physiologiques, 85 millions d'observations de laboratoire, environ 73\,000 épisodes). Il fournit un audit quantitatif pour valider l'intégrité des traitements ETL.
+
+\subsection{Documentation visuelle}
+Les répertoires \texttt{run\_all\_files} et \texttt{run\_all\_tem\_files} incluent des diagrammes décrivant les flux de données : tables sources \texttt{i2b2\_*}, processus de nettoyage (\texttt{visit\_clean\_1027}, \texttt{dedoublonnage\_1027}), transformations temporaires (\texttt{visit\_app\_tem\_0218}) et tables finales (\texttt{sejour\_ufr\_tem\_0218}).
+
+\section{Corpus et analyses disponibles}
+
+\subsection{Bases de cas consolidées}
+Les notebooks de la «~base définitive~» (19 fichiers) couvrent la création d'une variable d'efficacité antibiotique (309\,886 prescriptions analysées et 63 colonnes produites), la structuration des épisodes avec UFR, la normalisation des résistances (parsing regex des antibiogrammes) et l'exploration des comptes-rendus par bactérie.
+
+\subsection{Sélection et suivi des témoins}
+Les analyses dédiées aux témoins décrivent la sélection de 59\,673\,700 visites hospitalières éligibles, l'application des critères d'exclusion (codes microbiologiques ou CIM-10 d'infection) et la constitution de 1\,098\,573 témoins potentiels (648\,884 patients uniques). Après appariement, 18\,324 cas communautaires disposent de 5 témoins chacun (91\,620 témoins uniques). Les notebooks documentent la préparation des variables d'appariement (période d'hospitalisation, tranches d'âge) et les ajustements temporels sur les séjours multi-épisodes.
+
+\subsection{Études de récurrence}
+La collection «~Étude récurrence~» couvre la cohorte 2017--2020 avec des modèles de Cox, des approches en risques compétitifs (packages \texttt{survival} et \texttt{cmprsk}), et des analyses bivariées intégrant le traitement empirique. Les dataframes (\texttt{df\_recu\_saklec\_*}) suivent les germes Staphylococcus aureus (SA), Klebsiella (KL) et Escherichia coli (EC), avec variantes incluant ou non le traitement empirique et des sous-populations restreintes. Un jeu de 294 épisodes pour 2020 est isolé pour harmoniser les numérotations.
+
+\subsection{Analyses de résistance et de pathogènes}
+L'étude «~Étude pyo~» traite 29\,228 patients uniques, 33\,385 épisodes et 321\,579 instances microbiologiques. Les résistances «~difficult-to-treat~» (DTR) sont évaluées selon la combinaison carbapénèmes, bêta-lactamines et fluoroquinolones. Une variante se concentre sur les candidémies (Candida tropicalis, C.~lusitaniae, C.~glabrata, C.~dubliniensis, Candida non albicans) avec un codage des résistances adapté (Résistant=5, Intermédiaire=5).
+
+\subsection{Statistiques descriptives}
+Les statistiques descriptives comparent les distributions hospitalières et les expositions aux traitements :
+\begin{itemize}
+    \item \texttt{Salam\_distribution\_hopital\_Bacthub.md} : 63\,879 séjours d'inclusion, aucun séjour multi-hôpital, appariement FINESS systématique ;
+    \item \texttt{Salam\_distrib\_hopitalannee\_donneesmed\_parsejour\_baseep\_0423.md} : analyse de 78\,221 enregistrements médicamenteux, filtrés sur 13 hôpitaux, avec 171 codes CIP13 suivis ;
+    \item \texttt{Salam\_stats\_propres\_*} : séries successives (février, août, septembre) décrivant la progression des nettoyages et des visualisations, notamment pour les résistances.
+\end{itemize}
+
+\subsection{Intégration SNDS et exports}
+Les notebooks \texttt{Salam - SNDS} préparent la consolidation des données cliniques et microbiologiques pour des exports vers la CNAM et l'Hôpital de la Pitié-Salpêtrière :
+\begin{itemize}
+    \item fusion des tables cas et témoins, calcul des indicateurs de mortalité (J30, J90, intra-séjour) et des passages en réanimation/USI ;
+    \item génération de fichiers CSV (\texttt{donneesEDS\_microbio.csv}, \texttt{donneesEDS\_sejour.csv}) et de leurs versions corrigées ;
+    \item documentation des plans de structuration des témoins et des réflexions sur la fusion des tables historiques (2017--2019 vs 2020).
+\end{itemize}
+
+\section{Système TAL et annotation automatique}
+
+\subsection{Workflow applicatif}
+Le répertoire \texttt{cmd} décrit une chaîne en quatre étapes :
+\begin{enumerate}
+    \item sélection des documents par cohortes (CAS, CAS\_UN\_AN\_AVANT, TEMOINS) via des requêtes Spark (\texttt{01-select\_documents.md}) et versions ciblées pour l'évaluation finale ;
+    \item création des collections BRAT (\texttt{02-create\_brat\_collection.md}) à partir de schémas Excel ;
+    \item pré-annotation automatique (\texttt{03-annotation\_brat\_collection*.md}) et gestion des collections spécifiques (cas, témoins, un an avant) ;
+    \item mise à jour des terminologies à partir des annotations manuelles (\texttt{04-update\_terminologies\_from\_annotations.md}) et comparaison des dossiers (\texttt{compare\_brat\_directories.md}).
+\end{enumerate}
+Des utilitaires supplémentaires (\texttt{get\_patient\_num\_from\_brat\_documents.md}, \texttt{sandbox\_section\_splitter.md}) facilitent la navigation entre les annotations et les sections documentaires.
+
+\subsection{Terminologies et règles}
+Les ressources documentées (\texttt{schema\_bacthub\_*}, \texttt{terminologie\_bacthub\_*}, \texttt{rules\_bacthub\_*}) couvrent :
+\begin{itemize}
+    \item une hiérarchie d'entités (antécédents Charlson, taxonomie bactérienne, paramètres vitaux, traitements) ;
+    \item des terminologies de 5\,400 à 5\,700 entrées, incluant termes exacts, variantes et expressions regex ;
+    \item un système de négation pré/post (411 à 431 entrées) et des opérateurs logiques (NOT, OR, LINK, IN, CONTAINS, OVERLAPS) ;
+    \item des règles de cohérence (famille, dépendances entités, liens bactériémie--date).
+\end{itemize}
+
+\subsection{Outil EZAnnot}
+EZAnnot (documentation \texttt{README.md}, \texttt{configuration.md}, \texttt{ezannot\_example.md}) fournit :
+\begin{itemize}
+    \item une configuration spaCy francophone, un splitter de sections (\texttt{SectionSplitter}) et des modules de recherche multi-méthodes ;
+    \item une syntaxe d'expressions (wildcards, jokers, tokens génériques) pour définir les terminologies ;
+    \item des sorties compatibles BRAT et DataFrame pandas, et une possibilité d'ajouter des règles Python personnalisées.
+\end{itemize}
+
+\subsection{Segmentation des sections}
+Les ressources \texttt{section\_headings/ref\_doc\_section.md} listent les codes de sections BMI (\texttt{BMI1} : Entrée, \texttt{BMI7} : Observation, etc.), facilitant l'application des contraintes de section dans les règles d'annotation.
+
+\subsection{Analyses TAL existantes}
+Les notebooks «~Salam - TAL~» évaluent les productions automatiques :
+\begin{itemize}
+    \item extraction et évaluation de 300 comptes-rendus (299 patients uniques) avec comparaison aux annotations BRAT ;
+    \item analyses des tables \texttt{extr\_TAL\_*} (bactériémies, épisodes, relations) pour détecter les mismatches (table \texttt{mismatch\_germes}) ;
+    \item exploration des types de CR à inclure (sélection sur \texttt{observation\_doc\_ep\_ic\_1027}, longueur $>$100 caractères) ;
+    \item statistiques consolidées combinant données TAL, descriptions d'épisodes (\texttt{episodes\_des13}) et comptes-rendus.
+\end{itemize}
+Les transformations TAL (\texttt{extr\_TAL\_antecedents\_physio*.md}, \texttt{extr\_TAL\_bacteriemies*.md}) agrègent 186\,113 lignes d'antécédents et 89\,406 lignes de bactériémies, en distinguant cas (isCas=1) et antécédents (isCas=0).
+
+\section{Synthèse opérationnelle pour l'annotation}
+
+\subsection{Réutilisation des artefacts}
+Le guide doit capitaliser sur :
+\begin{itemize}
+    \item la terminologie historique listée dans la Section~\ref{sec:heritage} (maintien des concepts et exemples) ;
+    \item les règles de négation et de cohérence existantes, en tenant compte de leur périmètre phrase--section ;
+    \item les jeux d'évaluation fictifs (200 comptes-rendus avec mention explicite de la bactériémie, de la bactérie et du site primaire) pour calibrer les consignes annotateur.
+\end{itemize}
+
+\subsection{Points de vigilance}
+Les éléments suivants restent à préciser avant l'annotation :
+\begin{itemize}
+    \item validation de l'hypothèse «~uniquement les éléments liés à une bactériémie confirmée~» ;
+    \item adoption ou non de la hiérarchie complète (\texttt{Bactérie>Staph>Staph blanc}) ;
+    \item articulation entre les informations textuelles et les données structurées (exclusions des épisodes sans informations microbiologiques complètes).
+\end{itemize}
+
+\subsection{Réglementation et gouvernance}
+Le retour de l'AP-HP daté du 7 août 2025 (document \texttt{PARTAGES\_CU6-BACTHUB\_Etude\_Faisabilite\_CSSI\_v1.0.pdf}) est consigné, et des instructions complémentaires sont attendues concernant les démarches réglementaires (éventuel avenant au CSE).
