@@ -622,9 +622,11 @@ docs/analysis/
 ### Project files to ignore
 /examples/CU6.md
 /examples/Notion.md
-
-
-
+/examples/bacthub
+/examples/bacthub_md
+/examples/bacthub_memory
 /conversion
 /examples/Resume_Bacthub.md
 /examples/annotation-guide-false.pdf
+
+/.env
