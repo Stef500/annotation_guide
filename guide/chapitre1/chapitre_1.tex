@@ -1,34 +1,6 @@
 % Chapitre 1 du guide d'annotation
 \chapter{Entités à annoter et leurs relations}
 
-\section{Vue d'ensemble des catégories d'annotation}
-
-Le schéma d'annotation pour l'identification des bactériémies comprend sept catégories principales d'entités et cinq types de relations. Chaque entité doit être annotée uniquement lorsqu'elle est directement liée à un épisode de bactériémie confirmé.
-
-\begin{table}[h]
-\centering
-\caption{Synthèse des entités à annoter}
-\begin{tabular}{|l|l|l|}
-\hline
-\textbf{Entité} & \textbf{Description} & \textbf{Couleur BRAT} \\
-\hline
-BACTÉRIÉMIE & Mention de l'infection bactérienne dans le sang & Rouge \\
-\hline
-BACTÉRIE & Agent pathogène responsable & Bleu \\
-\hline
-SITE\_PRIMAIRE & Porte d'entrée de l'infection & Vert \\
-\hline
-SITE\_SECONDAIRE & Localisation des complications & Orange \\
-\hline
-INFECTION & Description du foyer infectieux & Violet \\
-\hline
-RÉSISTANCE & Profil de résistance antibiotique & Jaune \\
-\hline
-CONTEXTE\_MÉDICAL & Antécédents et dispositifs médicaux & Cyan \\
-\hline
-\end{tabular}
-\end{table}
-
 \section{Entité BACTÉRIÉMIE}
 
 \subsection{Définition}
@@ -45,21 +17,16 @@ L'entité BACTÉRIÉMIE identifie toute mention explicite ou implicite d'une inf
 
 \subsection{Exemples d'annotation}
 
-\checkmark "Le patient présente une [bactériémie] à Staphylocoque doré"
-
-\checkmark "Les [hémocultures] sont revenues positives à E. coli"
-
-\checkmark "Diagnostic de [septicémie] sur cathéter central"
-
-$\times$ "Suspicion de bactériémie" (non confirmée)
-
-$\times$ "Hémocultures négatives" (absence de bactériémie)
+\checkmark~Le patient présente une [bactériémie] à *Staphylocoque doré* \\
+\checkmark~Les [hémocultures] sont revenues positives à *E. coli* \\
+\checkmark~Diagnostic de [septicémie] sur cathéter central \\
+\ding{55} Suspicion de bactériémie (non confirmée) \\
+\ding{55} Hémocultures négatives (absence de bactériémie)
 
 \subsection{Règles spécifiques}
 
 \begin{enumerate}
     \item Annoter uniquement les bactériémies confirmées microbiologiquement
-    \item Inclure l'article et les modificateurs dans l'annotation ("une bactériémie", "la septicémie")
     \item Ne pas annoter les suspicions, hypothèses ou bactériémies écartées
 \end{enumerate}
 
@@ -70,6 +37,10 @@ $\times$ "Hémocultures négatives" (absence de bactériémie)
 L'entité BACTÉRIE identifie l'agent pathogène responsable de la bactériémie, incluant toutes les variantes nomenclaturales.
 
 \subsection{Catégories de bactéries à annoter}
+
+Toutes les bactéries responsables de bactériémie doivent être annotées.
+
+Voici une liste non exhaustive d'exemples de bactéries :
 
 \subsubsection{Cocci Gram positif}
 
@@ -116,11 +87,27 @@ L'entité BACTÉRIE identifie l'agent pathogène responsable de la bactériémie
 
 \checkmark "[Streptocoque du groupe B] isolé sur 3 flacons"
 
+\section{Entité INFECTION}
+
+\subsection{Définition}
+
+L'entité INFECTION décrit le type spécifique d'infection associée à la bactériémie, qu'elle soit primaire ou secondaire.
+
+\subsection{Exemples par système}
+
+\begin{itemize}
+    \item \textbf{Urinaire} : pyélonéphrite aiguë, PNA, abcès rénal, pyonéphrose
+    \item \textbf{Digestif} : péritonite, cholangite, abcès hépatique, appendicite compliquée
+    \item \textbf{Pulmonaire} : pneumonie lobaire, abcès pulmonaire, empyème pleural
+    \item \textbf{Cutané} : érysipèle, fasciite nécrosante, gangrène gazeuse
+    \item \textbf{Ostéo-articulaire} : ostéomyélite aiguë, arthrite septique, spondylodiscite
+\end{itemize}
+
 \section{Entité SITE\_PRIMAIRE}
 
 \subsection{Définition}
 
-Le SITE\_PRIMAIRE identifie la porte d'entrée initiale de l'infection bactérienne dans l'organisme.
+Le SITE_PRIMAIRE identifie, parmi les items de type INFECTION, celui  correspondant à la porte d’entrée initiale de la bactériémie dans l’organisme.
 
 \subsection{Catégories de sites primaires}
 
@@ -180,15 +167,13 @@ Exemples :
 
 \checkmark Direct : "Septicémie d'origine urinaire"
 
-\checkmark Indirect : "Patient porteur d'un cathéter. Bactériémie à E. coli"
-
 \checkmark Indirect : "PNA. Hémocultures positives le lendemain"
 
 \section{Entité SITE\_SECONDAIRE}
 
 \subsection{Définition}
 
-Le SITE\_SECONDAIRE identifie les localisations de dissémination ou de complications de la bactériémie.
+Le SITE_SECONDAIRE  identifie, parmi les items de type INFECTION, celui ou ceux correspondant à des localisations de dissémination ou de complications de la bactériémie.
 
 \subsection{Termes spécifiques}
 
@@ -214,29 +199,13 @@ Comme pour les sites primaires, la distinction direct/indirect s'applique :
 
 \checkmark Indirect : "Bactériémie. Découverte secondaire d'une [endocardite]"
 
-\section{Entité INFECTION}
-
-\subsection{Définition}
-
-L'entité INFECTION décrit le type spécifique d'infection associée à la bactériémie, qu'elle soit primaire ou secondaire.
-
-\subsection{Exemples par système}
-
-\begin{itemize}
-    \item \textbf{Urinaire} : pyélonéphrite aiguë, PNA, abcès rénal, pyonéphrose
-    \item \textbf{Digestif} : péritonite, cholangite, abcès hépatique, appendicite compliquée
-    \item \textbf{Pulmonaire} : pneumonie lobaire, abcès pulmonaire, empyème pleural
-    \item \textbf{Cutané} : érysipèle, fasciite nécrosante, gangrène gazeuse
-    \item \textbf{Ostéo-articulaire} : ostéomyélite aiguë, arthrite septique, spondylodiscite
-\end{itemize}
-
 \section{Entité RÉSISTANCE}
 
 \subsection{Définition}
 
 L'entité RÉSISTANCE identifie le profil de résistance ou de sensibilité aux antibiotiques de la bactérie.
 
-\subsection{Termes à annoter}
+\subsection{Exemples de termes à annoter}
 
 \begin{itemize}
     \item \textbf{Résistances spécifiques} : SARM, BLSE, EPC, VRE, résistant à la méthicilline, résistant aux fluoroquinolones
@@ -268,20 +237,14 @@ L'entité CONTEXTE\_MÉDICAL identifie les antécédents, comorbidités et dispo
 
 \subsubsection{Dispositifs médicaux}
 
+Voici une liste non exhaustive d'exemples :
+
 \begin{itemize}
     \item \textbf{Intravasculaire} : Cathéter central, PAC, PICC-line, cathéter de dialyse
     \item \textbf{Intracardiaque} : Pacemaker, défibrillateur, valve artificielle
     \item \textbf{Intra-articulaire} : Prothèse de hanche/genou, matériel d'ostéosynthèse
     \item \textbf{Intracerebral} : Dérivation ventriculaire, stimulateur cérébral
     \item \textbf{Autres} : Sonde urinaire, sonde gastrique, trachéotomie
-\end{itemize}
-
-\subsubsection{Traitements}
-
-\begin{itemize}
-    \item \textbf{Immunosuppresseurs} : Corticoïdes, méthotrexate, anti-TNF
-    \item \textbf{Addictions} : Usage de drogues intraveineuses, éthylisme chronique
-    \item \textbf{Listes d'attente} : Transplantation d'organe
 \end{itemize}
 
 \subsection{Exemples d'annotation}
@@ -333,144 +296,3 @@ L'entité CONTEXTE\_MÉDICAL identifie les antécédents, comorbidités et dispo
     \item \textbf{Cardinalité} : 1 bactériémie peut avoir 0 à N éléments de contexte
     \item \textbf{Exemple} : "Patient [diabétique] présentant une [bactériémie]"
 \end{itemize}
-
-\section{Règles d'annotation spécifiques}
-
-\subsection{Périmètre d'annotation}
-
-\begin{enumerate}
-    \item \textbf{Règle fondamentale} : Annoter UNIQUEMENT les éléments liés à une bactériémie confirmée
-    \item Les infections sans bactériémie associée ne sont PAS annotées
-    \item L'information doit être recherchée prioritairement dans la même phrase que la mention de bactériémie
-    \item Extension possible au paragraphe si nécessaire pour la cohérence
-\end{enumerate}
-
-\subsection{Gestion de la négation}
-
-Ne PAS annoter les éléments précédés de termes de négation :
-
-\subsubsection{Termes généraux}
-
-\begin{itemize}
-    \item "absence de", "pas de", "sans"
-    \item "a écarté", "écarte", "exclu"
-    \item "ne révèle pas", "ne montre pas"
-    \item "peu probable", "douteux"
-\end{itemize}
-
-\subsubsection{Termes médicaux spécialisés}
-
-\begin{itemize}
-    \item \textbf{Microbiologie} : "hémocultures stériles", "cultures négatives", "pas de croissance", "absence de germe"
-    \item \textbf{Diagnostic} : "arguments contre", "infirme l'hypothèse", "ne plaide pas pour"
-    \item \textbf{Anglicismes} : "rule out", "unlikely", "doubtful", "negative for"
-    \item \textbf{Formulations indirectes} : "ne ressemblent pas à", "diffèrent de", "ne correspond pas à"
-\end{itemize}
-
-\subsection{Cas particuliers}
-
-\begin{itemize}
-    \item \textbf{Bactériémies multiples} : Annoter séparément chaque épisode
-    \item \textbf{Co-infections} : Annoter toutes les bactéries identifiées
-    \item \textbf{Sites multiples} : Distinguer site primaire unique et sites secondaires multiples
-    \item \textbf{Évolution temporelle} : Annoter l'état au moment de la rédaction du CR
-    \item \textbf{Contexte médical} : Annoter uniquement si pertinent pour l'épisode infectieux
-    \item \textbf{Distinction direct/indirect} : Privilégier les liens directs, documenter les indirects
-\end{itemize}
-
-\subsection{Exemples complets issus du corpus BACTHUB}
-
-\textbf{Texte} : "Patient diabétique porteur d'un cathéter de dialyse. Bactériémie à Staphylocoque doré SARM sur cathéter."
-
-\textbf{Annotations} :
-\begin{itemize}
-    \item [diabétique] : CONTEXTE\_MÉDICAL
-    \item [cathéter de dialyse] : CONTEXTE\_MÉDICAL
-    \item [Bactériémie] : BACTÉRIÉMIE
-    \item [Staphylocoque doré] : BACTÉRIE
-    \item [SARM] : RÉSISTANCE
-    \item [cathéter] : SITE\_PRIMAIRE (direct)
-\end{itemize}
-
-\textbf{Relations} :
-\begin{itemize}
-    \item CAUSÉE\_PAR : Bactériémie → Staphylocoque doré
-    \item ORIGINE : Bactériémie → cathéter
-    \item PROFIL\_RÉSISTANCE : Staphylocoque doré → SARM
-    \item CONTEXTE : Bactériémie → diabétique, cathéter de dialyse
-\end{itemize}
-
-\section{Variantes terminologiques exhaustives}
-
-Basé sur l'analyse du corpus BACTHUB, cette section présente l'inventaire complet des variantes terminologiques rencontrées en français médical hospitalier, enrichissant les terminologies de base présentées précédemment.
-
-\subsection{Variations orthographiques et abréviations bactériennes}
-
-Au-delà des catégories présentées précédemment, le corpus révèle une richesse de variantes non standardisées :
-
-\subsubsection{Extensions des cocci Gram positif}
-
-\begin{itemize}
-    \item \textbf{Staphylocoques} : Staphylo, Staph coag +/-, S. coagulase negative, Staph CoNS, S. capitis, S. lugdunensis, S. saprophyticus, S. schleiferi, Staph non aureus
-    \item \textbf{Streptocoques} : Strepto B, SGB, SGA, Strepto vir, S. sanguinis, S. mitis, S. parasanguinis, Strepto oral, Enteroco, E. faec, VRE enterocoque
-    \item \textbf{Autres cocci} : Granuli, Aeroco, Gemella, Pediocoque, Leuconostoc
-\end{itemize}
-
-\subsubsection{Extensions des bacilles Gram négatif}
-
-\begin{itemize}
-    \item \textbf{Entérobactéries étendues} : E. coli EBLSE, K. pneu, K. oxytoca, E. cloacae, E. aerogenes, C. freundii, C. koseri, P. vulgaris, S. liquefaciens, S. fonticola, Salmonella sp, M. morg, Providencia stuartii, H. alvei, Pantoea agglomerans
-    \item \textbf{Non-fermentants étendus} : P. aeru, Acineto bau, A. lwoffii, S. malto, B. cepacia, B. multivorans, Achromobacter xylos, Elizab meningoseptica, Chryseo indologenes
-    \item \textbf{BGN spécialisés} : H. para, H. haemolyticus, M. catarrhalis, N. elongata, P. multocida, A. hydrophila, V. alginolyticus, C. jejuni, H. pylori
-\end{itemize}
-
-\subsubsection{Anaérobies et organismes spécialisés}
-
-\begin{itemize}
-    \item \textbf{Clostridium} : C. perf, C. diff, C. septicum, C. sordellii, C. bifermentans
-    \item \textbf{Bacteroides group} : B. frag, B. thetaiotaomicron, B. ovatus, Parabacteroides
-    \item \textbf{Autres anaérobies} : Fusobact, Prevot, Propioni acnes, Peptostreptocoques, Finegoldia magna
-    \item \textbf{Organismes rares} : Capnocytophaga, Eikenella corrodens, CDC group, Bergeyella, Weeksella
-\end{itemize}
-
-\subsection{Expressions de négation médicales spécialisées}
-
-Le corpus hospitalier révèle des formulations de négation plus complexes que les termes généraux déjà présentés :
-
-\subsubsection{Négation microbiologique avancée}
-
-\begin{itemize}
-    \item \textbf{Résultats de culture} : "stérilité des prélèvements", "absence de croissance significative", "pas de pousse", "culture blanche", "hémocultures en cours", "prélèvements non contributifs"
-    \item \textbf{Identification} : "germe non identifié à ce jour", "identification en cours", "bactérie non typée", "organisme non classé"
-    \item \textbf{Résistance} : "antibiogramme en cours", "sensibilités non déterminées", "résistance non confirmée"
-\end{itemize}
-
-\subsubsection{Négation clinique contextuelle}
-
-\begin{itemize}
-    \item \textbf{Suspicion écartée} : "n'évoque pas", "peu évocateur de", "ne plaide guère pour", "arguments insuffisants pour", "ne permet pas de retenir"
-    \item \textbf{Temporalité} : "pas encore", "plus maintenant", "n'était pas", "ne sera plus"
-    \item \textbf{Probabilité} : "improbable", "peu vraisemblable", "incertain", "douteux", "à confirmer"
-\end{itemize}
-
-\subsubsection{Négation comparative}
-
-\begin{itemize}
-    \item "plutôt qu'une", "contrairement à", "différent de", "ne correspond pas au profil de", "ne colle pas avec"
-\end{itemize}
-
-\section{Règles métier avancées et validation croisée}
-
-Cette section présente les règles complexes de validation développées dans le projet BACTHUB, dépassant les règles de base pour implémenter une logique métier approfondie.
-
-\subsection{Algorithme de validation croisée bactériémie-bactérie}
-
-Basé sur l'analyse de custom\_rules.py, le système implémente une logique de validation en deux phases :
-
-\subsubsection{Phase 1 : Validation directe}
-
-\begin{enumerate}
-    \item \textbf{Cooccurrence immédiate} : Si bactériémie + bactérie dans la même phrase → validation automatique
-    \item \textbf{Cooccurrence contextuelle} : Si bactériémie + bactérie dans le même paragraphe + indicateurs temporels compatibles → validation conditionnelle
-    \item \textbf{Marquage des sites directs} : Sites mentionnés dans la phrase de validation → classification "direct"
-\end{enumerate}

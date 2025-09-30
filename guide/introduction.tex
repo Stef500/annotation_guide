@@ -51,3 +51,134 @@
 %\end{itemize}
 %
 %Cette approche structurée vise à soutenir le développement d'outils de TAL performants pour l'aide à la décision clinique en infectiologie.
+
+\chapter{Règles générales}
+
+\section{Vue d'ensemble des catégories d'annotation}
+
+Le schéma d'annotation pour l'identification des bactériémies comprend sept catégories principales d'entités et cinq types de relations.
+
+\begin{table}[h]
+\centering
+\caption{Synthèse des entités à annoter}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Entité} & \textbf{Description} & \textbf{Couleur annotation} \\
+\hline
+BACTÉRIÉMIE & Mention de l'infection bactérienne dans le sang & Rouge \\
+\hline
+BACTÉRIE & Agent pathogène responsable & Bleu \\
+\hline
+SITE\_PRIMAIRE & INFECTION → porte d’entrée bactériémie & Vert \\
+\hline
+SITE\_SECONDAIRE & INFECTION → complications bactériémie & Orange \\
+\hline
+INFECTION & Description du foyer infectieux & Violet \\
+\hline
+RÉSISTANCE & Profil de résistance antibiotique & Jaune \\
+\hline
+CONTEXTE\_MÉDICAL & Antécédents et dispositifs médicaux & Cyan \\
+\hline
+\end{tabular}
+\end{table}
+
+\textbf{NB} : la couleur d'annotation s'entend en dehors de l'utilisation de BRAT.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{pictures/exemple_salam.png}
+\caption{Exemple d'annotation de bactériémie}
+\label{fig:exemple_salam}
+\end{figure}
+
+\section{Règles d'annotation}
+
+\subsection{Périmètre d'annotation}
+
+\begin{enumerate}
+    \item \textbf{Règle fondamentale} : Annoter UNIQUEMENT les éléments liés à une bactériémie confirmée
+    \item Les infections sans bactériémie associée ne sont PAS annotées
+    \item L'information doit être recherchée prioritairement dans la même phrase que la mention de bactériémie
+    \item Extension possible au paragraphe si nécessaire pour la cohérence
+\end{enumerate}
+
+\subsection{Gestion de la négation}
+
+Ne PAS annoter les éléments précédés de termes de négation :
+
+\subsubsection{Termes généraux}
+
+\begin{itemize}
+    \item "absence de", "pas de", "sans"
+    \item "a écarté", "écarte", "exclu"
+    \item "ne révèle pas", "ne montre pas"
+    \item "peu probable", "douteux"
+\end{itemize}
+
+\subsubsection{Expressions de négation médicales spécialisées}
+
+Le corpus hospitalier révèle des formulations de négation plus complexes que les termes généraux déjà présentés :
+
+\subsubsection{Négation microbiologique avancée}
+
+\begin{itemize}
+    \item \textbf{Résultats de culture} : "stérilité des prélèvements", "absence de croissance significative", "pas de pousse", "culture blanche", "hémocultures en cours", "prélèvements non contributifs"
+    \item \textbf{Identification} : "germe non identifié à ce jour", "identification en cours", "bactérie non typée", "organisme non classé"
+    \item \textbf{Résistance} : "antibiogramme en cours", "sensibilités non déterminées", "résistance non confirmée"
+\end{itemize}
+
+\subsubsection{Négation clinique contextuelle}
+
+\begin{itemize}
+    \item \textbf{Suspicion écartée} : "n'évoque pas", "peu évocateur de", "ne plaide guère pour", "arguments insuffisants pour", "ne permet pas de retenir"
+    \item \textbf{Temporalité} : "pas encore", "plus maintenant", "n'était pas", "ne sera plus"
+    \item \textbf{Probabilité} : "improbable", "peu vraisemblable", "incertain", "douteux", "à confirmer"
+\end{itemize}
+
+\subsubsection{Négation comparative}
+
+\begin{itemize}
+    \item "plutôt qu'une", "contrairement à", "différent de", "ne correspond pas au profil de", "ne colle pas avec"
+\end{itemize}
+
+\subsubsection{Termes médicaux spécialisés}
+
+\begin{itemize}
+    \item \textbf{Microbiologie} : "hémocultures stériles", "cultures négatives", "pas de croissance", "absence de germe"
+    \item \textbf{Diagnostic} : "arguments contre", "infirme l'hypothèse", "ne plaide pas pour"
+    \item \textbf{Anglicismes} : "rule out", "unlikely", "doubtful", "negative for"
+    \item \textbf{Formulations indirectes} : "ne ressemblent pas à", "diffèrent de", "ne correspond pas à"
+\end{itemize}
+
+\subsection{Cas particuliers}
+
+\begin{itemize}
+    \item \textbf{Bactériémies multiples} : Annoter séparément chaque épisode
+    \item \textbf{Co-infections} : Annoter toutes les bactéries identifiées
+    \item \textbf{Sites multiples} : Distinguer site primaire unique et sites secondaires multiples
+    \item \textbf{Évolution temporelle} : Annoter l'état au moment de la rédaction du CR
+    \item \textbf{Contexte médical} : Annoter uniquement si pertinent pour l'épisode infectieux
+    \item \textbf{Distinction direct/indirect} : Privilégier les liens directs, documenter les indirects
+\end{itemize}
+
+\section{Exemple concret}
+
+\textbf{Texte} : "Patient diabétique porteur d'un cathéter de dialyse. Bactériémie à Staphylocoque doré SARM sur cathéter."
+
+\textbf{Annotations} :
+\begin{itemize}
+    \item [diabétique] : CONTEXTE\_MÉDICAL
+    \item [cathéter de dialyse] : CONTEXTE\_MÉDICAL
+    \item [Bactériémie] : BACTÉRIÉMIE
+    \item [Staphylocoque doré] : BACTÉRIE
+    \item [SARM] : RÉSISTANCE
+    \item [cathéter] : SITE\_PRIMAIRE (direct)
+\end{itemize}
+
+\textbf{Relations} :
+\begin{itemize}
+    \item CAUSÉE\_PAR : Bactériémie → Staphylocoque doré
+    \item ORIGINE : Bactériémie → cathéter
+    \item PROFIL\_RÉSISTANCE : Staphylocoque doré → SARM
+    \item CONTEXTE : Bactériémie → diabétique, cathéter de dialyse
+\end{itemize}
