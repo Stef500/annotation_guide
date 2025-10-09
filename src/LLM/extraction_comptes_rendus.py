@@ -45,17 +45,16 @@ class ExtractionComptesRendus:
         CONCEPTS À EXTRAIRE (dans l'ordre d'apparition) :
         1. BACTÉRIÉMIE : bactériémie, hémoculture, septicémie
         2. BACTÉRIE : Noms de bactéries avec toutes leurs variantes (S. aureus, Staphylococcus aureus, Staph doré, etc.)
-        3. RÉSISTANCE : résistant à la méthicilline, sauvage, BLSE, [Positif]PLP2a, sensible, résistant
+        3. RÉSISTANCE : résistant à la méthicilline, sauvage, BLSE, PLP2a, sensible, résistant
         4. SITE PRIMAIRE : Point de départ de l'infection (urines, digestif, poumon, cathéter, etc.)
         5. SITE SECONDAIRE : Complications infectieuses (embole septique, greffe sur cathéter, etc.)
-        6. INFECTION : Types d'infections (abcès, péritonite, infection prostatique, PNA, etc.)
-        7. NÉGATION : Termes de négation (absence d'argument, a écarté, ne révèlent pas, etc.)
+        6. INFECTION :  Description du foyer infectieux (abcès, péritonite, infection prostatique, PNA, etc.)
 
         RÈGLES IMPORTANTES :
         - Extraire le texte EXACT sans paraphrase
         - Identifier une infection uniquement si bactériémie/bactérie mentionnée dans le contexte
-        - Marquer les négations qui invalident un concept
-        - Utiliser les attributs pour préciser sous-concepts et relations
+        - Marquer les négations qui invalident un concept pour justifier la suppression d’une information.
+        - Utiliser les attributs (uniquement si applicable) pour préciser sous-concepts et relations
         - Respecter la hiérarchie Site>Site primaire/secondaire
         """)
 
@@ -72,37 +71,24 @@ class ExtractionComptesRendus:
                 extractions=[
                     lx.data.Extraction(
                         extraction_class="bacteriemie",
-                        extraction_text="bactériémie",
-                        attributes={
-                            "type": "infection_sanguine",
-                            "contexte": "admission"
-                        }
+                        extraction_text="bactériémie"
                     ),
                     lx.data.Extraction(
                         extraction_class="bacterie",
                         extraction_text="S. aureus",
                         attributes={
                             "nom_complet": "Staphylococcus aureus",
-                            "type": "cocci_gram_positif",
-                            "variante": "abrégé"
                         }
                     ),
                     lx.data.Extraction(
                         extraction_class="resistance",
                         extraction_text="résistant à la méthicilline",
-                        attributes={
-                            "type": "SARM",
-                            "antibiotique": "méthicilline",
-                            "profil": "résistant"
-                        }
                     ),
                     lx.data.Extraction(
                         extraction_class="site_primaire",
                         extraction_text="cathéter veineux central",
                         attributes={
                             "type": "cathéter",
-                            "localisation": "central",
-                            "certitude": "probable"
                         }
                     ),
                     lx.data.Extraction(
@@ -111,44 +97,22 @@ class ExtractionComptesRendus:
                         attributes={
                             "type": "complication",
                             "localisation": "poumon",
-                            "mécanisme": "embole_septique"
                         }
                     ),
                     lx.data.Extraction(
                         extraction_class="bacteriemie",
                         extraction_text="Hémocultures positives",
-                        attributes={
-                            "type": "diagnostic",
-                            "résultat": "positif",
-                            "méthode": "hémoculture"
-                        }
                     ),
                     lx.data.Extraction(
                         extraction_class="bacterie",
                         extraction_text="Staphylococcus aureus",
                         attributes={
                             "nom_complet": "Staphylococcus aureus",
-                            "type": "cocci_gram_positif",
-                            "variante": "complet"
-                        }
-                    ),
-                    lx.data.Extraction(
-                        extraction_class="negation",
-                        extraction_text="Absence d'argument en faveur",
-                        attributes={
-                            "type": "négation_médicale",
-                            "concept_nié": "endocardite",
-                            "force": "forte"
                         }
                     ),
                     lx.data.Extraction(
                         extraction_class="infection",
-                        extraction_text="endocardite",
-                        attributes={
-                            "type": "cardio_vasc",
-                            "statut": "écartée",
-                            "relation_bacteriemie": "complication_recherchée"
-                        }
+                        extraction_text="endocardite"
                     )
                 ]
             ),
@@ -162,20 +126,13 @@ class ExtractionComptesRendus:
                 extractions=[
                     lx.data.Extraction(
                         extraction_class="infection",
-                        extraction_text="Infection urinaire",
-                        attributes={
-                            "type": "urines",
-                            "sévérité": "compliquée",
-                            "localisation": "rein"
-                        }
+                        extraction_text="Infection urinaire"
                     ),
                     lx.data.Extraction(
                         extraction_class="site_primaire",
                         extraction_text="foyer rénal",
                         attributes={
-                            "type": "urines",
-                            "localisation": "rein",
-                            "rôle": "point_de_départ"
+                            "localisation": "rein"
                         }
                     ),
                     lx.data.Extraction(
@@ -183,45 +140,25 @@ class ExtractionComptesRendus:
                         extraction_text="E. coli",
                         attributes={
                             "nom_complet": "Escherichia coli",
-                            "type": "entérobactérie",
-                            "variante": "abrégé"
                         }
                     ),
                     lx.data.Extraction(
                         extraction_class="resistance",
                         extraction_text="BLSE",
                         attributes={
-                            "type": "béta_lactamase_spectre_étendu",
-                            "mécanisme": "enzymatique",
                             "profil": "résistant_béta_lactamines"
                         }
                     ),
                     lx.data.Extraction(
-                        extraction_class="negation",
-                        extraction_text="ne révèlent pas",
-                        attributes={
-                            "type": "négation_résultat",
-                            "concept_nié": "bactériémie",
-                            "force": "forte"
-                        }
-                    ),
-                    lx.data.Extraction(
                         extraction_class="bacteriemie",
-                        extraction_text="bactériémie associée",
-                        attributes={
-                            "type": "complication_recherchée",
-                            "statut": "absente",
-                            "méthode": "hémocultures"
-                        }
+                        extraction_text="bactériémie associée"
                     ),
                     lx.data.Extraction(
                         extraction_class="infection",
                         extraction_text="Abcès au niveau du rein droit",
                         attributes={
-                            "type": "urines",
                             "forme": "abcès",
                             "localisation": "rein_droit",
-                            "diagnostic": "scanner"
                         }
                     ),
                     lx.data.Extraction(
@@ -229,20 +166,78 @@ class ExtractionComptesRendus:
                         extraction_text="Escherichia coli",
                         attributes={
                             "nom_complet": "Escherichia coli",
-                            "type": "entérobactérie",
-                            "variante": "complet"
                         }
                     ),
                     lx.data.Extraction(
                         extraction_class="resistance",
                         extraction_text="sensible aux carbapénèmes",
                         attributes={
-                            "type": "sensibilité",
-                            "antibiotique": "carbapénèmes",
                             "profil": "sensible"
                         }
                     )
                 ]
+            ),
+            lx.data.ExampleData(
+                text=textwrap.dedent("""
+                                Septicémie à point de départ urinaire à E. Cloacae BLSE et 
+                                Pseudomonas aeruginosa traité par Tazocilline.
+                                """),
+                extractions=[
+                    lx.data.Extraction(
+                        extraction_class="bacteriemie",
+                        extraction_text="Septicémie",
+                    ),
+                    lx.data.Extraction(
+                        extraction_class="site_primaire",
+                        extraction_text="à point de départ urinaire",
+                    ),
+                    lx.data.Extraction(
+                        extraction_class="bacterie",
+                        extraction_text="E. Cloacae",
+                        attributes={
+                            "nom_complet": "Enterobacter cloacae",
+                        }
+                    ),
+                    lx.data.Extraction(
+                        extraction_class="resistance",
+                        extraction_text="BLSE",
+                        attributes={
+                            "profil": "résistant_béta_lactamines"
+                        }
+                    ),
+                    lx.data.Extraction(
+                        extraction_class="bacterie",
+                        extraction_text="Pseudomonas aeruginosa",
+                        attributes={
+                            "nom_complet": "Enterobacter cloacae",
+                        },
+                    ),
+                ],
+            ),
+            lx.data.ExampleData(
+                text=textwrap.dedent("""
+                        Septicémie à Staphylococcus Epidermidis méti-R taitée par vancomycine.
+                        """),
+                extractions=[
+                    lx.data.Extraction(
+                        extraction_class="bacteriemie",
+                        extraction_text="Septicémie",
+                    ),
+                    lx.data.Extraction(
+                        extraction_class="bacterie",
+                        extraction_text="Staphylococcus Epidermidis",
+                        attributes={
+                            "nom_complet": "Staphylococcus epidermidis",
+                        }
+                    ),
+                    lx.data.Extraction(
+                        extraction_class="resistance",
+                        extraction_text="méti-R",
+                        attributes={
+                            "profil": "résistant_methicilline"
+                        }
+                    ),
+                ],
             ),
             lx.data.ExampleData(
                 text=textwrap.dedent("""
@@ -256,9 +251,7 @@ class ExtractionComptesRendus:
                         extraction_class="infection",
                         extraction_text="Pneumonie",
                         attributes={
-                            "type": "poumon",
-                            "localisation": "parenchyme_pulmonaire",
-                            "sévérité": "compliquée"
+                            "type": "poumon"
                         }
                     ),
                     lx.data.Extraction(
@@ -266,26 +259,17 @@ class ExtractionComptesRendus:
                         extraction_text="Pneumocoque",
                         attributes={
                             "nom_complet": "Streptococcus pneumoniae",
-                            "type": "streptocoque",
-                            "variante": "nom_usuel"
                         }
                     ),
                     lx.data.Extraction(
                         extraction_class="bacteriemie",
                         extraction_text="bactériémie",
-                        attributes={
-                            "type": "complication",
-                            "relation": "pneumonie_compliquée",
-                            "statut": "confirmée"
-                        }
                     ),
                     lx.data.Extraction(
                         extraction_class="bacterie",
                         extraction_text="Streptococcus pneumoniae",
                         attributes={
                             "nom_complet": "Streptococcus pneumoniae",
-                            "type": "streptocoque",
-                            "variante": "complet"
                         }
                     ),
                     lx.data.Extraction(
@@ -294,14 +278,12 @@ class ExtractionComptesRendus:
                         attributes={
                             "type": "poumon",
                             "prélèvement": "expectoration",
-                            "rôle": "diagnostic"
                         }
                     ),
                     lx.data.Extraction(
                         extraction_class="bacteriemie",
                         extraction_text="hémocultures",
                         attributes={
-                            "type": "diagnostic",
                             "méthode": "hémoculture",
                             "statut": "positive"
                         }
@@ -310,37 +292,19 @@ class ExtractionComptesRendus:
                         extraction_class="resistance",
                         extraction_text="Souche sauvage",
                         attributes={
-                            "type": "sensibilité_naturelle",
                             "profil": "sauvage",
-                            "absence_résistance": "true"
                         }
                     ),
                     lx.data.Extraction(
                         extraction_class="resistance",
                         extraction_text="sensible à la pénicilline",
                         attributes={
-                            "type": "sensibilité",
-                            "antibiotique": "pénicilline",
                             "profil": "sensible"
-                        }
-                    ),
-                    lx.data.Extraction(
-                        extraction_class="negation",
-                        extraction_text="a écarté",
-                        attributes={
-                            "type": "négation_évolution",
-                            "concept_nié": "méningite",
-                            "force": "forte"
                         }
                     ),
                     lx.data.Extraction(
                         extraction_class="infection",
                         extraction_text="méningite associée",
-                        attributes={
-                            "type": "SNC",
-                            "relation": "complication_recherchée",
-                            "statut": "écartée"
-                        }
                     )
                 ]
             )
