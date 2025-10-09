@@ -1,57 +1,3 @@
-%% Introduction du guide d'annotation
-%\chapter{Introduction}
-%
-%\section{Contexte médical et enjeux cliniques}
-%
-%Les bactériémies, définies comme la présence de bactéries dans le sang, représentent un défi majeur de santé publique avec une mortalité supérieure à 20\% à trois mois. Ces infections, courantes tant en ville qu'à l'hôpital, peuvent potentiellement toucher tout patient et nécessitent une prise en charge rapide et adaptée.
-%
-%L'enjeu clinique majeur consiste à caractériser ces infections selon la provenance des bactéries (peau, urines, tube digestif, cathéter, etc.) afin de guider efficacement la prise en charge thérapeutique. Cette information cruciale se trouve consignée dans les comptes-rendus d'hospitalisation (CRH), mais son extraction manuelle reste chronophage et sujette à variabilité.
-%
-%\section{Du traitement automatique à l'annotation experte}
-%
-%Les méthodes de recherche sur grandes bases de données s'appuient traditionnellement sur les codages CIM-10, mais ces derniers présentent une inconstance notable. Face à cette limitation, le développement d'outils de traitement automatique du langage (TAL) dédiés aux maladies infectieuses devient nécessaire.
-%
-%Des travaux antérieurs ont démontré la faisabilité d'un algorithme à base de règles atteignant des performances encourageantes, avec un F1 score de 0,90 pour l'identification bactériémie-bactérie et de 0,72 pour l'identification du site primaire.
-%
-%L'évolution vers des modèles d'apprentissage automatique plus sophistiqués (BERT, LLM) nécessite désormais la constitution de corpus annotés de qualité.
-%
-%\section{Objectif et portée du guide}
-%
-%Ce guide d'annotation a pour objectif de standardiser l'identification et l'annotation des éléments informatifs relatifs aux bactériémies dans les comptes-rendus médicaux. Il s'adresse aux annotateurs chargés de constituer des corpus d'entraînement et d'évaluation pour les modèles de TAL.
-%
-%Périmètre d'annotation : Seuls les éléments directement liés à une bactériémie confirmée sont annotés. Les infections non bactériémiques, les suspicions non confirmées et les explorations négatives sont exclues du processus d'annotation.
-%
-%Le guide couvre l'annotation de cinq catégories conceptuelles principales :
-%\begin{enumerate}
-%\item Bactériémie : Identification de l'épisode infectieux
-%\item Bactérie : Agent pathogène responsable
-%\item Site primaire : Porte d'entrée de l'infection
-%\item Site secondaire : Localisation de complications
-%\item Résistance : Profil de résistance aux antibiotiques
-%\end{enumerate}
-%
-%\section{Structure du guide}
-%
-%Ce guide est organisé en quatre chapitres principaux :
-%\begin{enumerate}
-%\item \textbf{Concepts et Objectifs de l'Annotation} : Définitions exhaustives des entités à annoter (bactériémies, bactéries, sites, antécédents), règles de cohérence (45 règles), système de négation et contraintes par section du compte-rendu
-%\item \textbf{Instructions Pratiques d'Annotation} : Méthodologie détaillée pour l'identification des entités, application séquentielle des règles de cohérence, gestion des cas particuliers et procédures de contrôle qualité
-%\item \textbf{Schéma d'Annotation et Hiérarchies} : Organisation hiérarchique des 165 entités, relations entre entités, règles de suppression et liaisons sémantiques
-%\item \textbf{Terminologies et Exemples} : Terminologies complètes (bactéries, sites, négation), exemples annotés de comptes-rendus types et cas d'usage pratiques
-%\end{enumerate}
-%
-%\section{Public cible}
-%
-%Ce guide s'adresse à :
-%\begin{itemize}
-%\item Annotateurs médicaux et linguistes
-%\item Gestionnaires de projets d'annotation en santé
-%\item Développeurs d'outils de TAL médical
-%\item Chercheurs en informatique biomédicale
-%\end{itemize}
-%
-%Cette approche structurée vise à soutenir le développement d'outils de TAL performants pour l'aide à la décision clinique en infectiologie.
-
 \chapter{Règles générales}
 
 \section{Vue d'ensemble des catégories d'annotation}
@@ -155,7 +101,6 @@ Le corpus hospitalier révèle des formulations de négation plus complexes que 
     \item \textbf{Co-infections} : Annoter toutes les bactéries identifiées
     \item \textbf{Sites multiples} : Distinguer site primaire unique et sites secondaires multiples
     \item \textbf{Évolution temporelle} : Annoter l'état au moment de la rédaction du CR
-    \item \textbf{Contexte médical} : Annoter uniquement si pertinent pour l'épisode infectieux
     \item \textbf{Distinction direct/indirect} : Privilégier les liens directs, documenter les indirects
 \end{itemize}
 

@@ -66,7 +66,8 @@ Le concept INFECTION décrit le type spécifique d'infection associée à la bac
 
 \subsection{Définition}
 
-Le SITE_PRIMAIRE identifie, parmi les items de type INFECTION, celui  correspondant à la porte d’entrée initiale de la bactériémie dans l’organisme.
+Le SITE_PRIMAIRE identifie, parmi les items de type INFECTION, celui correspondant à la porte d’entrée initiale de la bactériémie dans l’organisme. Par exemple, si le site primaire est une pyélonéphrite, celle-ci sera annotée comme infection et site primaire.
+Si le site primaire est inclus dans une expression comme "porte d'entrée urinaire", il faudra annoter toute l'expression.
 
 \subsection{Catégories de sites primaires}
 
@@ -86,8 +87,8 @@ Le SITE_PRIMAIRE identifie, parmi les items de type INFECTION, celui  correspond
 Les sites primaires peuvent être qualifiés selon leur mode d'identification :
 
 \begin{itemize}
-    \item \textbf{Site primaire direct} : Mentionné explicitement comme source de la bactériémie dans la même phrase ou proposition
-    \item \textbf{Site primaire indirect} : Inféré par association contextuelle, proximité dans le texte ou connaissance médicale
+    \item \textbf{Site primaire direct} : Mentionné explicitement comme source de la bactériémie dans la même phrase ou proposition.
+    \item \textbf{Site primaire indirect} : Inféré par association contextuelle, proximité dans le texte ou connaissance médicale.
 \end{itemize}
 
 Exemples :
@@ -122,11 +123,11 @@ Comme pour les sites primaires, la distinction direct/indirect s'applique :
 
 \subsection{Exemples d'annotation}
 
-\checkmark Direct : "Bactériémie compliquée d'[emboles septiques pulmonaires]"
+\checkmark Direct : "Bactériémie compliquée d'emboles septiques pulmonaires".
 
-\checkmark Direct : "Avec [greffe septique sur la valve mitrale]"
+\checkmark Direct : "Avec greffe septique sur la valve mitrale".
 
-\checkmark Indirect : "Bactériémie. Découverte secondaire d'une [endocardite]"
+\checkmark Indirect : "Bactériémie. Découverte secondaire d'une endocardite".
 
 \section{Concept RÉSISTANCE}
 
@@ -174,12 +175,4 @@ Le concept RÉSISTANCE identifie le profil de résistance ou de sensibilité aux
     \item \textbf{Type} : Bactérie → Résistance
     \item \textbf{Cardinalité} : 1 bactérie a 0 ou 1 profil de résistance documenté
     \item \textbf{Exemple} : "[S. aureus] [résistant à la méthicilline]"
-\end{itemize}
-
-\subsection{Relation CONTEXTE}
-
-\begin{itemize}
-    \item \textbf{Type} : Bactériémie → Contexte\_médical
-    \item \textbf{Cardinalité} : 1 bactériémie peut avoir 0 à N éléments de contexte
-    \item \textbf{Exemple} : "Patient [diabétique] présentant une [bactériémie]"
 \end{itemize}
