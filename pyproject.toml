@@ -1,0 +1,13 @@
+[project]
+name = "annotation-guide"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "langextract[openai]",
+    "loguru",
+    "python-docx>=1.2.0",
+    "python-dotenv",
+    "tqdm>=4.67.1",
+]
