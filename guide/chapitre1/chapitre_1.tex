@@ -36,47 +36,6 @@ Le concept BACTÉRIÉMIE identifie toute mention explicite ou implicite d'une in
 
 Le concept BACTÉRIE identifie l'agent pathogène responsable de la bactériémie, incluant toutes les variantes nomenclaturales.
 
-\subsection{Catégories de bactéries à annoter}
-
-Toutes les bactéries responsables de bactériémie doivent être annotées.
-
-Voici une liste non exhaustive d'exemples de bactéries :
-
-\subsubsection{Cocci Gram positif}
-
-\begin{itemize}
-    \item \textbf{Staphylocoques} : Staph, Staph doré, Staph blanc, S. aureus, Staphylococcus aureus, SARM, SASM, Staphylocoque coagulase négative, S. epidermidis, S. hominis, S. haemolyticus
-    \item \textbf{Streptocoques} : Strepto, Streptocoque, S. pneumoniae, Pneumocoque, Streptocoque du groupe A/B/C/D, S. pyogenes, S. agalactiae, S. dysgalactiae, Enterocoque, E. faecalis, E. faecium, ERV
-    \item \textbf{Autres} : Micrococcus, Pediococcus, Aerococcus, Granulicatella
-\end{itemize}
-
-\subsubsection{Bacilles Gram négatif}
-
-\begin{itemize}
-    \item \textbf{Entérobactéries} : E. coli, Escherichia coli, Klebsiella, K. pneumoniae, Enterobacter, Citrobacter, Proteus, P. mirabilis, Serratia, S. marcescens, Salmonella, Shigella, Morganella, M. morganii, Providencia, Hafnia, Pantoea, Raoultella
-    \item \textbf{Non fermentants} : Pseudomonas, P. aeruginosa, Acinetobacter, A. baumannii, Stenotrophomonas, S. maltophilia, Burkholderia, Achromobacter, Elizabethkingia, Chryseobacterium
-    \item \textbf{Autres BGN} : Haemophilus, H. influenzae, Moraxella, Neisseria, Pasteurella, Aeromonas, Vibrio, Campylobacter, Helicobacter
-\end{itemize}
-
-\subsubsection{Anaérobies}
-
-\begin{itemize}
-    \item Clostridium, C. perfringens, C. difficile
-    \item Bacteroides, B. fragilis
-    \item Fusobacterium, Prevotella, Propionibacterium
-    \item Peptostreptococcus, Anaerococcus, Parvimonas
-\end{itemize}
-
-\subsubsection{Autres}
-
-\begin{itemize}
-    \item \textbf{Groupe HACEK} : Haemophilus, Aggregatibacter, Cardiobacterium, Eikenella, Kingella
-    \item \textbf{Intracellulaires} : Legionella, Brucella, Francisella, Bordetella
-    \item \textbf{Filamenteux} : Nocardia, Actinomyces
-    \item \textbf{Mycobactéries} : M. tuberculosis, mycobactéries atypiques
-    \item \textbf{Levures} : Candida, C. albicans, C. glabrata (bien que techniquement fongémie)
-\end{itemize}
-
 \subsection{Exemples d'annotation}
 
 \checkmark "Bactériémie à [Staphylococcus aureus] résistant à la méthicilline"
@@ -121,36 +80,6 @@ Le SITE_PRIMAIRE identifie, parmi les items de type INFECTION, celui  correspond
     \item "secondaire à une infection [site]"
     \item "dans un contexte de [infection site]"
 \end{itemize}
-
-\begin{table}[h]
-\centering
-\caption{Sites primaires et termes associés}
-\begin{tabular}{|p{3cm}|p{10cm}|}
-\hline
-\textbf{Site} & \textbf{Termes et expressions associés} \\
-\hline
-Urinaire & Urines, urinaire, pyélonéphrite, PNA, cystite, prostatite, infection prostatique, sonde urinaire, sonde vésicale, foyer rénal \\
-\hline
-Digestif & Digestif, biliaire, cholangite, cholécystite, péritonite, abcès hépatique, diverticulite, appendicite, colite, entérite, translocation digestive \\
-\hline
-Pulmonaire & Poumon, pulmonaire, pneumonie, pneumopathie, pleuropneumopathie, abcès pulmonaire, empyème \\
-\hline
-Cathéter & Cathéter, KT, voie veineuse centrale, VVC, PAC, chambre implantable, PICC-line, cathéter de dialyse, infection sur cathéter \\
-\hline
-Cutané & Peau, cutané, érysipèle, cellulite, dermohypodermite, escarre, plaie, abcès cutané, fasciite, gangrène \\
-\hline
-Ostéo-articulaire & Ostéo-articulaire, ostéite, ostéomyélite, arthrite, spondylodiscite, infection sur prothèse, infection osseuse \\
-\hline
-Cardio-vasculaire & Endocardite, péricardite, myocardite, infection sur pacemaker, infection sur valve, greffe vasculaire infectée \\
-\hline
-ORL/Stomato & ORL, sinusite, otite, mastoïdite, pharyngite, angine, abcès dentaire, cellulite cervico-faciale \\
-\hline
-Génital & Génital, endométrite, salpingite, abcès tubo-ovarien, orchite, épididymite \\
-\hline
-SNC & Méningite, méningoencéphalite, abcès cérébral, empyème sous-dural \\
-\hline
-\end{tabular}
-\end{table}
 
 \subsection{Sites directs vs indirects}
 
@@ -212,48 +141,6 @@ Le concept RÉSISTANCE identifie le profil de résistance ou de sensibilité aux
     \item \textbf{Sensibilités} : sensible, sauvage, SASM, pan-sensible
     \item \textbf{Marqueurs} : PLP2a positif, carbapénémase, bêta-lactamase
 \end{itemize}
-
-\section{Concept CONTEXTE\_MÉDICAL}
-
-\subsection{Définition}
-
-Le concept CONTEXTE\_MÉDICAL identifie les antécédents, comorbidités et dispositifs médicaux pertinents pour comprendre l'épisode de bactériémie.
-
-\subsection{Catégories de contexte}
-
-\subsubsection{Antécédents médicaux}
-
-\begin{itemize}
-    \item \textbf{Oncologie} : Cancer, tumeur solide métastasée, lymphome, leucémie, chimiothérapie
-    \item \textbf{Métabolisme} : Diabète, diabète avec complication chronique, pied diabétique
-    \item \textbf{Hépato-gastro} : Cirrhose, hépatite chronique, hypertension portale, hémorragie de varices
-    \item \textbf{Cardiologie} : Insuffisance cardiaque congestive, maladies vasculaires, maladies cérébro-vasculaires
-    \item \textbf{Néphrologie} : Maladies rénales, atteinte rénale, dialyse
-    \item \textbf{Pneumologie} : Maladies pulmonaires chroniques
-    \item \textbf{Immunologie} : Immunosuppression, VIH/SIDA, greffe
-    \item \textbf{Rhumatologie} : Pathologies rhumatismales et systémiques
-    \item \textbf{Neurologie} : Démence, hémiplégie ou paraplégie, atteinte neurologique
-\end{itemize}
-
-\subsubsection{Dispositifs médicaux}
-
-Voici une liste non exhaustive d'exemples :
-
-\begin{itemize}
-    \item \textbf{Intravasculaire} : Cathéter central, PAC, PICC-line, cathéter de dialyse
-    \item \textbf{Intracardiaque} : Pacemaker, défibrillateur, valve artificielle
-    \item \textbf{Intra-articulaire} : Prothèse de hanche/genou, matériel d'ostéosynthèse
-    \item \textbf{Intracerebral} : Dérivation ventriculaire, stimulateur cérébral
-    \item \textbf{Autres} : Sonde urinaire, sonde gastrique, trachéotomie
-\end{itemize}
-
-\subsection{Exemples d'annotation}
-
-\checkmark "Patient [diabétique] porteur d'un [cathéter de dialyse]. Bactériémie"
-
-\checkmark "Antécédent de [cancer du poumon]. Hémocultures positives"
-
-\checkmark "Sous [corticoïdes] au long cours. Septicémie à Candida"
 
 \section{Relations entre concepts}
 

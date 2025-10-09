@@ -11,9 +11,97 @@
 
 \textbf{Corpus} : Ensemble structuré de documents textuels utilisés pour l'entraînement et l'évaluation de modèles de traitement automatique du langage.
 
+\textbf{Entité} : Unité d'information identifiable dans un texte,correspondant à un objet concret ou concept spécifique du monde réel.
+
 \textbf{LLM} : Large Language Model (Modèle de langage de grande taille). Modèles d'intelligence artificielle entraînés sur de vastes corpus textuels.
 
 \textbf{Traitement automatique du langage (TAL)} : Ensemble de techniques informatiques permettant l'analyse, la compréhension et le traitement automatique de textes en langage naturel.
+
+\section{Exemples d'éléments annotables}
+
+\subsection{Catégories de bactéries à annoter}
+
+Toutes les bactéries responsables de bactériémie doivent être annotées.
+
+Voici une liste non exhaustive d'exemples de bactéries :
+
+\subsubsection{Cocci Gram positif}
+
+\begin{itemize}
+    \item \textbf{Staphylocoques} : Staph, Staph doré, Staph blanc, S. aureus, Staphylococcus aureus, SARM, SASM, Staphylocoque coagulase négative, S. epidermidis, S. hominis, S. haemolyticus
+    \item \textbf{Streptocoques} : Strepto, Streptocoque, S. pneumoniae, Pneumocoque, Streptocoque du groupe A/B/C/D, S. pyogenes, S. agalactiae, S. dysgalactiae, Enterocoque, E. faecalis, E. faecium, ERV
+    \item \textbf{Autres} : Micrococcus, Pediococcus, Aerococcus, Granulicatella
+\end{itemize}
+
+\subsubsection{Bacilles Gram négatif}
+
+\begin{itemize}
+    \item \textbf{Entérobactéries} : E. coli, Escherichia coli, Klebsiella, K. pneumoniae, Enterobacter, Citrobacter, Proteus, P. mirabilis, Serratia, S. marcescens, Salmonella, Shigella, Morganella, M. morganii, Providencia, Hafnia, Pantoea, Raoultella
+    \item \textbf{Non fermentants} : Pseudomonas, P. aeruginosa, Acinetobacter, A. baumannii, Stenotrophomonas, S. maltophilia, Burkholderia, Achromobacter, Elizabethkingia, Chryseobacterium
+    \item \textbf{Autres BGN} : Haemophilus, H. influenzae, Moraxella, Neisseria, Pasteurella, Aeromonas, Vibrio, Campylobacter, Helicobacter
+\end{itemize}
+
+\subsubsection{Anaérobies}
+
+\begin{itemize}
+    \item Clostridium, C. perfringens, C. difficile
+    \item Bacteroides, B. fragilis
+    \item Fusobacterium, Prevotella, Propionibacterium
+    \item Peptostreptococcus, Anaerococcus, Parvimonas
+\end{itemize}
+
+\subsubsection{Autres}
+
+\begin{itemize}
+    \item \textbf{Groupe HACEK} : Haemophilus, Aggregatibacter, Cardiobacterium, Eikenella, Kingella
+    \item \textbf{Intracellulaires} : Legionella, Brucella, Francisella, Bordetella
+    \item \textbf{Filamenteux} : Nocardia, Actinomyces
+    \item \textbf{Mycobactéries} : M. tuberculosis, mycobactéries atypiques
+    \item \textbf{Levures} : Candida, C. albicans, C. glabrata (bien que techniquement fongémie)
+\end{itemize}
+
+\subsection{Dispositifs médicaux}
+
+Voici une liste non exhaustive d'exemples de dispositifs médicaux pouvant être des sites de bactériémie :
+
+\begin{itemize}
+    \item \textbf{Intravasculaire} : Cathéter central, PAC, PICC-line, cathéter de dialyse
+    \item \textbf{Intracardiaque} : Pacemaker, défibrillateur, valve artificielle
+    \item \textbf{Intra-articulaire} : Prothèse de hanche/genou, matériel d'ostéosynthèse
+    \item \textbf{Intracerebral} : Dérivation ventriculaire, stimulateur cérébral
+    \item \textbf{Autres} : Sonde urinaire, sonde gastrique, trachéotomie
+\end{itemize}
+
+\subsection{Sites primaires d'infection}
+\begin{table}[h]
+\centering
+\caption{Sites primaires et termes associés}
+\begin{tabular}{|p{3cm}|p{10cm}|}
+\hline
+\textbf{Site} & \textbf{Termes et expressions associés} \\
+\hline
+Urinaire & Urines, urinaire, pyélonéphrite, PNA, cystite, prostatite, infection prostatique, sonde urinaire, sonde vésicale, foyer rénal \\
+\hline
+Digestif & Digestif, biliaire, cholangite, cholécystite, péritonite, abcès hépatique, diverticulite, appendicite, colite, entérite, translocation digestive \\
+\hline
+Pulmonaire & Poumon, pulmonaire, pneumonie, pneumopathie, pleuropneumopathie, abcès pulmonaire, empyème \\
+\hline
+Cathéter & Cathéter, KT, voie veineuse centrale, VVC, PAC, chambre implantable, PICC-line, cathéter de dialyse, infection sur cathéter \\
+\hline
+Cutané & Peau, cutané, érysipèle, cellulite, dermohypodermite, escarre, plaie, abcès cutané, fasciite, gangrène \\
+\hline
+Ostéo-articulaire & Ostéo-articulaire, ostéite, ostéomyélite, arthrite, spondylodiscite, infection sur prothèse, infection osseuse \\
+\hline
+Cardio-vasculaire & Endocardite, péricardite, myocardite, infection sur pacemaker, infection sur valve, greffe vasculaire infectée \\
+\hline
+ORL/Stomato & ORL, sinusite, otite, mastoïdite, pharyngite, angine, abcès dentaire, cellulite cervico-faciale \\
+\hline
+Génital & Génital, endométrite, salpingite, abcès tubo-ovarien, orchite, épididymite \\
+\hline
+SNC & Méningite, méningoencéphalite, abcès cérébral, empyème sous-dural \\
+\hline
+\end{tabular}
+\end{table}
 
 \section{Bibliographie}
 

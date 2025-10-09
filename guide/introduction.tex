@@ -56,7 +56,7 @@
 
 \section{Vue d'ensemble des catégories d'annotation}
 
-Le schéma d'annotation pour l'identification des bactériémies comprend sept catégories principales de concepts et cinq types de relations.
+Le schéma d'annotation pour l'identification des bactériémies comprend six catégories principales de concepts et cinq types de relations.
 
 \begin{table}[h]
 \centering
@@ -76,8 +76,6 @@ SITE\_SECONDAIRE & INFECTION → complications bactériémie & Vert \\
 INFECTION & Description du foyer infectieux & Gris \\
 \hline
 RÉSISTANCE & Profil de résistance antibiotique & Rose \\
-\hline
-CONTEXTE\_MÉDICAL & Antécédents et dispositifs médicaux & Marron \\
 \hline
 \end{tabular}
 \end{table}
@@ -167,8 +165,6 @@ Le corpus hospitalier révèle des formulations de négation plus complexes que 
 
 \textbf{Annotations} :
 \begin{itemize}
-    \item [diabétique] : CONTEXTE\_MÉDICAL
-    \item [cathéter de dialyse] : CONTEXTE\_MÉDICAL
     \item [Bactériémie] : BACTÉRIÉMIE
     \item [Staphylocoque doré] : BACTÉRIE
     \item [SARM] : RÉSISTANCE
@@ -180,5 +176,4 @@ Le corpus hospitalier révèle des formulations de négation plus complexes que 
     \item CAUSÉE\_PAR : Bactériémie → Staphylocoque doré
     \item ORIGINE : Bactériémie → cathéter
     \item PROFIL\_RÉSISTANCE : Staphylocoque doré → SARM
-    \item CONTEXTE : Bactériémie → diabétique, cathéter de dialyse
 \end{itemize}
