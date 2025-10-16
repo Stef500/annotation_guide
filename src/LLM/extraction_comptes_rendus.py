@@ -376,7 +376,7 @@ class ExtractionComptesRendus:
             logger.error(f"Erreur lors de la lecture de {chemin_fichier}: {e}")
             return ""
 
-    def extraire_fichier(self, chemin_fichier: str, passes: int = 2) -> lx.data.AnnotatedDocument:
+    def extraire_fichier(self, chemin_fichier: str, passes: int = 3) -> lx.data.AnnotatedDocument:
         """
         Extrait les informations d'un fichier
 
@@ -405,7 +405,7 @@ class ExtractionComptesRendus:
                 api_key=self.api_key,
                 extraction_passes=passes,  # Passages multiples pour améliorer le rappel
                 max_workers=10,  # Traitement parallèle
-                max_char_buffer=2000  # Contextes plus petits pour meilleure précision
+                max_char_buffer=1000  # Contextes plus petits pour meilleure précision
             )
 
             logger.success(f"Extraction terminée : {len(result.extractions)} entités trouvées")
