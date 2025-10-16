@@ -130,7 +130,7 @@ class ExtractionComptesRendus:
                     ),
                     lx.data.Extraction(
                         extraction_class="site_primaire",
-                        extraction_text="foyer rénal",
+                        extraction_text="rein",
                         attributes={
                             "localisation": "rein"
                         }
@@ -310,6 +310,376 @@ class ExtractionComptesRendus:
             )
         ]
 
+        more_examples = [
+            lx.data.ExampleData(
+                text=textwrap.dedent("""
+                Pneumonie à Haemophilus influenzae d’évolution favorable sous amoxicilline.
+                Les hémocultures sont revenues positives.
+                Absence de localisation secondaire détectée.
+                """),
+                extractions=[
+                    lx.data.Extraction(extraction_class="infection", extraction_text="Pneumonie",
+                                       attributes={"type": "poumon"}),
+                    lx.data.Extraction(extraction_class="bacterie", extraction_text="Haemophilus influenzae",
+                                       attributes={"nom_complet": "Haemophilus influenzae"}),
+                    lx.data.Extraction(extraction_class="bacteriemie", extraction_text="hémocultures",
+                                       attributes={"méthode": "hémoculture", "statut": "positif"}),
+                    lx.data.Extraction(extraction_class="site_secondaire", extraction_text="localisation secondaire",
+                                       attributes={"type": "extension", "statut": "absente"}),
+                ],
+            ),
+            lx.data.ExampleData(
+                text=textwrap.dedent("""
+                Pyélonéphrite aiguë à Klebsiella pneumoniae BLSE.
+                Bactériémie associée documentée sur deux hémocultures positives.
+                Traitée efficacement par imipénème.
+                """),
+                extractions=[
+                    lx.data.Extraction(extraction_class="infection", extraction_text="Pyélonéphrite aiguë",
+                                       attributes={"type": "rein"}),
+                    lx.data.Extraction(extraction_class="site_primaire", extraction_text="rein",
+                                       attributes={"localisation": "rénal"}),
+                    lx.data.Extraction(extraction_class="bacterie", extraction_text="Klebsiella pneumoniae",
+                                       attributes={"nom_complet": "Klebsiella pneumoniae"}),
+                    lx.data.Extraction(extraction_class="resistance", extraction_text="BLSE",
+                                       attributes={"profil": "résistant_béta_lactamines"}),
+                    lx.data.Extraction(extraction_class="bacteriemie", extraction_text="hémocultures positives",
+                                       attributes={"méthode": "hémoculture", "statut": "positive"}),
+                ],
+            ),
+            lx.data.ExampleData(
+                text=textwrap.dedent("""
+                Endocardite sur valve native à Enterococcus faecalis.
+                Point de départ urinaire probable.
+                Traitement par ampicilline et gentamicine avec bonne évolution.
+                """),
+                extractions=[
+                    lx.data.Extraction(extraction_class="infection", extraction_text="Endocardite",
+                                       attributes={"type": "cardiaque"}),
+                    lx.data.Extraction(extraction_class="bacterie", extraction_text="Enterococcus faecalis",
+                                       attributes={"nom_complet": "Enterococcus faecalis"}),
+                    lx.data.Extraction(extraction_class="site_primaire", extraction_text="point de départ urinaire",
+                                       attributes={"localisation": "urinaire"}),
+                ],
+            ),
+            lx.data.ExampleData(
+                text=textwrap.dedent("""
+                Septicémie à Pseudomonas aeruginosa chez un patient porteur de KTC.
+                Greffe bactérienne sur cathéter confirmée.
+                Retrait du dispositif et traitement par ceftazidime.
+                """),
+                extractions=[
+                    lx.data.Extraction(extraction_class="bacteriemie", extraction_text="Septicémie"),
+                    lx.data.Extraction(extraction_class="bacterie", extraction_text="Pseudomonas aeruginosa",
+                                       attributes={"nom_complet": "Pseudomonas aeruginosa"}),
+                    lx.data.Extraction(extraction_class="site_primaire", extraction_text="KTC",
+                                       attributes={"type": "cathéter"}),
+                    lx.data.Extraction(extraction_class="infection", extraction_text="greffe bactérienne sur cathéter",
+                                       attributes={"type": "dispositif"}),
+                ],
+            ),
+            lx.data.ExampleData(
+                text=textwrap.dedent("""
+                Infection de prothèse de hanche à Staphylococcus epidermidis méti-R.
+                Présence d’un biofilm suspecté sur la prothèse.
+                Traitement chirurgical et vancomycine instaurés.
+                """),
+                extractions=[
+                    lx.data.Extraction(extraction_class="infection", extraction_text="Infection de prothèse",
+                                       attributes={"type": "ostéo-articulaire"}),
+                    lx.data.Extraction(extraction_class="bacterie", extraction_text="Staphylococcus epidermidis",
+                                       attributes={"nom_complet": "Staphylococcus epidermidis"}),
+                    lx.data.Extraction(extraction_class="resistance", extraction_text="méti-R",
+                                       attributes={"profil": "résistant_methicilline"}),
+                    lx.data.Extraction(extraction_class="site_primaire", extraction_text="prothèse de hanche",
+                                       attributes={"localisation": "articulaire"}),
+                ],
+            ),
+            lx.data.ExampleData(
+                text=textwrap.dedent("""
+                Péritonite biliaire à Escherichia coli et Enterococcus faecium.
+                Drainage chirurgical réalisé en urgence.
+                Germes sensibles aux carbapénèmes.
+                """),
+                extractions=[
+                    lx.data.Extraction(extraction_class="infection", extraction_text="Péritonite biliaire",
+                                       attributes={"type": "intra-abdominal"}),
+                    lx.data.Extraction(extraction_class="bacterie", extraction_text="Escherichia coli",
+                                       attributes={"nom_complet": "Escherichia coli"}),
+                    lx.data.Extraction(extraction_class="bacterie", extraction_text="Enterococcus faecium",
+                                       attributes={"nom_complet": "Enterococcus faecium"}),
+                    lx.data.Extraction(extraction_class="resistance", extraction_text="sensibles aux carbapénèmes",
+                                       attributes={"profil": "sensible"}),
+                ],
+            ),
+            lx.data.ExampleData(
+                text=textwrap.dedent("""
+                Méningite bactérienne à Neisseria meningitidis sérogroupe B.
+                Bactériémie associée sur hémocultures positives.
+                Évolution favorable sous céfotaxime.
+                """),
+                extractions=[
+                    lx.data.Extraction(extraction_class="infection", extraction_text="Méningite",
+                                       attributes={"type": "méningée"}),
+                    lx.data.Extraction(extraction_class="bacterie", extraction_text="Neisseria meningitidis",
+                                       attributes={"nom_complet": "Neisseria meningitidis"}),
+                    lx.data.Extraction(extraction_class="bacteriemie", extraction_text="hémocultures positives",
+                                       attributes={"méthode": "hémoculture", "statut": "positive"}),
+                ],
+            ),
+            lx.data.ExampleData(
+                text=textwrap.dedent("""
+                Ostéite du tibia à Staphylococcus aureus sensible à la méticilline.
+                Point de départ cutané après plaie traumatique.
+                Traitement prolongé par oxacilline IV.
+                """),
+                extractions=[
+                    lx.data.Extraction(extraction_class="infection", extraction_text="Ostéite",
+                                       attributes={"type": "osseux"}),
+                    lx.data.Extraction(extraction_class="site_primaire", extraction_text="point de départ cutané",
+                                       attributes={"localisation": "peau"}),
+                    lx.data.Extraction(extraction_class="bacterie", extraction_text="Staphylococcus aureus",
+                                       attributes={"nom_complet": "Staphylococcus aureus"}),
+                    lx.data.Extraction(extraction_class="resistance", extraction_text="sensible à la méticilline",
+                                       attributes={"profil": "sensible"}),
+                ],
+            ),
+            lx.data.ExampleData(
+                text=textwrap.dedent("""
+                Abcès hépatique à Klebsiella variicola.
+                Drainage échoguidé réalisé avec succès.
+                Souche BLSE, traitée par méronem.
+                """),
+                extractions=[
+                    lx.data.Extraction(extraction_class="infection", extraction_text="Abcès hépatique",
+                                       attributes={"forme": "abcès", "localisation": "foie"}),
+                    lx.data.Extraction(extraction_class="bacterie", extraction_text="Klebsiella variicola",
+                                       attributes={"nom_complet": "Klebsiella variicola"}),
+                    lx.data.Extraction(extraction_class="resistance", extraction_text="BLSE",
+                                       attributes={"profil": "résistant_béta_lactamines"}),
+                ],
+            ),
+            lx.data.ExampleData(
+                text=textwrap.dedent("""
+                Bactériémie à Streptococcus gallolyticus d’origine colique.
+                Coloscopie ayant révélé un adénocarcinome colique.
+                Traitement associant ceftriaxone et chirurgie.
+                """),
+                extractions=[
+                    lx.data.Extraction(extraction_class="bacteriemie", extraction_text="Bactériémie"),
+                    lx.data.Extraction(extraction_class="bacterie", extraction_text="Streptococcus gallolyticus",
+                                       attributes={"nom_complet": "Streptococcus gallolyticus"}),
+                    lx.data.Extraction(extraction_class="site_primaire", extraction_text="origine colique",
+                                       attributes={"localisation": "côlon"}),
+                ],
+            ),
+            lx.data.ExampleData(
+                text=textwrap.dedent("""
+                Sepsis sévère sur angiocholite à Escherichia coli.
+                Hémocultures positives à BLSE.
+                Traitement adapté après désobstruction biliaire.
+                """),
+                extractions=[
+                    lx.data.Extraction(extraction_class="infection", extraction_text="Angiocholite",
+                                       attributes={"type": "biliaire"}),
+                    lx.data.Extraction(extraction_class="bacterie", extraction_text="Escherichia coli",
+                                       attributes={"nom_complet": "Escherichia coli"}),
+                    lx.data.Extraction(extraction_class="resistance", extraction_text="BLSE",
+                                       attributes={"profil": "résistant_béta_lactamines"}),
+                    lx.data.Extraction(extraction_class="bacteriemie", extraction_text="hémocultures positives",
+                                       attributes={"méthode": "hémoculture", "statut": "positive"}),
+                ],
+            ),
+            lx.data.ExampleData(
+                text=textwrap.dedent("""
+                Infection pulmonaire à Acinetobacter baumannii multi-résistant.
+                Survenue en réanimation après ventilation prolongée.
+                Traitée par colistine et tigécycline.
+                """),
+                extractions=[
+                    lx.data.Extraction(extraction_class="infection", extraction_text="Infection pulmonaire",
+                                       attributes={"type": "poumon"}),
+                    lx.data.Extraction(extraction_class="bacterie", extraction_text="Acinetobacter baumannii",
+                                       attributes={"nom_complet": "Acinetobacter baumannii"}),
+                    lx.data.Extraction(extraction_class="resistance", extraction_text="multi-résistant",
+                                       attributes={"profil": "multirésistant"}),
+                ],
+            ),
+            lx.data.ExampleData(
+                text=textwrap.dedent("""
+                Infection urinaire haute à Proteus mirabilis sensible à la ciprofloxacine.
+                Absence de bactériémie associée.
+                Guérison sous traitement ambulatoire.
+                """),
+                extractions=[
+                    lx.data.Extraction(extraction_class="infection", extraction_text="Infection urinaire haute",
+                                       attributes={"type": "rein"}),
+                    lx.data.Extraction(extraction_class="bacterie", extraction_text="Proteus mirabilis",
+                                       attributes={"nom_complet": "Proteus mirabilis"}),
+                    lx.data.Extraction(extraction_class="resistance", extraction_text="sensible à la ciprofloxacine",
+                                       attributes={"profil": "sensible"}),
+                    lx.data.Extraction(extraction_class="bacteriemie", extraction_text="bactériémie associée",
+                                       attributes={"statut": "absente"}),
+                ],
+            ),
+            lx.data.ExampleData(
+                text=textwrap.dedent("""
+                Endocardite sur pacemaker à Staphylococcus lugdunensis.
+                Présence d’un embole septique pulmonaire.
+                Extraction du matériel et traitement par daptomycine.
+                """),
+                extractions=[
+                    lx.data.Extraction(extraction_class="infection", extraction_text="Endocardite",
+                                       attributes={"type": "cardiaque"}),
+                    lx.data.Extraction(extraction_class="site_primaire", extraction_text="pacemaker",
+                                       attributes={"type": "dispositif"}),
+                    lx.data.Extraction(extraction_class="bacterie", extraction_text="Staphylococcus lugdunensis",
+                                       attributes={"nom_complet": "Staphylococcus lugdunensis"}),
+                    lx.data.Extraction(extraction_class="site_secondaire", extraction_text="embole septique pulmonaire",
+                                       attributes={"type": "complication", "localisation": "poumon"}),
+                ],
+            ),
+            lx.data.ExampleData(
+                text=textwrap.dedent("""
+                Pneumonie nosocomiale à Enterobacter cloacae céphalosporinase déréprimée.
+                Survenue au décours d’une ventilation mécanique.
+                Traitée par carbapénème.
+                """),
+                extractions=[
+                    lx.data.Extraction(extraction_class="infection", extraction_text="Pneumonie nosocomiale",
+                                       attributes={"type": "poumon"}),
+                    lx.data.Extraction(extraction_class="bacterie", extraction_text="Enterobacter cloacae",
+                                       attributes={"nom_complet": "Enterobacter cloacae"}),
+                    lx.data.Extraction(extraction_class="resistance", extraction_text="céphalosporinase déréprimée",
+                                       attributes={"profil": "résistance_inductive"}),
+                ],
+            ),
+            lx.data.ExampleData(
+                text=textwrap.dedent("""
+                Spondylodiscite à Brucella melitensis.
+                Origine digestive suspectée après ingestion de produits laitiers crus.
+                Traitement prolongé par doxycycline et rifampicine.
+                """),
+                extractions=[
+                    lx.data.Extraction(extraction_class="infection", extraction_text="Spondylodiscite",
+                                       attributes={"type": "disco-vertébral"}),
+                    lx.data.Extraction(extraction_class="bacterie", extraction_text="Brucella melitensis",
+                                       attributes={"nom_complet": "Brucella melitensis"}),
+                    lx.data.Extraction(extraction_class="site_primaire", extraction_text="origine digestive",
+                                       attributes={"localisation": "digestif"}),
+                ],
+            ),
+            lx.data.ExampleData(
+                text=textwrap.dedent("""
+                Bactériémie à Staphylococcus haemolyticus chez un patient porteur de KT.
+                Point de départ intraveineux probable.
+                Antibiothérapie par glycopeptides instaurée.
+                """),
+                extractions=[
+                    lx.data.Extraction(extraction_class="bacteriemie", extraction_text="Bactériémie"),
+                    lx.data.Extraction(extraction_class="bacterie", extraction_text="Staphylococcus haemolyticus",
+                                       attributes={"nom_complet": "Staphylococcus haemolyticus"}),
+                    lx.data.Extraction(extraction_class="site_primaire", extraction_text="KT",
+                                       attributes={"type": "cathéter"}),
+                ],
+            ),
+            lx.data.ExampleData(
+                text=textwrap.dedent("""
+                Septicémie à Serratia marcescens compliquée d’un abcès pulmonaire.
+                Souche productrice de bêta-lactamase.
+                Traitée par céfépime et drainage.
+                """),
+                extractions=[
+                    lx.data.Extraction(extraction_class="bacteriemie", extraction_text="Septicémie"),
+                    lx.data.Extraction(extraction_class="bacterie", extraction_text="Serratia marcescens",
+                                       attributes={"nom_complet": "Serratia marcescens"}),
+                    lx.data.Extraction(extraction_class="resistance", extraction_text="bêta-lactamase",
+                                       attributes={"profil": "production_betalactamase"}),
+                    lx.data.Extraction(extraction_class="site_secondaire", extraction_text="abcès pulmonaire",
+                                       attributes={"forme": "abcès", "localisation": "poumon"}),
+                ],
+            ),
+            lx.data.ExampleData(
+                text=textwrap.dedent("""
+                Infection du pied diabétique à Pseudomonas aeruginosa et Proteus vulgaris.
+                Atteinte osseuse secondaire (ostéite métatarsienne).
+                Prise en charge chirurgicale et pipéracilline-tazobactam.
+                """),
+                extractions=[
+                    lx.data.Extraction(extraction_class="infection", extraction_text="Infection du pied diabétique",
+                                       attributes={"type": "parties_molles"}),
+                    lx.data.Extraction(extraction_class="bacterie", extraction_text="Pseudomonas aeruginosa",
+                                       attributes={"nom_complet": "Pseudomonas aeruginosa"}),
+                    lx.data.Extraction(extraction_class="bacterie", extraction_text="Proteus vulgaris",
+                                       attributes={"nom_complet": "Proteus vulgaris"}),
+                    lx.data.Extraction(extraction_class="site_secondaire", extraction_text="ostéite métatarsienne",
+                                       attributes={"type": "atteinte", "localisation": "os"}),
+                ],
+            ),
+            lx.data.ExampleData(
+                text=textwrap.dedent("""
+                Méningite post-traumatique à Streptococcus pneumoniae sensible à la pénicilline.
+                Porte d’entrée méningée identifiée après fracture de la base du crâne.
+                Guérison sous traitement probabiliste adapté.
+                """),
+                extractions=[
+                    lx.data.Extraction(extraction_class="infection", extraction_text="Méningite",
+                                       attributes={"type": "méningée"}),
+                    lx.data.Extraction(extraction_class="bacterie", extraction_text="Streptococcus pneumoniae",
+                                       attributes={"nom_complet": "Streptococcus pneumoniae"}),
+                    lx.data.Extraction(extraction_class="resistance", extraction_text="sensible à la pénicilline",
+                                       attributes={"profil": "sensible"}),
+                    lx.data.Extraction(extraction_class="site_primaire", extraction_text="porte d’entrée méningée",
+                                       attributes={"localisation": "méninge"}),
+                ],
+            ),
+            lx.data.ExampleData(
+                text=textwrap.dedent("""
+                Cellulite sévère des membres inférieurs à Streptococcus pyogenes.
+                Absence d’hémocultures positives.
+                Amélioration rapide sous pénicilline G.
+                """),
+                extractions=[
+                    lx.data.Extraction(extraction_class="infection", extraction_text="Cellulite",
+                                       attributes={"type": "cutané"}),
+                    lx.data.Extraction(extraction_class="bacterie", extraction_text="Streptococcus pyogenes",
+                                       attributes={"nom_complet": "Streptococcus pyogenes"}),
+                    lx.data.Extraction(extraction_class="bacteriemie", extraction_text="hémocultures",
+                                       attributes={"méthode": "hémoculture", "statut": "négative"}),
+                ],
+            ),
+            lx.data.ExampleData(
+                text=textwrap.dedent("""
+                Abcès cérébral à Streptococcus anginosus.
+                Point de départ dentaire retenu.
+                Drainage neurochirurgical et ceftriaxone.
+                """),
+                extractions=[
+                    lx.data.Extraction(extraction_class="infection", extraction_text="Abcès cérébral",
+                                       attributes={"forme": "abcès", "localisation": "cerveau"}),
+                    lx.data.Extraction(extraction_class="bacterie", extraction_text="Streptococcus anginosus",
+                                       attributes={"nom_complet": "Streptococcus anginosus"}),
+                    lx.data.Extraction(extraction_class="site_primaire", extraction_text="point de départ dentaire",
+                                       attributes={"localisation": "dentaire"}),
+                ],
+            ),
+            lx.data.ExampleData(
+                text=textwrap.dedent("""
+                Pneumopathie d’inhalation sur terrain alcoolique à flore mixte.
+                Hémocultures négatives.
+                Évolution favorable sous amoxicilline-acide clavulanique.
+                """),
+                extractions=[
+                    lx.data.Extraction(extraction_class="infection", extraction_text="Pneumopathie d’inhalation",
+                                       attributes={"type": "poumon"}),
+                    lx.data.Extraction(extraction_class="bacteriemie", extraction_text="hémocultures",
+                                       attributes={"méthode": "hémoculture", "statut": "négative"}),
+                ],
+            ),
+        ]
+
+        self.examples.extend(more_examples)
+
     def lire_contenu_fichier(self, chemin_fichier: str) -> str:
         """
         Lit le contenu d'un fichier selon son type
@@ -401,7 +771,7 @@ class ExtractionComptesRendus:
                 text_or_documents=contenu,
                 prompt_description=self.prompt_description,
                 examples=self.examples,
-                model_id="gpt-4o-mini",  # GPT-4o-mini pour l'équilibre performance/coût
+                model_id="gpt-5-mini",  # OU GPT-4o-mini pour l'équilibre performance/coût
                 api_key=self.api_key,
                 extraction_passes=passes,  # Passages multiples pour améliorer le rappel
                 max_workers=10,  # Traitement parallèle
