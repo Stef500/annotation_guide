@@ -3,6 +3,7 @@
 \section{Vue d'ensemble des catégories d'annotation}
 
 Le schéma d'annotation pour l'identification des bactériémies comprend six catégories principales de concepts et cinq types de relations.
+Par ailleurs, une catégorie pour la négation est incluse afin de capturer les mentions explicites de l'absence de bactériémie ou de foyer infectieux (utile pour signaler une absence confirmée).
 
 \begin{table}[h]
 \centering
@@ -22,6 +23,9 @@ SITE\_SECONDAIRE & INFECTION → complications bactériémie & Vert \\
 INFECTION & Description du foyer infectieux & Gris \\
 \hline
 RÉSISTANCE & Profil de résistance antibiotique & Rose \\
+\hline
+\hline
+NEGATION & Elements mentionant explicitement l'absence d'infection & N/A \\
 \hline
 \end{tabular}
 \end{table}
