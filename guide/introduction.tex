@@ -2,8 +2,9 @@
 
 \section{Vue d'ensemble des catégories d'annotation}
 
-Le schéma d'annotation pour l'identification des bactériémies comprend six catégories principales de concepts et cinq types de relations.
-Par ailleurs, une catégorie pour la négation est incluse afin de capturer les mentions explicites de l'absence de bactériémie ou de foyer infectieux (utile pour signaler une absence confirmée).
+Le schéma d'annotation pour l'identification des bactériémies comprend trois catégories principales de concepts et trois types de relations.
+L'annotation est centrée sur sur le triplet comprenant la bactériémie elle-même, les bactéries responsables, et le site primaire d'infection à l'origine de la bactériémie.
+Par ailleurs, une relation pour la négation est incluse afin de capturer les mentions explicites de l'absence de bactériémie ou de foyer infectieux (utile pour signaler une absence confirmée).
 
 \begin{table}[h]
 \centering
@@ -18,12 +19,6 @@ BACTÉRIE & Agent pathogène responsable \\
 \hline
 SITE\_PRIMAIRE & INFECTION → porte d’entrée bactériémie \\
 \hline
-SITE\_SECONDAIRE & INFECTION → complications bactériémie \\
-\hline
-INFECTION & Description du foyer infectieux \\
-\hline
-RÉSISTANCE & Profil de résistance antibiotique \\
-\hline
 \hline
 NEGATION & Elément (explicite ou non) mentionnant l'absence d'un des concepts recherchés \\
 \hline
@@ -33,19 +28,19 @@ NEGATION & Elément (explicite ou non) mentionnant l'absence d'un des concepts r
 \begin{figure}[h]
 \centering
 \includegraphics[width=\textwidth]{pictures/exemple_salam.png} % fix path for CI/CD
-\caption{Exemple d'annotation de bactériémie}
-\label{fig:exemple_salam}
+\caption{Exemple d'annotation}
+\label{fig:exemple_annotation}
 \end{figure}
 
 \section{Règles d'annotation}
 
 \subsection{Périmètre d'annotation}
 
-\textbf{Règle fondamentale} : Annoter uniquement les éléments liés à une bactériémie confirmée
+\textbf{Règle fondamentale} : Annoter uniquement les éléments liés à une bactériémie confirmée (soit le triplet complet : BACTÉRIÉMIE, BACTÉRIE, SITE\_PRIMAIRE).
 
 \subsection{Gestion de la négation}
 
-Conserver l'annotation de la négation pour justifier la suppression d'une information.
+Conserver l'annotation de la négation et créer la relation correspondante pour justifier la suppression d'une information.
 
 \subsubsection{Termes généraux}
 
@@ -108,13 +103,12 @@ Le corpus médical révèle des formulations de négation plus complexes que les
 \begin{itemize}
     \item [Bactériémie] : BACTÉRIÉMIE
     \item [Staphylocoque doré] : BACTÉRIE
-    \item [SARM] : RÉSISTANCE
-    \item [cathéter] : SITE\_PRIMAIRE (direct)
+    \item [cathéter] : SITE\_PRIMAIRE
 \end{itemize}
 
 \textbf{Relations} :
 \begin{itemize}
-    \item CAUSÉE\_PAR : Bactériémie → Staphylocoque doré
-    \item ORIGINE : Bactériémie → cathéter
-    \item PROFIL\_RÉSISTANCE : Staphylocoque doré → SARM
+    \item AGENT\_PATHOGÈNE : Bactériémie → Staphylocoque doré.
+    \item PORTE\_ENTRÉE : Bactérie → cathéter.
+    \item SITE\_INFECTION : Bactériémie → cathéter
 \end{itemize}

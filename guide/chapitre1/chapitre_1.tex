@@ -11,7 +11,7 @@ Le concept BACTÉRIÉMIE identifie toute mention explicite ou implicite d'une in
 
 \begin{itemize}
     \item \textbf{Termes directs} : bactériémie, septicémie, sepsis, choc septique
-    \item \textbf{Termes de laboratoire} : hémoculture positive, hémocultures positives, bactériémiant
+    \item \textbf{Termes de laboratoire} : hémoculture positive, hémocultures positives
     \item \textbf{Formulations cliniques} : "germe dans le sang", "infection du sang", "passage sanguin"
 \end{itemize}
 
@@ -44,28 +44,13 @@ Le concept BACTÉRIE identifie l'agent pathogène responsable de la bactériémi
 
 \checkmark "[Streptocoque du groupe B] isolé sur 3 flacons"
 
-\section{Concept INFECTION}
-
-\subsection{Définition}
-
-Le concept INFECTION décrit le type spécifique d'infection associée à la bactériémie, qu'elle soit primaire ou secondaire.
-
-\subsection{Exemples non exhaustifs par système}
-
-\begin{itemize}
-    \item \textbf{Urinaire} : pyélonéphrite aiguë, PNA, abcès rénal, pyonéphrose
-    \item \textbf{Digestif} : péritonite, cholangite, abcès hépatique, appendicite compliquée
-    \item \textbf{Pulmonaire} : pneumonie lobaire, abcès pulmonaire, empyème pleural
-    \item \textbf{Cutané} : érysipèle, fasciite nécrosante, gangrène gazeuse
-    \item \textbf{Ostéo-articulaire} : ostéomyélite aiguë, arthrite septique, spondylodiscite
-\end{itemize}
+NB: pour référence, divers exemples de bactéries sont listés dans les annexes (voir section~\ref{sec:exemples_bacteries}).
 
 \section{Concept SITE\_PRIMAIRE}
 
 \subsection{Définition}
 
 Le SITE_PRIMAIRE identifie, parmi les items de type INFECTION, celui correspondant à la porte d’entrée initiale de la bactériémie dans l’organisme.
-Par exemple, si le site primaire est une pyélonéphrite, celle-ci sera annotée comme infection et site primaire.
 Si le site primaire est inclus dans une expression comme "porte d'entrée urinaire", il faudra annoter toute l'expression.
 
 \subsection{Expressions types}
@@ -88,88 +73,45 @@ Les sites primaires peuvent être qualifiés selon leur mode d'identification :
     \item \textbf{Site primaire indirect} : Inféré par association contextuelle, proximité dans le texte ou connaissance médicale.
 \end{itemize}
 
-Exemples :
+NB: pour référence, divers exemples de sites primaires sont listés dans les annexes (voir section~\ref{sec:exemples_sites}).
 
-\checkmark Direct : "Bactériémie sur cathéter central"
-
-\checkmark Direct : "Septicémie d'origine urinaire"
-
-\checkmark Indirect : "PNA. Hémocultures positives le lendemain"
-
-\section{Concept SITE\_SECONDAIRE}
-
-\subsection{Définition}
-
-Le SITE_SECONDAIRE  identifie, parmi les items de type INFECTION, celui ou ceux correspondant à des localisations de dissémination ou de complications de la bactériémie.
-
-\subsection{Termes spécifiques}
-
-\begin{itemize}
-    \item \textbf{Termes de dissémination} : embole septique, greffe septique, métastase septique, localisation secondaire
-    \item \textbf{Expressions types} : "compliquée de", "avec atteinte", "extension vers", "dissémination au niveau"
-\end{itemize}
-
-\subsection{Sites secondaires directs vs indirects}
-
-Comme pour les sites primaires, la distinction direct/indirect s'applique :
-
-\begin{itemize}
-    \item \textbf{Site secondaire direct} : Complication explicitement attribuée à la bactériémie
-    \item \textbf{Site secondaire indirect} : Complication inférée par le contexte temporel ou clinique
-\end{itemize}
-
-\subsection{Exemples d'annotation}
-
-\checkmark Direct : "Bactériémie compliquée d'emboles septiques pulmonaires".
-
-\checkmark Direct : "Avec greffe septique sur la valve mitrale".
-
-\checkmark Indirect : "Bactériémie. Découverte secondaire d'une endocardite".
-
-\section{Concept RÉSISTANCE}
-
-\subsection{Définition}
-
-Le concept RÉSISTANCE identifie le profil de résistance ou de sensibilité aux antibiotiques de la bactérie.
-
-\subsection{Exemples non exhaustifs de termes à annoter}
-
-\begin{itemize}
-    \item \textbf{Résistances spécifiques} : SARM, BLSE, EPC, VRE, résistant aux fluoroquinolones
-    \item \textbf{Sensibilités} : sensible, sauvage.
-    \item \textbf{Marqueurs} : PLP2a positif, carbapénémase, bêta-lactamase
-\end{itemize}
 
 \section{Relations entre concepts}
 
-\subsection{Relation CAUSÉE\_PAR}
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{pictures/exemple_salam_v2.png} % fix path for CI/CD
+\caption{Exemple d'annotation de relations entre concepts}
+\label{fig:exemple_annotation_relations}
+\end{figure}
+
+\subsection{Relation AGENT\_PATHOGÈNE}
 
 \begin{itemize}
-    \item \textbf{Type} : Bactériémie → Bactérie
-    \item \textbf{Cardinalité} : 1 bactériémie peut être causée par 1 ou plusieurs bactéries
-    \item \textbf{Exemple} : "[Bactériémie] à [E. coli] et [K. pneumoniae]"
+    \item \textbf{Type} : Bactériémie → Bactérie.
+    \item \textbf{Cardinalité} : 1 bactériémie peut être causée par 1 ou N bactéries.
+    \item \textbf{Exemples} : "[Sepsis] → [Pneumocoque]" & "[Bactériémie] → [S.Aureus]"
 \end{itemize}
 
-\subsection{Relation ORIGINE}
+\subsection{Relation PORTE\_ENTRÉE}
+
+\begin{itemize}
+    \item \textbf{Type} : Bactérie → Site\_primaire
+    \item \textbf{Cardinalité} : 1 bactérie a 0 ou 1 site primaire identifié.
+    \item \textbf{Exemples} : "[Pneumocoque] → [Pneumopathie]" & "[S.Aureus] → [origine centrale]"
+\end{itemize}
+
+\subsection{Relation SITE\_INFECTION}
 
 \begin{itemize}
     \item \textbf{Type} : Bactériémie → Site\_primaire
-    \item \textbf{Cardinalité} : 1 bactériémie a 0 ou 1 site primaire identifié
-    \item \textbf{Exemple} : "[Bactériémie] sur [cathéter central]"
+    \item \textbf{Cardinalité} : 1 bactériémie peut avoir 0 à N site primaire.
+    \item \textbf{Exemples} : "[Sepsis] → [Pneumopathie]" & "[Bactériémie] → [origine centrale]"
 \end{itemize}
 
-\subsection{Relation COMPLICATION}
-
+\subsection{Relation NEGATION}
 \begin{itemize}
-    \item \textbf{Type} : Bactériémie → Site\_secondaire
-    \item \textbf{Cardinalité} : 1 bactériémie peut avoir 0 à N sites secondaires
-    \item \textbf{Exemple} : "[Bactériémie] compliquée d'[endocardite]"
-\end{itemize}
-
-\subsection{Relation PROFIL\_RÉSISTANCE}
-
-\begin{itemize}
-    \item \textbf{Type} : Bactérie → Résistance
-    \item \textbf{Cardinalité} : 1 bactérie a 0 ou 1 profil de résistance documenté
-    \item \textbf{Exemple} : "[S. aureus] [résistant à la méthicilline]"
+    \item \textbf{Type} : Appliquée à tout concept (BACTÉRIÉMIE, BACTÉRIE, SITE\_PRIMAIRE)
+    \item \textbf{Cardinalité} : 1 concept peut être nié ou non.
+    \item \textbf{Exemples} : "absence → [bactériémie]" & "hémocultures négatives → [E. coli]".
 \end{itemize}
