@@ -767,16 +767,47 @@ class ExtractionComptesRendus:
 
             logger.info(f"Extraction des informations de {chemin_fichier}...")
 
+            # VERSION API
+
             result = lx.extract(
                 text_or_documents=contenu,
                 prompt_description=self.prompt_description,
                 examples=self.examples,
-                model_id="gpt-5-mini",  # OU GPT-4o-mini pour l'équilibre performance/coût
+                model_id="gpt-4o-mini",  # OU GPT-5-mini
                 api_key=self.api_key,
                 extraction_passes=passes,  # Passages multiples pour améliorer le rappel
                 max_workers=10,  # Traitement parallèle
                 max_char_buffer=1000  # Contextes plus petits pour meilleure précision
             )
+
+            # VERSION SERVEUR LOCAL avec SHIMMY (+backend GPU)
+
+            # from langextract.providers.ollama import OllamaLanguageModel
+            #
+            # model = OllamaLanguageModel(
+            #     model_id="registry.ollama.ai/alibayram/medgemma/4b", # alibayram/medgemma:4b
+            #     model_url="http://localhost:11435", # 11434 pour Ollama
+            #     timeout=180,
+            #     # autres kwargs possibles: temperature ...
+            #     num_ctx=4096,  # fenêtre de contexte (par défaut la classe met 2048)
+            #     max_output_tokens=256,  # mappe vers num_predict
+            #     keep_alive=600,  # garde le modèle chargé (sec)
+            #     flash_attn=0,  # <- contourne l'assert n_tokens_all <= n_batch
+            #     n_batch=4096,  # augmente la rafale autorisée
+            #     n_ubatch=512,
+            # )
+            #
+            # result = lx.extract(
+            #     text_or_documents=contenu,
+            #     prompt_description=self.prompt_description,
+            #     examples=self.examples,
+            #     model=model,
+            #     fence_output=False,
+            #     use_schema_constraints=False,
+            #     extraction_passes=passes,
+            #     max_workers=1,
+            #     max_char_buffer=800,
+            # )
 
             logger.success(f"Extraction terminée : {len(result.extractions)} entités trouvées")
             return result
