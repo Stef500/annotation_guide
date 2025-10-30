@@ -10,15 +10,14 @@ Le concept BACTÉRIÉMIE identifie toute mention explicite ou implicite d'une in
 \subsection{Termes à annoter}
 
 \begin{itemize}
-    \item \textbf{Termes directs} : bactériémie, septicémie, sepsis, choc septique
-    \item \textbf{Termes de laboratoire} : hémoculture positive, hémocultures positives
+    \item \textbf{Termes directs} : bactériémie, septicémie, sepsis, choc septique...
+    \item \textbf{Termes de laboratoire} : hémoculture(s) positive(s)...
     \item \textbf{Formulations cliniques} : "germe dans le sang", "infection du sang", "passage sanguin"
 \end{itemize}
 
 \subsection{Exemples d'annotation}
 
-\checkmark~Le patient présente une [bactériémie] à *Staphylocoque doré* \\
-\checkmark~Les [hémocultures] sont revenues positives à *E. coli* \\
+\checkmark~Le patient présente une [bactériémie] à Staphylocoque doré \\
 \checkmark~Diagnostic de [septicémie] sur cathéter central \\
 \ding{55} Suspicion de bactériémie (non confirmée) \\
 \ding{55} Hémocultures négatives (absence de bactériémie)
@@ -50,18 +49,15 @@ NB: pour référence, divers exemples de bactéries sont listés dans les annexe
 
 \subsection{Définition}
 
-Le SITE_PRIMAIRE identifie, parmi les items de type INFECTION, celui correspondant à la porte d’entrée initiale de la bactériémie dans l’organisme.
+Le SITE_PRIMAIRE identifie la porte d’entrée initiale de la bactériémie dans l’organisme.
 Si le site primaire est inclus dans une expression comme "porte d'entrée urinaire", il faudra annoter toute l'expression.
 
 \subsection{Expressions types}
 
 \begin{itemize}
-    \item "point de départ [site]"
-    \item "porte d'entrée [site]"
-    \item "sur foyer [site]"
-    \item "origine [site]"
-    \item "secondaire à une infection [site]"
-    \item "dans un contexte de [infection site]"
+    \item "point de départ"
+    \item "porte d'entrée"
+    \item "origine"
 \end{itemize}
 
 \subsection{Sites directs vs indirects}
@@ -74,7 +70,6 @@ Les sites primaires peuvent être qualifiés selon leur mode d'identification :
 \end{itemize}
 
 NB: pour référence, divers exemples de sites primaires sont listés dans les annexes (voir section~\ref{sec:exemples_sites}).
-
 
 \section{Relations entre concepts}
 
@@ -113,5 +108,5 @@ NB: pour référence, divers exemples de sites primaires sont listés dans les a
 \begin{itemize}
     \item \textbf{Type} : Appliquée à tout concept (BACTÉRIÉMIE, BACTÉRIE, SITE\_PRIMAIRE)
     \item \textbf{Cardinalité} : 1 concept peut être nié ou non.
-    \item \textbf{Exemples} : "absence → [bactériémie]", "hémocultures négatives → [E. coli]".
+    \item \textbf{Exemples} : "absence → [bactériémie]", "pas de → [sepsis]".
 \end{itemize}

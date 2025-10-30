@@ -3,8 +3,8 @@
 \section{Vue d'ensemble des catégories d'annotation}
 
 Le schéma d'annotation pour l'identification des bactériémies comprend trois catégories principales de concepts et trois types de relations.
-L'annotation est centrée sur sur le triplet comprenant la bactériémie elle-même, les bactéries responsables, et le site primaire d'infection à l'origine de la bactériémie.
-Par ailleurs, une relation pour la négation est incluse afin de capturer les mentions explicites de l'absence de bactériémie ou de foyer infectieux (utile pour signaler une absence confirmée).
+L'annotation est centrée sur le triplet comprenant la bactériémie elle-même, les bactéries responsables, et le site primaire d'infection à l'origine de la bactériémie.
+Par ailleurs, une relation pour la négation est incluse afin de capturer les mentions explicites de l'absence de bactériémie (utile pour signaler une absence confirmée).
 
 \begin{table}[h]
 \centering
@@ -59,8 +59,7 @@ Le corpus médical révèle des formulations de négation plus complexes que les
 
 \begin{itemize}
     \item \textbf{Résultats de culture} : "stérilité des prélèvements", "absence de croissance significative", "pas de pousse", "culture blanche", "hémocultures négatives", "prélèvements non contributifs"
-    \item \textbf{Identification} : "germe non identifié à ce jour", "identification en cours", "bactérie non typée", "organisme non classé"
-    \item \textbf{Résistance} : "antibiogramme non réalisé", "sensibilités non déterminées", "résistance non confirmée"
+    \item \textbf{Identification} : "germe non identifié à ce jour", "bactérie non typée", "organisme non classé"
 \end{itemize}
 
 \subsubsection{Négation clinique contextuelle}
@@ -81,7 +80,6 @@ Le corpus médical révèle des formulations de négation plus complexes que les
 
 \begin{itemize}
     \item \textbf{Diagnostic} : "arguments contre", "infirme l'hypothèse", "ne plaide pas pour"
-    \item \textbf{Anglicismes} : "rule out", "unlikely", "doubtful", "negative for"
     \item \textbf{Formulations indirectes} : "ne ressemblent pas à", "diffèrent de", "ne correspond pas à"
 \end{itemize}
 
@@ -90,9 +88,8 @@ Le corpus médical révèle des formulations de négation plus complexes que les
 \begin{itemize}
     \item \textbf{Bactériémies multiples} : Annoter séparément chaque épisode
     \item \textbf{Co-infections} : Annoter toutes les bactéries identifiées
-    \item \textbf{Sites multiples} : Distinguer site primaire unique et sites secondaires multiples
+    \item \textbf{Sites multiples} : Distinguer chaque site primaire.
     \item \textbf{Évolution temporelle} : Annoter l'état au moment de la rédaction du CR
-    \item \textbf{Distinction direct/indirect} : Privilégier les liens directs, documenter les indirects
 \end{itemize}
 
 \section{Exemple concret}
