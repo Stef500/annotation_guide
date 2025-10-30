@@ -90,7 +90,7 @@ NB: pour référence, divers exemples de sites primaires sont listés dans les a
 \begin{itemize}
     \item \textbf{Type} : Bactériémie → Bactérie.
     \item \textbf{Cardinalité} : 1 bactériémie peut être causée par 1 ou N bactéries.
-    \item \textbf{Exemples} : "[Sepsis] → [Pneumocoque]" & "[Bactériémie] → [S.Aureus]"
+    \item \textbf{Exemples} : "[Sepsis] → [Pneumocoque]", "[Bactériémie] → [S.Aureus]"
 \end{itemize}
 
 \subsection{Relation PORTE\_ENTRÉE}
@@ -98,7 +98,7 @@ NB: pour référence, divers exemples de sites primaires sont listés dans les a
 \begin{itemize}
     \item \textbf{Type} : Bactérie → Site\_primaire
     \item \textbf{Cardinalité} : 1 bactérie a 0 ou 1 site primaire identifié.
-    \item \textbf{Exemples} : "[Pneumocoque] → [Pneumopathie]" & "[S.Aureus] → [origine centrale]"
+    \item \textbf{Exemples} : "[Pneumocoque] → [Pneumopathie]", "[S.Aureus] → [origine centrale]"
 \end{itemize}
 
 \subsection{Relation SITE\_INFECTION}
@@ -106,12 +106,12 @@ NB: pour référence, divers exemples de sites primaires sont listés dans les a
 \begin{itemize}
     \item \textbf{Type} : Bactériémie → Site\_primaire
     \item \textbf{Cardinalité} : 1 bactériémie peut avoir 0 à N site primaire.
-    \item \textbf{Exemples} : "[Sepsis] → [Pneumopathie]" & "[Bactériémie] → [origine centrale]"
+    \item \textbf{Exemples} : "[Sepsis] → [Pneumopathie]", "[Bactériémie] → [origine centrale]"
 \end{itemize}
 
 \subsection{Relation NEGATION}
 \begin{itemize}
     \item \textbf{Type} : Appliquée à tout concept (BACTÉRIÉMIE, BACTÉRIE, SITE\_PRIMAIRE)
     \item \textbf{Cardinalité} : 1 concept peut être nié ou non.
-    \item \textbf{Exemples} : "absence → [bactériémie]" & "hémocultures négatives → [E. coli]".
+    \item \textbf{Exemples} : "absence → [bactériémie]", "hémocultures négatives → [E. coli]".
 \end{itemize}
