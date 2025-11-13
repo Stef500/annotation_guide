@@ -2,9 +2,9 @@
 
 \section{Vue d'ensemble des catégories d'annotation}
 
-Le schéma d'annotation pour l'identification des bactériémies comprend trois catégories principales de concepts et trois types de relations.
-L'annotation est centrée sur le triplet comprenant la bactériémie elle-même, les bactéries responsables, et le site primaire d'infection à l'origine de la bactériémie.
-Par ailleurs, une relation pour la négation est incluse afin de capturer les mentions explicites de l'absence de bactériémie (utile pour signaler une absence confirmée).
+Le schéma d'annotation pour l'identification des bactériémies comprend quatre catégories principales de concepts et trois types de relations.
+L'annotation est centrée sur la bactériémie elle-même, les bactéries responsables, le site primaire et l'infection à l'origine de la bactériémie.
+Par ailleurs, le concept de négation est inclus afin de capturer les mentions explicites de l'absence de bactériémie notamment.
 
 \begin{table}[h]
 \centering
@@ -13,99 +13,142 @@ Par ailleurs, une relation pour la négation est incluse afin de capturer les me
 \hline
 \textbf{Concept} & \textbf{Description} \\
 \hline
-BACTÉRIÉMIE & Mention de l'infection bactérienne dans le sang \\
+BACTÉRIÉMIE & Mention de l'infection sanguine bactérienne \\
 \hline
 BACTÉRIE & Agent pathogène responsable \\
 \hline
-SITE\_PRIMAIRE & INFECTION → porte d’entrée bactériémie \\
+SITE & porte d’entrée infectieuse \\
+\hline
+INFECTION & Description du foyer infectieux
+\hline
+RELATIONS & \textbf{Types de relations entre les concepts} \\
+\hline
+AGENT PATHOGENE & bactériémie -> bact \\
+\hline
+SITE PRIMAIRE & bactériémie -> site | infection \\
+\hline
+ORIGINE & bactérie -> site | infection \\
 \hline
 \hline
-NEGATION & Elément (explicite ou non) mentionnant l'absence d'un des concepts recherchés \\
+NEGATION & Booléen mentionnant l'absence d'un des concepts recherchés \\
 \hline
 \end{tabular}
 \end{table}
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=\textwidth]{pictures/exemple_salam.png} % fix path for CI/CD
-\caption{Exemple d'annotation}
-\label{fig:exemple_annotation}
+\includegraphics[width=\textwidth]{pictures/exemple_salam_1}
+\caption{Exemple d'annotation 1}
+\label{fig:exemple_annotation_1}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{pictures/exemple_salam_2}
+\caption{Exemple d'annotation 2}
+\label{fig:exemple_annotation_2}
 \end{figure}
 
 \section{Règles d'annotation}
 
 \subsection{Périmètre d'annotation}
 
-\textbf{Règle fondamentale} : Annoter uniquement les éléments liés à une bactériémie confirmée (soit le triplet complet : BACTÉRIÉMIE, BACTÉRIE, SITE\_PRIMAIRE).
+Annoter les éléments et les relations liés à une bactériémie documentée dans le compte rendu médical.
 
 \subsection{Gestion de la négation}
 
-Conserver l'annotation de la négation et créer la relation correspondante pour justifier la suppression d'une information.
+Chaque concept porte un attribut booléen indiquant s’il est nié, établi en fonction de sa proximité dans la phrase.
 
-\subsubsection{Termes généraux}
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{pictures/exemple_salam_6}
+\caption{Exemple d'annotation 6}
+\label{fig:neagation}
+\end{figure}
 
-\begin{itemize}
-    \item "absence de", "pas de", "sans"
-    \item "a écarté", "écarte", "exclu"
-    \item "ne révèle pas", "ne montre pas"
-    \item "peu probable", "douteux"
-\end{itemize}
-
-\subsubsection{Expressions de négation médicales spécialisées}
-
-Le corpus médical révèle des formulations de négation plus complexes que les termes généraux déjà présentés :
-
-\subsubsection{Négation microbiologique avancée}
-
-\begin{itemize}
-    \item \textbf{Résultats de culture} : "stérilité des prélèvements", "absence de croissance significative", "pas de pousse", "culture blanche", "hémocultures négatives", "prélèvements non contributifs"
-    \item \textbf{Identification} : "germe non identifié à ce jour", "bactérie non typée", "organisme non classé"
-\end{itemize}
-
-\subsubsection{Négation clinique contextuelle}
-
-\begin{itemize}
-    \item \textbf{Suspicion écartée} : "n'évoque pas", "peu évocateur de", "ne plaide guère pour", "arguments insuffisants pour", "ne permet pas de retenir"
-    \item \textbf{Temporalité} : "pas encore", "plus maintenant", "n'était pas", "ne sera plus"
-    \item \textbf{Probabilité} : "improbable", "peu vraisemblable", "incertain", "douteux", "à confirmer"
-\end{itemize}
-
-\subsubsection{Négation comparative}
-
-\begin{itemize}
-    \item "plutôt qu'une", "contrairement à", "différent de", "ne correspond pas au profil de", "ne colle pas avec"
-\end{itemize}
-
-\subsubsection{Termes médicaux indirects}
-
-\begin{itemize}
-    \item \textbf{Diagnostic} : "arguments contre", "infirme l'hypothèse", "ne plaide pas pour"
-    \item \textbf{Formulations indirectes} : "ne ressemblent pas à", "diffèrent de", "ne correspond pas à"
-\end{itemize}
+NB: pour référence, divers exemples de négations sont listés dans les annexes (voir section~\ref{sec:negation}).
 
 \subsection{Cas particuliers}
 
 \begin{itemize}
-    \item \textbf{Bactériémies multiples} : Annoter séparément chaque épisode
-    \item \textbf{Co-infections} : Annoter toutes les bactéries identifiées
-    \item \textbf{Sites multiples} : Distinguer chaque site primaire.
-    \item \textbf{Évolution temporelle} : Annoter l'état au moment de la rédaction du CR
+    \item \textbf{Bactériémies multiples} : Annoter séparément chaque épisode.
+    \item \textbf{Co-infections} : Annoter toutes les bactéries identifiées.
+    \item \textbf{Sites multiples} : Distinguer chaque site.
+    \item \textbf{Évolution temporelle} : Annoter l'état au moment de la rédaction du CR.
 \end{itemize}
 
-\section{Exemple concret}
+\section{Exemples concrets}
+\label{sec:exemples_concrets}
 
-\textbf{Texte} : "Patient diabétique porteur d'un cathéter de dialyse. Bactériémie à Staphylocoque doré SARM sur cathéter."
+Voici quelques exemples d'annotations conformes au schéma décrit.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{pictures/exemple_salam_3}
+\caption{Exemple concret 1}
+\label{fig:exemple_concret_1}
+\end{figure}
+
+\textbf{Texte} : Sepsis à Pneumocoque d’origine pulmonaire sur Pneumopathie.
 
 \textbf{Annotations} :
 \begin{itemize}
-    \item [Bactériémie] : BACTÉRIÉMIE
-    \item [Staphylocoque doré] : BACTÉRIE
-    \item [cathéter] : SITE\_PRIMAIRE
+    \item[Sepsis] : BACTÉRIÉMIE
+    \item[Pneumocoque] : BACTÉRIE
+    \item[d’origine pulmonaire] : SITE
+    \item[Pneumopathie] : INFECTION
 \end{itemize}
 
 \textbf{Relations} :
 \begin{itemize}
-    \item AGENT\_PATHOGÈNE : Bactériémie → Staphylocoque doré.
-    \item PORTE\_ENTRÉE : Bactérie → cathéter.
-    \item SITE\_INFECTION : Bactériémie → cathéter
+    \item AGENT\_PATHOGÈNE : Sepsis → Pneumocoque.
+    \item ORIGINE : Pneumocoque → d’origine pulmonaire.
+    \item SITE\_PRIMAIRE : Sepsis → d’origine pulmonaire.
+    \item SITE\_PRIMAIRE : Sepsis → Pneumopathie.
 \end{itemize}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{pictures/exemple_salam_4}
+\caption{Exemple concret 2}
+\label{fig:exemple_concret_2}
+\end{figure}
+
+\textbf{Texte} : Abcès digestif compliquant une angiocholite à \textit{E. coli}.
+
+\textbf{Annotations} :
+\begin{itemize}
+    \item[Abcès digestif] : INFECTION
+    \item[angiocholite] : INFECTION
+    \item[E. coli] : BACTÉRIE
+\end{itemize}
+
+\textbf{Relations} :
+\begin{itemize}
+    \item ORIGINE : angiocholite → \textit{E. coli}.
+    \item ORIGINE : Abcès digestif → angiocholite.
+\end{itemize}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{pictures/exemple_salam_5}
+\caption{Exemple concret 3}
+\label{fig:exemple_concret_3}
+\end{figure}
+
+\textbf{Texte} : Abcès d’origine digestive à \textit{E. coli}.
+
+\textbf{Annotations} :
+\begin{itemize}
+    \item[Abcès] : INFECTION
+    \item[d’origine digestive] : SITE
+    \item[E. coli] : BACTÉRIE
+\end{itemize}
+
+\textbf{Relations} :
+\begin{itemize}
+    \item ORIGINE : Abcès → d’origine digestive.
+    \item ORIGINE : Abcès → \textit{E. coli}.
+\end{itemize}
+
+NB: Un exemple de compte rendu complètement annoté est disponible en annexe~\ref{sec:exemple_annotation_crh}.

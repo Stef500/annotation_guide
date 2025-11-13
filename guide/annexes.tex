@@ -3,8 +3,6 @@
 
 \section{Glossaire}
 
-\textbf{BERT} : Bidirectional Encoder Representations from Transformers. Architecture de modèle de langage basée sur les transformeurs utilisée en traitement automatique du langage.
-
 \textbf{Corpus} : Ensemble structuré de documents textuels utilisés pour l'entraînement et l'évaluation de modèles de traitement automatique du langage.
 
 \textbf{Entité} : Unité d'information identifiable dans un texte,correspondant à un objet concret ou concept spécifique du monde réel.
@@ -14,6 +12,52 @@
 \textbf{Traitement automatique du langage (TAL)} : Ensemble de techniques informatiques permettant l'analyse, la compréhension et le traitement automatique de textes en langage naturel.
 
 \section{Exemples d'éléments annotables}
+
+\subsection{Exemples de négation}
+\label{sec:negation}
+
+Voici quelques exemples de formulations négatives :
+
+\subsubsection{Termes généraux}
+
+\begin{itemize}
+    \item absence de, pas de, sans
+    \item a écarté, écarte, exclu
+    \item ne révèle pas, ne montre pas
+    \item peu probable, douteux
+\end{itemize}
+
+\subsubsection{Expressions de négation médicales spécialisées}
+
+Le corpus médical révèle des formulations de négation plus complexes que les termes généraux déjà présentés :
+
+\subsubsection{Négation microbiologique avancée}
+
+\begin{itemize}
+    \item \textbf{Résultats de culture} : stérilité des prélèvements, absence de croissance significative, pas de pousse, culture blanche, hémocultures négatives, prélèvements non contributifs
+    \item \textbf{Identification} : germe non identifié à ce jour, bactérie non typée, organisme non classé
+\end{itemize}
+
+\subsubsection{Négation clinique contextuelle}
+
+\begin{itemize}
+    \item \textbf{Suspicion écartée} : n'évoque pas, peu évocateur de, ne plaide guère pour, arguments insuffisants pour, ne permet pas de retenir
+    \item \textbf{Temporalité} : pas encore, plus maintenant, n'était pas, ne sera plus
+    \item \textbf{Probabilité} : improbable, peu vraisemblable, incertain, douteux, à confirmer
+\end{itemize}
+
+\subsubsection{Négation comparative}
+
+\begin{itemize}
+    \item plutôt qu'une, contrairement à, différent de, ne correspond pas au profil de, ne colle pas avec
+\end{itemize}
+
+\subsubsection{Termes médicaux indirects}
+
+\begin{itemize}
+    \item \textbf{Diagnostic} : arguments contre, infirme l'hypothèse, ne plaide pas pour
+    \item \textbf{Formulations indirectes} : ne ressemblent pas à, diffèrent de, ne correspond pas à
+\end{itemize}
 
 \subsection{Catégories de bactéries à annoter}
 \label{sec:exemples_bacteries}
@@ -67,11 +111,11 @@ Voici une liste non exhaustive d'exemples de dispositifs médicaux pouvant être
     \item \textbf{Autres} : Sonde urinaire, sonde gastrique, trachéotomie
 \end{itemize}
 
-\subsection{Sites primaires d'infection}
+\subsection{Sites d'infection}
 \label{sec:exemples_sites}
 \begin{table}[h]
 \centering
-\caption{Sites primaires et termes associés}
+\caption{Sites et termes associés}
 \begin{tabular}{|p{3cm}|p{10cm}|}
 \hline
 \textbf{Site} & \textbf{Termes et expressions associés} \\
@@ -99,6 +143,11 @@ SNC & Méningite, méningoencéphalite, abcès cérébral, empyème sous-dural \
 \end{tabular}
 \end{table}
 
+\section{Exemple annotation CRH}
+\label{sec:exemple_annotation_crh}
+
+TO ADD
+
 \section{Bibliographie}
 
-% to add
+% to add if needed

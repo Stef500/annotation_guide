@@ -5,28 +5,21 @@
 
 \subsection{Définition}
 
-Le concept BACTÉRIÉMIE identifie toute mention explicite ou implicite d'une infection bactérienne dans le sang confirmée.
+Le concept BACTÉRIÉMIE identifie toute mention d'une infection bactérienne dans le sang confirmée.
 
-\subsection{Termes à annoter}
+\subsection{Exemples de termes à annoter}
 
 \begin{itemize}
-    \item \textbf{Termes directs} : bactériémie, septicémie, sepsis, choc septique...
-    \item \textbf{Termes de laboratoire} : hémoculture(s) positive(s)...
-    \item \textbf{Formulations cliniques} : "germe dans le sang", "infection du sang", "passage sanguin"
+    \item \textbf{Termes directs} : bactériémie, septicémie, sepsis, choc septique\ldots
+    \item \textbf{Termes de laboratoire} : hémoculture(s) positive(s)\ldots
+    \item \textbf{Formulations cliniques} : germe dans le sang, infection sanguine\ldots
 \end{itemize}
-
-\subsection{Exemples d'annotation}
-
-\checkmark~Le patient présente une [bactériémie] à Staphylocoque doré \\
-\checkmark~Diagnostic de [septicémie] sur cathéter central \\
-\ding{55} Suspicion de bactériémie (non confirmée) \\
-\ding{55} Hémocultures négatives (absence de bactériémie)
 
 \subsection{Règles spécifiques}
 
 \begin{enumerate}
-    \item Annoter uniquement les bactériémies confirmées microbiologiquement
-    \item Ne pas annoter les suspicions, hypothèses ou bactériémies écartées
+    \item Annoter les bactériémies confirmées
+    \item Les suspicions, hypothèses ou bactériémies écartées doivent être annotées avec l'attribut de négation.
 \end{enumerate}
 
 \section{Concept BACTÉRIE}
@@ -37,76 +30,80 @@ Le concept BACTÉRIE identifie l'agent pathogène responsable de la bactériémi
 
 \subsection{Exemples d'annotation}
 
-\checkmark "Bactériémie à [Staphylococcus aureus] résistant à la méthicilline"
+\checkmark Bactériémie à [Staphylococcus aureus] résistant à la méthicilline
 
-\checkmark "Présence de [E. coli] BLSE dans les hémocultures"
-
-\checkmark "[Streptocoque du groupe B] isolé sur 3 flacons"
+\checkmark Présence de [E. coli] BLSE dans les hémocultures
 
 NB: pour référence, divers exemples de bactéries sont listés dans les annexes (voir section~\ref{sec:exemples_bacteries}).
 
-\section{Concept SITE\_PRIMAIRE}
+\section{Concept SITE}
 
 \subsection{Définition}
 
-Le SITE_PRIMAIRE identifie la porte d’entrée initiale de la bactériémie dans l’organisme.
-Si le site primaire est inclus dans une expression comme "porte d'entrée urinaire", il faudra annoter toute l'expression.
+Le SITE identifie la porte d’entrée infectieuse.
+A noter que si le site est inclus dans une expression comme porte d'entrée urinaire, il faudra annoter toute l'expression.
 
-\subsection{Expressions types}
+\subsection{Exemples d'expressions types}
 
 \begin{itemize}
-    \item "point de départ"
-    \item "porte d'entrée"
-    \item "origine"
+    \item point de départ
+    \item porte d'entrée
+    \item a pour origine\ldots
 \end{itemize}
 
 \subsection{Sites directs vs indirects}
 
-Les sites primaires peuvent être qualifiés selon leur mode d'identification :
+Les sites peuvent être qualifiés selon leur mode d'identification :
 
 \begin{itemize}
-    \item \textbf{Site primaire direct} : Mentionné explicitement comme source de la bactériémie dans la même phrase ou proposition.
-    \item \textbf{Site primaire indirect} : Inféré par association contextuelle, proximité dans le texte ou connaissance médicale.
+    \item \textbf{Site direct} : Mentionné explicitement dans la même phrase ou proposition.
+    \item \textbf{Site indirect} : Inféré par association contextuelle, proximité dans le texte ou connaissance médicale.
 \end{itemize}
 
-NB: pour référence, divers exemples de sites primaires sont listés dans les annexes (voir section~\ref{sec:exemples_sites}).
+NB: pour référence, divers exemples de sites sont listés dans les annexes (voir section~\ref{sec:exemples_sites}).
+
+\section{Concept INFECTION}
+
+\subsection{Définition}
+
+Le concept INFECTION décrit le type spécifique d'infection associée à la bactériémie.
+
+\subsection{Exemples non exhaustifs par système}
+
+\begin{itemize}
+    \item \textbf{Urinaire} : pyélonéphrite aiguë, pyonéphrose\ldots
+    \item \textbf{Digestif} : péritonite, abcès hépatique\ldots
+    \item \textbf{Pulmonaire} : pneumonie lobaire\ldots
+    \item \textbf{Cutané} : érysipèle, fasciite nécrosante\ldots
+    \item \textbf{Ostéo-articulaire} : ostéomyélite aiguë, arthrite septique, spondylodiscite\ldots
+\end{itemize}
 
 \section{Relations entre concepts}
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=\textwidth]{pictures/exemple_salam_v2.png} % fix path for CI/CD
-\caption{Exemple d'annotation de relations entre concepts}
-\label{fig:exemple_annotation_relations}
-\end{figure}
+Sont définies trois types de relations entre les concepts annotés : AGENT PATHOGÈNE, SITE PRIMAIRE et ORIGINE.
 
-\subsection{Relation AGENT\_PATHOGÈNE}
+\subsection{Relation AGENT PATHOGÈNE}
 
 \begin{itemize}
     \item \textbf{Type} : Bactériémie → Bactérie.
     \item \textbf{Cardinalité} : 1 bactériémie peut être causée par 1 ou N bactéries.
-    \item \textbf{Exemples} : "[Sepsis] → [Pneumocoque]", "[Bactériémie] → [S.Aureus]"
+    \item \textbf{Exemples} : [Sepsis] → [Pneumocoque], [Bactériémie] → [S.Aureus]
 \end{itemize}
 
-\subsection{Relation PORTE\_ENTRÉE}
+\subsection{Relation ORIGINE}
 
 \begin{itemize}
-    \item \textbf{Type} : Bactérie → Site\_primaire
-    \item \textbf{Cardinalité} : 1 bactérie a 0 ou 1 site primaire identifié.
-    \item \textbf{Exemples} : "[Pneumocoque] → [Pneumopathie]", "[S.Aureus] → [origine centrale]"
+    \item \textbf{Type} : Bactérie → Site ou Infection
+    \item \textbf{Cardinalité} : 1 bactérie/infection a 0 ou 1 origine identifiée.
+    \item \textbf{Exemples} : [Pneumocoque] → [Origine pulmonaire], [E. Coli] → [angiocholite]
 \end{itemize}
 
-\subsection{Relation SITE\_INFECTION}
+\subsection{Relation SITE PRIMAIRE}
 
 \begin{itemize}
-    \item \textbf{Type} : Bactériémie → Site\_primaire
+    \item \textbf{Type} : Bactériémie → Site ou Infection
     \item \textbf{Cardinalité} : 1 bactériémie peut avoir 0 à N site primaire.
-    \item \textbf{Exemples} : "[Sepsis] → [Pneumopathie]", "[Bactériémie] → [origine centrale]"
+    \item \textbf{Exemples} : [Sepsis] → [Origine pulmonaire], [Bactériémie] → [Pneumopathie]
 \end{itemize}
 
-\subsection{Relation NEGATION}
-\begin{itemize}
-    \item \textbf{Type} : Appliquée à tout concept (BACTÉRIÉMIE, BACTÉRIE, SITE\_PRIMAIRE)
-    \item \textbf{Cardinalité} : 1 concept peut être nié ou non.
-    \item \textbf{Exemples} : "absence → [bactériémie]", "pas de → [sepsis]".
-\end{itemize}
+On pourra se référer aux exemples concrets d'annotation dans la section~\ref{sec:exemples_concrets} pour plus de détails.
