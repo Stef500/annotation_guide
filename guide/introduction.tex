@@ -3,8 +3,8 @@
 \section{Vue d'ensemble des catégories d'annotation}
 
 Le schéma d'annotation pour l'identification des bactériémies comprend quatre catégories principales de concepts et trois types de relations.
-L'annotation est centrée sur la bactériémie elle-même, les bactéries responsables, le site primaire et l'infection à l'origine de la bactériémie.
-Par ailleurs, le concept de négation est inclus afin de capturer les mentions explicites de l'absence de bactériémie notamment.
+L’annotation recense toutes les infections mentionnées dans le document - y compris les bactériémies-, les bactéries responsables, ainsi que le site primaire infectieux lorsque celui-ci est précisé.
+Par ailleurs, le concept de négation est inclus afin de capturer les mentions explicites de non-présence.
 
 \begin{table}[h]
 \centering
@@ -17,12 +17,12 @@ BACTÉRIÉMIE & Mention de l'infection sanguine bactérienne \\
 \hline
 BACTÉRIE & Agent pathogène responsable \\
 \hline
-SITE & porte d’entrée infectieuse \\
+SITE & désigné par son siège anatomique, sans mention explicite d’infection. \\
 \hline
-INFECTION & Description du foyer infectieux \\
+INFECTION & Infection explicitement nommée \\
 \hline
 \hline
-RELATIONS & Types de relations entre les concepts \\
+\textbf{Relations} & \textbf{Types de relations entre les concepts} \\
 \hline
 AGENT PATHOGENE & bactériémie -> bact \\
 \hline
@@ -31,7 +31,7 @@ SITE PRIMAIRE & bactériémie -> site | infection \\
 ORIGINE & bactérie -> site | infection \\
 \hline
 \hline
-NEGATION & Booléen mentionnant l'absence d'un des concepts recherchés \\
+NEGATION & Booléen mentionnant la non-présence d'un des concepts recherchés \\
 \hline
 \end{tabular}
 \end{table}

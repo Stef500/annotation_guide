@@ -26,7 +26,7 @@ Le concept BACTÉRIÉMIE identifie toute mention d'une infection bactérienne da
 
 \subsection{Définition}
 
-Le concept BACTÉRIE identifie l'agent pathogène responsable de la bactériémie, incluant toutes les variantes nomenclaturales.
+Le concept BACTÉRIE identifie l'agent pathogène responsable d'une infection, incluant toutes les variantes nomenclaturales.
 
 \subsection{Exemples d'annotation}
 
@@ -40,7 +40,7 @@ NB: pour référence, divers exemples de bactéries sont listés dans les annexe
 
 \subsection{Définition}
 
-Le SITE identifie la porte d’entrée infectieuse.
+Le concept SITE doit être utilisé pour annoter un site infectieux nommé via son siège anatomique, sans qu’une infection soit explicitement nommée.
 A noter que si le site est inclus dans une expression comme porte d'entrée urinaire, il faudra annoter toute l'expression.
 
 \subsection{Exemples d'expressions types}
@@ -51,22 +51,13 @@ A noter que si le site est inclus dans une expression comme porte d'entrée urin
     \item a pour origine\ldots
 \end{itemize}
 
-\subsection{Sites directs vs indirects}
-
-Les sites peuvent être qualifiés selon leur mode d'identification :
-
-\begin{itemize}
-    \item \textbf{Site direct} : Mentionné explicitement dans la même phrase ou proposition.
-    \item \textbf{Site indirect} : Inféré par association contextuelle, proximité dans le texte ou connaissance médicale.
-\end{itemize}
-
-NB: pour référence, divers exemples de sites sont listés dans les annexes (voir section~\ref{sec:exemples_sites}).
+%NB: pour référence, divers exemples de sites sont listés dans les annexes (voir section~\ref{sec:exemples_sites}).
 
 \section{Concept INFECTION}
 
 \subsection{Définition}
 
-Le concept INFECTION décrit le type spécifique d'infection associée à la bactériémie.
+Le concept INFECTION doit être utilisé pour annoter une infection explicitement décrite dans le document, et qui n'est pas une bactériémie.
 
 \subsection{Exemples non exhaustifs par système}
 
@@ -94,7 +85,7 @@ Sont définies trois types de relations entre les concepts annotés : AGENT PATH
 
 \begin{itemize}
     \item \textbf{Type} : Bactérie → Site ou Infection
-    \item \textbf{Cardinalité} : 1 bactérie/infection a 0 ou 1 origine identifiée.
+    \item \textbf{Cardinalité} : 1 bactérie a 0 ou 1 origine identifiée (infection ou site).
     \item \textbf{Exemples} : [Pneumocoque] → [Origine pulmonaire], [E. Coli] → [angiocholite]
 \end{itemize}
 
